@@ -1,0 +1,36 @@
+<mat-sidenav-container>
+  <h1></h1>
+  <mat-sidenav-content>
+    <h1 class="mdc-typography--headline1">Agregar categoría</h1>
+    <form  [formGroup]="usuarioForm" (ngSubmit)="submitForm()" novalidate>
+
+      <!-- Name -->
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre" formControlName="nombre_categoria">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Descripción" formControlName="descripcion_categoria">
+      </mat-form-field>
+
+
+    
+
+
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper">
+        <button mat-flat-button color="primary">Guardar</button>
+      </div>
+
+    </form>
+    <button mat-button color="warn" mat-dialog-close>Cancelar</button>
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

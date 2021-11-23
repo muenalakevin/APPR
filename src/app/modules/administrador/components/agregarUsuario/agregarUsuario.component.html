@@ -1,0 +1,62 @@
+<mat-sidenav-container>
+  <h1></h1>
+  <mat-sidenav-content>
+    <h1 class="mdc-typography--headline1">Agregar usuario</h1>
+    <form  [formGroup]="usuarioForm" (ngSubmit)="submitForm()" novalidate>
+
+      <!-- Name -->
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre" formControlName="nombre_usuario">
+      </mat-form-field>
+
+      <!-- Email -->
+      <div *ngIf="usuarioForm.controls['correo_usuario'].errors?.['pattern']">
+        <span class="text-danger">El correo no cuenta con un formato correcto.
+        </span></div>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Correo" formControlName="correo_usuario">
+      </mat-form-field>
+      <div *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['pattern']">
+        <span class="text-danger">Usuario solo puede contener letras.
+        </span>
+      </div>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="usuario" formControlName="usuario_usuario">
+      </mat-form-field>
+      <div *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['pattern']">
+        <span class="text-danger">Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
+        </span></div>
+      <mat-form-field appearance="fill">
+
+        <input matInput  placeholder="Ingrese contraseña" [type]="hide ? 'password' : 'text'" formControlName="contrasenia_usuario">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select  formControlName="rol_usuario">
+          <mat-option *ngFor="let rol of roles" value={{rol._id}}>{{rol.nombre_rol}}</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper">
+        <button mat-flat-button color="primary">Guardar</button>
+      </div>
+
+    </form>
+    <button mat-button color="warn" mat-dialog-close>Cancelar</button>
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

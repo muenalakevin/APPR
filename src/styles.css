@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+@use "@material/typography/mdc-typography";
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import '~ngx-toastr/toastr';
+
+@import '~ngx-toastr/toastr-bs4-alert';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+* {
+    font-size: 100%;
+    font-family: 'Roboto', sans-serif;
+   }
+.modal-dialog {
+    width: 360px !important;
+    margin: auto!important;
+    top: 50%;
+    transform: translateY(-50%)!important;
+}
+.modal-dialog .modal-content {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5)!important;
+}
+.modal-dialog .confirm {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2)!important;
+    border-radius: 5px!important;
+    min-height: 150px!important;
+}
+.modal-dialog .confirm .content {
+    padding: 20px!important;
+    border-radius: 10px!important;
+    background-color: #fff !important;
+    font-weight: 700!important;
+}
+.modal-dialog .confirm .buttons {
+    padding: 10px 15px!important;
+    float: right;
+}
+.modal-dialog .confirm .buttons button {
+    margin-right: 10px!important;
+}

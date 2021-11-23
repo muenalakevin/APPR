@@ -1,0 +1,21 @@
+<li class="nav-item dropdown " >
+  <a 
+  *ngIf="disabled_"
+    class="link-light display-6 "
+    [href]="disabled_ ? href: null"
+    role="button"
+    disabled  tabindex="-1"
+  >
+    <fa-icon [icon]="icon"></fa-icon>
+  </a>
+  <a 
+  *ngIf="!disabled_"
+    class="link-light display-6 none"
+    role="button"
+    disabled  tabindex="-1"
+
+  >
+    <fa-icon [icon]="icon"></fa-icon>
+  </a>
+  <p class="text-white py-0 my-0">{{text}}</p>
+</li>

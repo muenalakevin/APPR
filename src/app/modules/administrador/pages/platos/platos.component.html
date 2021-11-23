@@ -1,0 +1,96 @@
+<mat-tab-group>
+  <mat-tab label="Platos"><div class="col-md-10 container">
+    <h2 style="margin: auto"> Platos</h2>
+
+    <div class="table-responsive">
+      <button mat-raised-button color="primary" (click)="openDialogAgregar()">Agregar Plato</button>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="nombre_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.usuario_usuario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="descripcion_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre_usuario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="receta_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Receta </th>
+        <td mat-cell *matCellDef="let element"> {{element.correo_usuario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="precio_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> precio </th>
+        <td mat-cell *matCellDef="let element"> {{element.rol_usuario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="categorias">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> categorías </th>
+        <td mat-cell *matCellDef="let element"> {{element.rol_usuario}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Editar">
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="openDialogEditar(element)" >
+            <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Eliminar">
+          <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="eliminarUsuario(element._id)">
+              <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+    </mat-paginator>
+  </div>
+  </div> </mat-tab> 
+  <mat-tab label="Categorias"> 
+    <div class="col-md-10 container">
+      <h2 style="margin: auto"> categorías</h2>
+    <div class="table-responsive">
+      <button mat-raised-button color="primary" (click)="openDialogAgregarCategoria()">Agregar categoría</button>
+      <table mat-table [dataSource]="dataCategorias" matSort>
+        <ng-container matColumnDef="nombre_categiria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre_categoria}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion_categiria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+          <td mat-cell *matCellDef="let element"> {{element.descripcion_categoria}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Editar">
+          <th mat-header-cell *matHeaderCellDef> Editar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="openDialogEditarCategoria(element)" >
+              <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Eliminar">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="eliminarCategoria(element._id)">
+                <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+            </td>
+          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCategorias"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCategorias;"></tr>
+      </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+      </mat-paginator>
+
+  </div>
+  </div>
+</mat-tab>
+</mat-tab-group>
+
+
+
+

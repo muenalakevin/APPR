@@ -1,0 +1,29 @@
+
+    <div class="wrapper">
+        <div class="container ">
+            <h1>Bienvenido</h1>
+            <div  novalidate *ngIf="mensaje!=''" class="alert alert-danger alert-dismissible fade show py-2" role="alert">
+                <strong>¡Error!</strong> {{mensaje}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+                <span  class="badge bg-danger">{{mensaje2}}</span>
+                <input required  type="text" placeholder="Usuario" formControlName="usuario_usuario" >
+                <span  class="badge bg-danger">{{mensaje3}}</span>
+                <input type="password" placeholder="Contraseña" formControlName="contrasenia_usuario">
+                <button type="submit" id="login-button">Iniciar sesión</button>
+            </form>
+        </div>
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
