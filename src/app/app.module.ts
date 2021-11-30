@@ -13,11 +13,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
+
 /* const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
   query: {
     token: localStorage.getItem("token")+""
   }
 }}; */
+
 
 const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
   transportOptions: {

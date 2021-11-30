@@ -1,41 +1,74 @@
-<mat-sidenav-container>
-  <h1></h1>
-  <mat-sidenav-content>
+
     <h1 class="mdc-typography--headline1">Agregar usuario</h1>
     <form  [formGroup]="usuarioForm" (ngSubmit)="submitForm()" novalidate>
-
+      
       <!-- Name -->
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Nombre" formControlName="nombre_usuario">
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de usuario" formControlName="nombre_usuario">
+        <mat-error >
+          <mat-error *ngIf="usuarioForm.controls['nombre_usuario'].errors?.['required']">
+            El nombre es requerido.
+          </mat-error>
+        </mat-error>
       </mat-form-field>
 
       <!-- Email -->
-      <div *ngIf="usuarioForm.controls['correo_usuario'].errors?.['pattern']">
-        <span class="text-danger">El correo no cuenta con un formato correcto.
-        </span></div>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Correo" formControlName="correo_usuario">
-      </mat-form-field>
-      <div *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['pattern']">
-        <span class="text-danger">Usuario solo puede contener letras.
-        </span>
-      </div>
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="usuario" formControlName="usuario_usuario">
-      </mat-form-field>
-      <div *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['pattern']">
-        <span class="text-danger">Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
-        </span></div>
-      <mat-form-field appearance="fill">
 
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Correo</mat-label>
+        <input matInput (keyup)="ifExistEmail()" placeholder="Ingrese correo de usuario" formControlName="correo_usuario">
+        <mat-error >
+          <mat-error *ngIf="usuarioForm.controls['correo_usuario'].errors?.['pattern']">
+            El correo no cuenta con un formato correcto.
+          </mat-error>
+          <mat-error  *ngIf="usuarioForm.controls['correo_usuario'].errors?.['required']">
+            El correo es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <span class="text-danger " *ngIf="existEmail">
+        Correo ya esta registrado a un usuario.
+      </span>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Usuario</mat-label>
+        <input (keyup)="ifExistUser()" matInput placeholder="Ingrese usuario" formControlName="usuario_usuario">
+
+      
+
+      <mat-error *ngIf="!existUser">
+        
+        <mat-error *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['required']">
+          El usuario es requerido.
+        </mat-error>
+      
+      <mat-error *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['pattern']">
+        Usuario solo puede contener letras.
+      </mat-error>
+     
+    </mat-error>
+  </mat-form-field>
+  <span class="text-danger " *ngIf="existUser">
+    usuario ya existe
+  </span>
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
         <input matInput  placeholder="Ingrese contraseña" [type]="hide ? 'password' : 'text'" formControlName="contrasenia_usuario">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <mat-error>
+          <mat-error *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['required']">
+            La contraseña es requerido.
+          </mat-error>
+          <mat-error *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['pattern']">
+            Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
+          </mat-error>
+        </mat-error>
       </mat-form-field>
     
-      <mat-form-field appearance="fill">
-        <mat-label>Select</mat-label>
+      <mat-form-field appearance="outline">
+        <mat-label>Rol de usuario</mat-label>
         <mat-select  formControlName="rol_usuario">
           <mat-option *ngFor="let rol of roles" value={{rol._id}}>{{rol.nombre_rol}}</mat-option>
 
@@ -58,5 +91,3 @@
     <button mat-button color="warn" mat-dialog-close>Cancelar</button>
 
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  </mat-sidenav-content>
-</mat-sidenav-container>

@@ -14,7 +14,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
 export class PlatoService {
 
   platos = this.socket.fromEvent<Plato[]>('platos');
-  categorias = this.socket.fromEvent<CategoriaPlato[]>('categorias');
+
   headers_object = new HttpHeaders({
     'Content-Type': 'application/json',
      'Authorization': "Bearer "+this.StorageService.getCurrentSession()
@@ -26,21 +26,28 @@ export class PlatoService {
 
   constructor(private http: HttpClient,private StorageService:StorageService,
     private socket:Socket) {}
+
   getPlatos(){
-    return this.http.get(environment.API_URL + '/usuario',this.httpOptions);
+    return this.http.get(environment.API_URL + '/plato',this.httpOptions);
   }
 
-  guardarUsuario(usuario:UsuarioEnviar){
-    return this.http.post(environment.API_URL + '/usuario',{usuario},this.httpOptions);
+  guardarPlato(plato:Plato){
+    return this.http.post(environment.API_URL + '/plato',{plato},this.httpOptions);
   }
 
-  eliminarUsuario(_id:string){
+  eliminarPlato(_id:string){
     console.log(_id);
-    return this.http.delete(environment.API_URL + '/usuario/'+_id,this.httpOptions);
+    return this.http.delete(environment.API_URL + '/plato/'+_id,this.httpOptions);
   }
 
-  editarUsuario(usuario:Usuario){
-    return this.http.patch(environment.API_URL + '/usuario',{usuario},this.httpOptions);
+  
+  editarPlato(plato:Plato){
+    return this.http.patch(environment.API_URL + '/plato',{plato},this.httpOptions);
   }
-
+  subirFoto(foto:File){
+    const fd=new FormData();
+    fd.append('image',foto)
+    console.log(foto);
+    return this.http.post(environment.API_URL + '/plato/subirFoto',{fd},this.httpOptions);
+  }
 }

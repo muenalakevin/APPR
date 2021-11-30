@@ -36,10 +36,15 @@ export class UsuarioService {
     return this.http.delete(environment.API_URL + '/usuario/'+_id,this.httpOptions);
   }
 
+  searchUser(usuario_usuario:string){
+    return this.http.post(environment.API_URL + '/usuario/searchUsername',{usuario_usuario},this.httpOptions);
+  }
+  searchEmail(correo_usuario:string){
+    return this.http.post(environment.API_URL + '/usuario/searchEmail',{correo_usuario},this.httpOptions);
+  }
   editarUsuario(usuario:Usuario){
     return this.http.patch(environment.API_URL + '/usuario',{usuario},this.httpOptions);
   }
-
 
   
 /* 

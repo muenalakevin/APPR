@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
   usersIcon =faUsers;
   squareIcon=faSquare
 
+
   rol:string=''
   constructor(private AuthenticationService:AuthenticationService,
     private StorageService:StorageService) {

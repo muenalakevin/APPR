@@ -14,6 +14,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
   selector: 'app-agregarUsuario',
   templateUrl: './agregarUsuario.component.html',
   styleUrls: ['./agregarUsuario.component.css'],
+  
 })
 export class AgregarUsuarioComponent implements OnInit {
   visible = true;
@@ -24,6 +25,29 @@ export class AgregarUsuarioComponent implements OnInit {
   roles:Rol[]=[]
   usuarioForm: FormGroup;
 
+  timeOutUsername:any
+  existUser=false;
+  async ifExistUser() {
+    clearTimeout(this.timeOutUsername);
+    this.timeOutUsername = setTimeout(()=>{this.UsuarioService.searchUser( this.usuarioForm.value.usuario_usuario).subscribe(resp=>{
+      this.existUser= true 
+    },
+      err=> this.existUser=false
+    )}, 1000);
+  }
+  existEmail=false;
+  timeOutEmaul:any
+  async ifExistEmail() {
+    console.log("si");
+    clearTimeout(this.timeOutEmaul);
+    this.timeOutEmaul = setTimeout(()=>{this.UsuarioService.searchEmail( this.usuarioForm.value.correo_usuario).subscribe(resp=>{
+      this.existEmail= true 
+      
+    },
+      err=> this.existEmail=false
+    )}, 1000);
+  }
+  
   constructor(
     private RolService:RolService,
     private AlertService:AlertService,
@@ -43,7 +67,8 @@ export class AgregarUsuarioComponent implements OnInit {
       ]),
       contrasenia_usuario: new FormControl(null, [
         Validators.required,
-        Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
+        Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"),
+      
 
       ]),
       rol_usuario: new FormControl(null, [
@@ -84,6 +109,12 @@ export class AgregarUsuarioComponent implements OnInit {
     if(this.usuarioForm.get('rol_usuario').errors?.['required']){
       mensajeWarnign += "Falta rol de usuario. <br/>"
     }
+    if(this.existUser){
+      mensajeWarnign += "Usuario ya existe. <br/>"
+    }
+    if(this.existEmail){
+      mensajeWarnign += "Correo ya esta registrado a un usuario. <br/>"
+    }
     if(mensajeWarnign == ''){
 
       const usuario:UsuarioEnviar = {
@@ -108,4 +139,5 @@ export class AgregarUsuarioComponent implements OnInit {
     
     
   }
+  
 }

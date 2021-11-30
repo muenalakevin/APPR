@@ -9,9 +9,9 @@ import { AdministradorComponent } from './administrador.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { CommonModule } from '@angular/common';
 
-const routes: Routes = [{ path: '', component: AdministradorComponent },
-{ path: 'usuarios', component: UsuariosComponent,canActivate:[AuthGuard] },
-{path: 'reportes', component: ReportesComponent,canActivate:[AuthGuard] },
+const routes: Routes = [{ path: '', redirectTo:"reportes" },
+{ path: 'usuarios', component: UsuariosComponent},
+{path: 'reportes', component: ReportesComponent },
 { path: 'platos', component: PlatosComponent },
 { path: 'mesas', component: MesasComponent },
 ];

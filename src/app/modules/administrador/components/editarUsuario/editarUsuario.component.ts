@@ -21,6 +21,7 @@ export class EditarUsuarioComponent implements OnInit {
   hide=true;
   roles:Rol[]=[]
   usuarioForm: FormGroup= new FormGroup({
+    _id: new FormControl(null),
     nombre_usuario: new FormControl(null),
     usuario_usuario: new FormControl(null),
     correo_usuario: new FormControl(null),
@@ -45,6 +46,9 @@ export class EditarUsuarioComponent implements OnInit {
       console.log(this.rolSelect)
       this.usuarioForm = new FormGroup({
 
+        _id: new FormControl(this.data.usuario._id, [
+          Validators.required,
+        ]),
         nombre_usuario: new FormControl(this.data.usuario.nombre_usuario, [
           Validators.required,
         ]),

@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { AuthGuard } from 'src/app/core/guard/auth.guard';
 const routes: Routes = [
-  { path: '', component: LoginComponent,pathMatch:'full' },
+  { path: '',redirectTo:'login',pathMatch:'full' },
   { path: 'login', component: LoginComponent },
   { path: 'reset', component: ResetPasswordComponent },
 

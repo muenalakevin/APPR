@@ -1,7 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditarPlatoComponent } from './components/editarPlato/editarPlato.component';
 import { EditarCategoriaComponent } from './components/editarCategoria/editarCategoria.component';
 import { AgregarCategoriaComponent } from './components/agregarCategoria/agregarCategoria.component';
 import { MesasComponent } from './pages/mesas/mesas.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSortModule } from '@angular/material/sort';
 import { AgregarUsuarioComponent } from './components/agregarUsuario/agregarUsuario.component';
@@ -19,7 +23,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -37,7 +41,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { EditarUsuarioComponent } from './components/editarUsuario/editarUsuario.component';
 import { AgregarPlatoComponent } from './components/agregar-plato/agregar-plato.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AgregarMesaComponent } from './components/agregar-mesa/agregar-mesa.component';
+import { EditarMesaComponent } from './components/editar-mesa/editar-mesa.component';
+import { AgregacionRapidaComponent } from './components/agregacion-rapida/agregacion-rapida.component';
+import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
+import { SwiperModule } from "swiper/angular";
 @NgModule({
   declarations: [
     AdministradorComponent,
@@ -50,9 +59,16 @@ import { AgregarPlatoComponent } from './components/agregar-plato/agregar-plato.
     MesasComponent,
     AgregarCategoriaComponent,
     EditarCategoriaComponent,
+    AgregarPlatoComponent,
+    EditarPlatoComponent,
+
+    AgregarMesaComponent,
+    EditarMesaComponent,
+    AgregacionRapidaComponent
 
   ],
   imports: [
+
     CommonModule,
     AdministradorRoutingModule, 
     MatTableModule,
@@ -68,12 +84,16 @@ import { AgregarPlatoComponent } from './components/agregar-plato/agregar-plato.
     ReactiveFormsModule,
     MatDialogModule,
     MatSelectModule,
-    MatChipsModule
-    
+    MatChipsModule,MatAutocompleteModule,
+    MatCheckboxModule,
+    FormsModule,
+    FontAwesomeModule,
+    SwiperModule,
+    HttpClientModule
   ],
   exports:[MatTableModule,MatSortModule,MatFormFieldModule,
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,
-    MatSidenavModule,MatSelectModule],
-  providers: [AdministradorGuard]
+    MatSidenavModule,MatSelectModule,MatCheckboxModule],
+  providers: [AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
 })
 export class AdministradorModule { }

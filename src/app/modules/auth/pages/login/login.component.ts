@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit{
   mensaje2='';
   mensaje3='';
   enviar=false;
+  hide=true;
   loginForm = new FormGroup({
     usuario_usuario: new FormControl('', Validators.required),
     contrasenia_usuario: new FormControl('', [Validators.required]),
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit{
 ngOnInit(){
   this.loginForm = new FormGroup({
     usuario_usuario: new FormControl('', Validators.required),
-    contrasenia_usuario: new FormControl('', [Validators.required]),
+    contrasenia_usuario: new FormControl('', [Validators.required,  Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]),
   });
   this.onValueChanges();
   
@@ -52,7 +53,7 @@ onValueChanges(): void {
     }
   })
 }
-  login(form: NgForm) {
+  login() {
     if(this.loginForm.controls['usuario_usuario'].errors){
       this.mensaje2='Requiere ingresar usuario'
     }else{

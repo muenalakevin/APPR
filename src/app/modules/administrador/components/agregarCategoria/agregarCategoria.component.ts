@@ -25,14 +25,14 @@ export class AgregarCategoriaComponent implements OnInit {
   addOnBlur = true;
   hide=true;
   roles:Rol[]=[]
-  usuarioForm: FormGroup;
+  categoriaForm: FormGroup;
 
   constructor(
     private RolService:RolService,
     private AlertService:AlertService,
     private CategoriaService:CategoriaService,
     public dialogRef: MatDialogRef<AgregarCategoriaComponent>) {
-    this.usuarioForm = new FormGroup({
+    this.categoriaForm = new FormGroup({
       nombre_categoria: new FormControl(null, [
         Validators.required,
       ]),
@@ -48,11 +48,11 @@ export class AgregarCategoriaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.usuarioForm.get('nombre_categoria').errors?.['required']){
-      mensajeWarnign += "Falta nombre de categoria. <br>"
+    if(this.categoriaForm.get('nombre_categoria').errors?.['required']){
+      mensajeWarnign += "Falta nombre de categoría. <br>"
     }
-    if(this.usuarioForm.get('descripcion_categoria').errors?.['required']){
-      mensajeWarnign += "Falta descripcion de usuario. <br/>"
+    if(this.categoriaForm.get('descripcion_categoria').errors?.['required']){
+      mensajeWarnign += "Falta descripcion de categoría. <br/>"
     }
     
 
@@ -61,12 +61,12 @@ export class AgregarCategoriaComponent implements OnInit {
 
       const categoria:CategoriaPlato = {
         _id:"",
-        nombre_categoria: this.usuarioForm.value.nombre_categoria,
-            descripcion_categoria:  this.usuarioForm.value.descripcion_categoria,
+        nombre_categoria: this.categoriaForm.value.nombre_categoria,
+            descripcion_categoria:  this.categoriaForm.value.descripcion_categoria,
       }
       this.dialogRef.close()
       this.CategoriaService.guardarCategoria(categoria).subscribe(
-        (data) =>  this.AlertService.showSuccess('Usuario Guardado con exito'),
+        (data) =>  this.AlertService.showSuccess('Categoría Guardado con exito'),
         (error) =>{
           this.AlertService.showErrorServidor()
         }

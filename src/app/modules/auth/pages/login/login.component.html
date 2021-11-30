@@ -1,29 +1,50 @@
+<div class="contenedor">
+<mat-card>
+    <mat-card-title>Bienvenido</mat-card-title>
+    <div class="d-flex justify-content-center">
 
-    <div class="wrapper">
-        <div class="container ">
-            <h1>Bienvenido</h1>
-            <div  novalidate *ngIf="mensaje!=''" class="alert alert-danger alert-dismissible fade show py-2" role="alert">
-                <strong>¡Error!</strong> {{mensaje}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
-                <span  class="badge bg-danger">{{mensaje2}}</span>
-                <input required  type="text" placeholder="Usuario" formControlName="usuario_usuario" >
-                <span  class="badge bg-danger">{{mensaje3}}</span>
-                <input type="password" placeholder="Contraseña" formControlName="contrasenia_usuario">
-                <button type="submit" id="login-button">Iniciar sesión</button>
-            </form>
-        </div>
-        <ul class="bg-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+        <img width="150px" src="https://2.bp.blogspot.com/-YiWi32Pbamo/W1djBdPn0uI/AAAAAAAATrM/BKuX5dAzIOQWpbL65ahXyC6YOfumUX7ZwCK4BGAYYCw/s1600/tulogoaquifooter.png" alt="">
     </div>
+<mat-card-content>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <p>
+    <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Usuario</mat-label>
+      <input type="text" matInput placeholder="Ingreese su usuario" formControlName="usuario_usuario">
+      <mat-error *ngIf="loginForm.controls['usuario_usuario'].errors?.['required']">
+        Usuario es requerido.
+      </mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field class="w-100"  appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput  placeholder="Ingrese contraseña" [type]="hide ? 'password' : 'text'" formControlName="contrasenia_usuario">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error>
+          <mat-error *ngIf="loginForm.controls['contrasenia_usuario'].errors?.['required']">
+            La contraseña es requerido.
+          </mat-error>
+          <mat-error *ngIf="loginForm.controls['contrasenia_usuario'].errors?.['pattern']">
+            Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+  </p>
+
+  <p *ngIf="error" class="error">
+    {{ error }}
+  </p>
+  <button mat-button color="primary">Olvide mi contraseña</button>
+  <button type="submit" mat-button>Iniciar sesión</button>
+  <div class="button">
+    
+  </div>
+
+</form>
+</mat-card-content>
+</mat-card>
+</div>

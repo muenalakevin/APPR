@@ -62,6 +62,13 @@ private usuariosSubscription: Subscription;
       console.log(`Dialog result: ${result}`);
     })
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  
   async ngOnInit() {
     
     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(
