@@ -16,7 +16,7 @@
         </mat-checkbox>
 
       </p>
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table  mat-table [dataSource]="dataSource" matSort >
       <ng-container matColumnDef="nombre_plato">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
         <td mat-cell *matCellDef="let element"> {{element.nombre_plato}} </td>
@@ -78,7 +78,7 @@
         <mat-label>Buscador</mat-label>
         <input matInput (keyup)="applyFilterCategoria($event)" placeholder="Escribe..." #input>
       </mat-form-field>
-      <table mat-table [dataSource]="dataCategorias" matSort>
+      <table #sortCategoria="matSort"  mat-table [dataSource]="dataCategorias" matSort>
         <ng-container matColumnDef="nombre_categoria">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
           <td mat-cell *matCellDef="let element"> {{element.nombre_categoria}} </td>

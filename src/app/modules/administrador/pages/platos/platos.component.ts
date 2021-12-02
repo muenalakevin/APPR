@@ -74,6 +74,10 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
+  
+  @ViewChild('sortCategoria', {
+    read: MatSort
+ }) sortCategoria: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('paginatorCategoria', {
     read: MatPaginator
@@ -81,7 +85,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.dataCategorias.sort = this.sort;
+    this.dataCategorias.sort = this.sortCategoria;
     this.dataCategorias.paginator = this.paginatorCategoria;
     
   }

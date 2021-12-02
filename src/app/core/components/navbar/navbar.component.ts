@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/shared/models/usuario';
 import jwt_decode  from 'jwt-decode';
 import { Token } from './../../../shared/models/token';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -24,16 +25,16 @@ export class NavbarComponent implements OnInit {
   cashRegisterIcon=faCashRegister
   usersIcon =faUsers;
   squareIcon=faSquare
+  usuario:Token
 
 
-  rol:string=''
   constructor(private AuthenticationService:AuthenticationService,
     private StorageService:StorageService) {
       const token:string = this.StorageService.getCurrentSession();
 
     if(token != ''){
       const tokenDecode:Token = jwt_decode(token);
-      this.rol= <string>tokenDecode.rol.nombre_rol ;
+      this.usuario= <Token>tokenDecode;
      }
     }
   state:boolean=false;
