@@ -36,9 +36,7 @@ export class AgregarCategoriaComponent implements OnInit {
       nombre_categoria: new FormControl(null, [
         Validators.required,
       ]),
-      descripcion_categoria: new FormControl(null, [
-        Validators.required,
-      ]),
+      descripcion_categoria: new FormControl(null),
     });
   }
 

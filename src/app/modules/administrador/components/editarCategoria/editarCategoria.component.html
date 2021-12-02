@@ -1,15 +1,22 @@
 <mat-sidenav-container>
   <mat-sidenav-content>
     <h1 class="mdc-typography--headline1">Editar categoría</h1>
-    <form  [formGroup]="categoriaForm" (ngSubmit)="submitForm()" novalidate>
+    <form autocomplete="off" [formGroup]="categoriaForm" (ngSubmit)="submitForm()" novalidate>
 
       <!-- Name -->
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Nombre" formControlName="nombre_categoria">
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de categoría" formControlName="nombre_categoria">
       </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <input matInput placeholder="Descripción" formControlName="descripcion_categoria">
+      <mat-error>
+        
+        <mat-error *ngIf="categoriaForm.controls['nombre_categoria'].errors?.['required']">
+          El usuario es requerido.
+        </mat-error>
+    </mat-error>
+    <mat-form-field  appearance="outline" class="example-full-width">
+      <mat-label>Descripción</mat-label>
+        <input matInput placeholder="Ingrese descripción de categoría" formControlName="descripcion_categoria">
       </mat-form-field>
       <!-- Class -->
 

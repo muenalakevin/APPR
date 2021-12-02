@@ -41,9 +41,7 @@ export class EditarCategoriaComponent implements OnInit {
         nombre_categoria: new FormControl(this.data.categoria.nombre_categoria, [
           Validators.required,
         ]),
-        descripcion_categoria: new FormControl(this.data.categoria.descripcion_categoria, [
-          Validators.required,
-        ]),
+        descripcion_categoria: new FormControl(this.data.categoria.descripcion_categoria),
 
       });
 

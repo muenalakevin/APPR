@@ -4,35 +4,37 @@
   <mat-sidenav-content>
     <h1 class="mdc-typography--headline1">Agregar plato</h1>
     
-    <form  [formGroup]="platoForm" (ngSubmit)="submitForm()" novalidate>
+    <form  autocomplete="off" [formGroup]="platoForm" (ngSubmit)="submitForm()" novalidate>
       
       
 
       <!-- Name -->
-      <mat-form-field class="example-full-width mb-2">
-        <input matInput placeholder="Nombre" formControlName="nombre_plato">
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de plato" formControlName="nombre_plato">
         <mat-error *ngIf="this.platoForm.get('nombre_plato').errors?.['required']">Falta nombre de plato.</mat-error>
 
       </mat-form-field>
 
-      <mat-form-field class="example-full-width mb-2">
-        <input matInput placeholder="Descripción" formControlName="descripcion_plato">
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Descripción</mat-label>
+        <input matInput placeholder=" Ingrese descripción de plato" formControlName="descripcion_plato">
         <mat-error *ngIf="this.platoForm.get('descripcion_plato').errors?.['required']">Falta descripción de plato.</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field  appearance="outline" class="example-full-width">
         <mat-label>Receta</mat-label>
-        <textarea matInput  formControlName="receta_plato"></textarea>
+        <textarea matInput placeholder="Ingrese receta de plato" formControlName="receta_plato"></textarea>
         <mat-error *ngIf="this.platoForm.get('receta_plato').errors?.['required']">Falta receta de plato.</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" floatLabel="always">
+      <mat-form-field appearance="outline" floatLabel="always">
 
         <mat-label>Precio</mat-label>
         <input matInput type="number" formControlName="precio_plato" class="example-right-align" pattern="[0-9]+([\.,][0-9]+)?" placeholder="0.00">
         <span matPrefix>$&nbsp;</span>
         <mat-error *ngIf="this.platoForm.get('precio_plato').errors?.['required']">Falta precio de plato.</mat-error>
       </mat-form-field>
-      <mat-label>Categoría</mat-label>
+      <mat-label>Categoría</mat-label>  
        <mat-chip-list selectable multiple>
         <mat-chip #c="matChip" (selectionChange)="true"  *ngFor="let   categoria of categorias" [value]="categoria" (click)="toggleSelection(c)">
             {{categoria.nombre_categoria}}
