@@ -1,3 +1,4 @@
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { environment } from './../environments/environment';
 
 import { CoreModule } from './core/core.module';
@@ -13,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
+import { RouterModule } from '@angular/router';
+import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
 
 /* const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
   query: {
@@ -37,7 +40,7 @@ const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     CoreModule,
     FontAwesomeModule,
@@ -46,11 +49,12 @@ const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
       positionClass :'toast-bottom-right'
     }),
     SocketIoModule.forRoot(config),
-    NgxBootstrapConfirmModule
+    NgxBootstrapConfirmModule,
+    RouterModule
     
     
   ],
-  providers: [],
+  providers: [ { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
