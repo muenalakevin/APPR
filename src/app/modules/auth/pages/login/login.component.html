@@ -3,11 +3,11 @@
     <mat-card-title>Bienvenido</mat-card-title>
     <div class="d-flex justify-content-center">
 
-        <img width="150px" src="https://2.bp.blogspot.com/-YiWi32Pbamo/W1djBdPn0uI/AAAAAAAATrM/BKuX5dAzIOQWpbL65ahXyC6YOfumUX7ZwCK4BGAYYCw/s1600/tulogoaquifooter.png" alt="">
+        <img width="250px" src="https://2.bp.blogspot.com/-YiWi32Pbamo/W1djBdPn0uI/AAAAAAAATrM/BKuX5dAzIOQWpbL65ahXyC6YOfumUX7ZwCK4BGAYYCw/s1600/tulogoaquifooter.png" alt="">
     </div>
 <mat-card-content>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
-  <p>
+
     <mat-form-field class="w-100" appearance="outline">
         <mat-label>Usuario</mat-label>
       <input type="text" matInput placeholder="Ingreese su usuario" formControlName="usuario_usuario">
@@ -15,9 +15,7 @@
         Usuario es requerido.
       </mat-error>
     </mat-form-field>
-  </p>
 
-  <p>
     <mat-form-field class="w-100"  appearance="outline">
         <mat-label>Contraseña</mat-label>
         <input matInput  placeholder="Ingrese contraseña" [type]="hide ? 'password' : 'text'" formControlName="contrasenia_usuario">
@@ -33,13 +31,15 @@
           </mat-error>
         </mat-error>
       </mat-form-field>
-  </p>
+
 
   <p *ngIf="error" class="error">
     {{ error }}
   </p>
+  <div class="d-flex justify-content-between">
   <button mat-button color="primary">Olvide mi contraseña</button>
-  <button type="submit" mat-button>Iniciar sesión</button>
+  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</div>
   <div class="button">
     
   </div>

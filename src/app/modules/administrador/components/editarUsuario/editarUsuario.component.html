@@ -20,7 +20,7 @@
         </span>
       </div>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="usuario" formControlName="usuario_usuario">
+        <input matInput placeholder="Usuario" formControlName="usuario_usuario">
       </mat-form-field>
       <div *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['pattern']">
         <span class="text-danger">Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
@@ -34,7 +34,7 @@
       </mat-form-field>
     
       <mat-form-field appearance="fill">
-        <mat-label>Select</mat-label>
+        <mat-label>Rol de usuario</mat-label>
         <mat-select [(value)]="rolSelect"  formControlName="rol_usuario">
           <mat-option *ngFor="let rol of roles" value={{rol._id}}>{{rol.nombre_rol}}</mat-option>
 
@@ -49,13 +49,11 @@
 
 
       <!-- Submit -->
-      <div class="button-wrapper">
+      <div class="button-wrapper d-flex justify-content-between">
         <button mat-flat-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
       </div>
-
     </form>
-    <button mat-button color="warn" mat-dialog-close>Cancelar</button>
-
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
   </mat-sidenav-content>
 </mat-sidenav-container>

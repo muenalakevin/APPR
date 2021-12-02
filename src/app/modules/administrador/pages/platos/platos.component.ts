@@ -75,11 +75,14 @@ export class PlatosComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('paginatorCategoria', {
+    read: MatPaginator
+ }) paginatorCategoria: MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataCategorias.sort = this.sort;
-    this.dataCategorias.paginator = this.paginator;
+    this.dataCategorias.paginator = this.paginatorCategoria;
     
   }
 
@@ -219,21 +222,28 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
   }
   eliminarCategoria(_id: string) {
-    this.AlertService.showConfirm(
-      '¿Está seguro que desea eliminar el categoria?'
-    ).then((res: boolean) => {
-      if (res) {
-        this.CategoriaService.eliminarCategoria(_id).subscribe(
-          (data) =>
-            this.AlertService.showSuccess('Categoria eliminado con exito'),
-          (error) => {
-            this.AlertService.showErrorServidor();
-          }
-        );
-      } else {
-        console.log('Cancelacion');
-      }
-    });
+    const existeCategoria = this.platos.find(plato=>plato.categorias_plato.find(cat=>cat == _id))
+    console.log(existeCategoria);
+    if(existeCategoria == null){
+      this.AlertService.showConfirm(
+        '¿Está seguro que desea eliminar el categoria?'
+      ).then((res: boolean) => {
+        if (res) {
+          this.CategoriaService.eliminarCategoria(_id).subscribe(
+            (data) =>
+              this.AlertService.showSuccess('Categoria eliminado con exito'),
+            (error) => {
+              this.AlertService.showErrorServidor();
+            }
+          );
+        } else {
+          console.log('Cancelacion');
+        }
+      });
+    }else{
+      this.AlertService.showWarning('Categoría no se puede ser eliminada, existen platos con esta categoría.')
+    }
+    
   }
   cambioIdForName(id:string){
 

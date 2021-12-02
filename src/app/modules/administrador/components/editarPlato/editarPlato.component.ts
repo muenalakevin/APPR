@@ -100,9 +100,9 @@ export class EditarPlatoComponent implements OnInit {
     } 
 
 
-    if (this.validatoMinLength()) {
+   /*  if (this.validatoMinLength()) {
       mensajeWarnign += 'Falta categorias de plato. <br/>';
-    }
+    } */
 
 
     if (mensajeWarnign == '') {

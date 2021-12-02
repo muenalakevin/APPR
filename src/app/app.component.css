@@ -1,1 +1,4 @@
 @import "~swiper/swiper-bundle";
+.mat-sidenav-content{
+    padding: 5px;
+}

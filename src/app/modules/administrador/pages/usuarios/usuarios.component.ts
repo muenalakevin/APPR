@@ -39,9 +39,14 @@ private usuariosSubscription: Subscription;
     
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild('paginatorRol', {
+    read: MatPaginator
+ }) paginatorRol: MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataRoles.paginator = this.paginatorRol;
   }
   public doFilter = (value: Event) => {
     this.dataSource.filter = (value.target as HTMLInputElement).value.trim().toLocaleLowerCase();

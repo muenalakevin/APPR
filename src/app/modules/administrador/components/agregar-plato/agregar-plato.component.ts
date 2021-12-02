@@ -85,10 +85,10 @@ export class AgregarPlatoComponent implements OnInit {
       mensajeWarnign += 'Falta receta de plato. <br/>';
     } 
 
-
+/* 
     if (this.validatoMinLength()) {
       mensajeWarnign += 'Falta categorias de plato. <br/>';
-    }
+    } */
 
     if (mensajeWarnign == '') {
       const plato: Plato = {
@@ -136,7 +136,6 @@ export class AgregarPlatoComponent implements OnInit {
   }
 
   isSelected(categoria:CategoriaPlato){
-    console.log("soo");
      this.platoForm.value.categorias_plato.find((categoriaForm:CategoriaPlato)=>{
        if(categoriaForm._id==categoria._id){
          return true;

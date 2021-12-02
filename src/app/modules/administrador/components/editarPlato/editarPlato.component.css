@@ -1,4 +1,4 @@
-form{width:420px;margin:35px auto 100px;display:block;float:none;}
+form{width:420px;display:block;float:none;}
 .mat-form-field{width:100%; height: 100%;}
 .misc-bottom-padding{margin:8px 0 20px;}
 .misc-bottom-padding mat-label{margin-right:15px;}
@@ -14,3 +14,6 @@ input[type="file"] {
     padding: 6px 12px;
     cursor: pointer;
 }
+mat-sidenav-content{
+    padding: 5px;
+  }

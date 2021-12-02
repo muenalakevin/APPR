@@ -32,27 +32,25 @@
         <span matPrefix>$&nbsp;</span>
         <mat-error *ngIf="this.platoForm.get('precio_plato').errors?.['required']">Falta precio de plato.</mat-error>
       </mat-form-field>
-
+      <mat-label>Categoría</mat-label>
        <mat-chip-list selectable multiple>
         <mat-chip #c="matChip" (selectionChange)="true"  *ngFor="let   categoria of categorias" [value]="categoria" (click)="toggleSelection(c)">
             {{categoria.nombre_categoria}}
         </mat-chip>
        
     </mat-chip-list>
-    <mat-error *ngIf="validatoMinLength()">Falta categoria de plato.</mat-error>
+<!--     <mat-error *ngIf="validatoMinLength()">Falta categoria de plato.</mat-error> -->
       <!-- Class -->
 
       <!-- Add Subjects -->
 
 
       <!-- Submit -->
-      <div class="button-wrapper">
+      <div class="button-wrapper d-flex justify-content-between">
         <button mat-flat-button color="primary">Guardar</button>
+        <button mat-flat-button color="warn" mat-dialog-close>Cancelar</button>
       </div>
-
     </form>
-    <button mat-button color="warn" mat-dialog-close>Cancelar</button>
-
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
   </mat-sidenav-content>
 </mat-sidenav-container>

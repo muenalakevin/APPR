@@ -5,7 +5,14 @@
   background-color: rgb(250, 242, 232);
 }
 
+.btn{
+  background-color: rgb(243, 149, 87);
+  border-color: burlywood;
 
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: none;
+}
 .mat-form-field {
 
 
@@ -16,7 +23,7 @@ mat-card{
   left: 50%;
   transform: translate(-50%,-50%);
   background-color: antiquewhite;
-  min-width: 350px;
+  min-width: 450px;
 }
 mat-card-title,
 mat-card-content {
@@ -27,7 +34,7 @@ mat-card-content {
 
 .error {
   padding: 16px;
-  width: 300px;
+  width: 400px;
   color: white;
   background-color: red;
 }
