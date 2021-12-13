@@ -125,27 +125,6 @@ export class MesasComponent implements OnInit {
         this.dataSource.data = Data as Mesa[];
       }
     );
-    
-    /*     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(usuarios => console.log(usuarios)); */
-
-    /*    this.RolService.getRols()
-    .subscribe( data => {
-      this.roles = <Rol[]>data;
-      this.UsuarioService.getUsers()
-      .subscribe( data => {
-        const Data:Usuario[]=<Usuario[]>data
-
-        const newData = Data.map((usuario)=>{
-            usuario.rol_usuario = <string> this.roles.find((rol)=>{return rol._id==usuario.rol_usuario}).nombre_rol
-            return usuario;
-          })
-        this.usuarios = <Usuario[]>newData;
-        this.dataSource.data = newData as Usuario[];
-        
-      },(error) => this.AlertService.showErrorServidor());
-    },(error) => this.AlertService.showErrorServidor())
-
- */
   }
   ngOnDestroy() {
     this.mesasSubscription.unsubscribe();

@@ -11,7 +11,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './core/components/home/home.component';
 const routes: Routes = [
-  {path:'',redirectTo:'/auth',pathMatch:'full'},
+  {path:'',redirectTo:'/auth/login',pathMatch:'full'},
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),canLoad:[AuthGuard]  },
   { path: 'administrador',
    loadChildren: () => import('./modules/administrador/administrador.module').then(m => m.AdministradorModule),canLoad:[AdministradorGuard]  },

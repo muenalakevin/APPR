@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MeseroComponent } from './mesero.component';
 
 const routes: Routes = [
-  { path: '',redirectTo:'menu',pathMatch:'full' },
+  { path: '',redirectTo:'mesas',pathMatch:'full' },
   { path: 'menu', component: MenuComponent },
   { path: 'mesas', component: MesasComponent },
 

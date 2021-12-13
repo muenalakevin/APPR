@@ -1,3 +1,4 @@
+import { MaterialElevationDirective } from './material-elevation.directive';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { environment } from './../environments/environment';
 
@@ -37,7 +38,8 @@ const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
 }};
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MaterialElevationDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

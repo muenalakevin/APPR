@@ -1,0 +1,47 @@
+.contenedor-pedidos{
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    position: relative;
+}
+.mesa{
+    cursor:pointer;
+}
+.pedidos{
+
+    min-height: 100% !important;
+}
+
+.example-container {
+    width: 100vw;
+
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  .example-sidenav{
+    width: 100vw;
+  }
+  .example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }
+
+  ::ng-deep .z-depth:hover {
+    box-shadow: 0 8px 8px 8px rgba(0,0,0,.2), 0 8px 8px 0 rgba(0,0,0,.14), 0 8px 8px 0 rgba(0,0,0,.12) !important;
+    transform: translate3d(0,0,0);
+    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+}
+
+.espacioPedidos{
+    height: 200px;
+}
+
+.ventaPedido{
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+}
