@@ -5,18 +5,21 @@ import { CategoriaService } from './../../../../core/services/categoria.service'
 import { CategoriaPlato } from 'src/app/shared/models/categoriaPlato';
 import { MesaService } from './../../../../core/services/mesa.service';
 import { Subscription } from 'rxjs';
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { Plato } from 'src/app/shared/models/plato';
 import { Pedido } from 'src/app/shared/models/pedido';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { MatDrawer } from '@angular/material/sidenav';
 @Component({
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
   styleUrls: ['./mesas.component.css']
 })
+
 export class MesasComponent implements OnInit {
+  @ViewChild('drawer') drawer: MatDrawer;
   faSquareIcon=faSquare
   defaultElevation = 2;
   raisedElevation = 8;
@@ -94,6 +97,9 @@ export class MesasComponent implements OnInit {
       return pedido.plato._id !== idPlato;
     });
     this.PedidoService.editarPedido(this.pedidoTotal).subscribe(res=> {/* this.pedidoTotal=res as Pedido */ })
+    if(this.pedidoTotal.pedidos.length == 0){
+      this.cancelarPedido()
+    }
   }
    addPlato(plato:Plato){
      console.log(this.mesaActual.estado);
@@ -145,6 +151,7 @@ export class MesasComponent implements OnInit {
  }
  cancelarPedido(){
    this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa).subscribe()
+   this.drawer.toggle()
  }
  mouseleave (event:Event) {
    this.renderer2.removeClass(event.target, 'mat-elevation-z5')
