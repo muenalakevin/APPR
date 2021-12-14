@@ -153,4 +153,30 @@ export class MesasComponent implements OnInit {
    this.renderer2.removeClass(event.target, 'mat-elevation-z5')
    this.renderer2.addClass(event.target, 'mat-elevation-z5')
  }
+ addPedido(idPlato:string){
+   this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map(pedido=>{
+    if(idPlato == pedido.plato._id){
+      pedido.cantidad_pedido +=1
+    }
+    return pedido
+  })
+ 
+  this.PedidoService.editarPedido(this.pedidoTotal).subscribe(res=> {/* this.pedidoTotal=res as Pedido */ })
+ }
+ reducePedido(idPlato:string){
+ const cantidadPedido = this.pedidoTotal.pedidos.find(( pedido )=> pedido.plato._id == idPlato);  
+ if(cantidadPedido.cantidad_pedido==1){
+  this.removePlato(idPlato)
+ }else{
+  this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map(pedido=>{
+    if(idPlato == pedido.plato._id){
+      pedido.cantidad_pedido -=1
+    }
+    return pedido
+  })
+  this.PedidoService.editarPedido(this.pedidoTotal).subscribe(res=> { })
+ }
+ 
+ 
+ }
 }

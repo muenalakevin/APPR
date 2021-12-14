@@ -1,156 +1,132 @@
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav p-0" mode="side">
-    <div class="container-fliud row m-0">
-      <div class="col-8 container">
-        <button type="button" mat-button (click)="drawer.toggle()">
+    <mat-drawer #drawer class="example-sidenav p-0" mode="side">
+        <div class="container-fliud row m-0">
+            <div class="col-8 container">
+                <button type="button" mat-button (click)="drawer.toggle()">
           Cerrar
         </button>
-        <div class="row">
-          <div *ngFor="let plato of platos" class="col col-sm-4 text-center">
-            <mat-card
-              class="my-2 p-0 btn"
-              (mouseenter)="mouseenter($event)"
-              (mouseleave)="mouseleave($event)"
-              (click)="addPlato(plato)"
-            >
-              <button class="w-100" mat-button>
+                <div class="row">
+                    <div *ngFor="let plato of platos" class="col col-sm-4 text-center">
+                        <mat-card class="my-2 p-0 btn" (mouseenter)="mouseenter($event)" (mouseleave)="mouseleave($event)" (click)="addPlato(plato)">
+                            <button class="w-100" mat-button>
                 <p>{{ plato.nombre_plato }}</p>
                 <p>{{ plato.precio_plato | currency }}</p>
               </button>
-            </mat-card>
-          </div>
-        </div>
-      </div>
-      <div class="col-4 bg-secondary contenedor-pedidos">
-        <div class="pedidos h-100">
-          <mat-card *ngFor="let pedido of pedidoTotal.pedidos" class="my-2">
-            <div class="text-center w-100">
-              <h3>
-                <b> {{ pedido.plato.nombre_plato }}</b>
-              </h3>
+                        </mat-card>
+                    </div>
+                </div>
             </div>
-            <div class="w-100">
-              <mat-form-field appearance="fill" floatLabel="always">
-                <mat-label>Cantidad</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  class="example-right-align"
-                  value="{{ pedido.cantidad_pedido }}"
-                  placeholder="0"
-                />
-                <div matPrefix class="wrapper-indicator">
-                  <button mat-icon-button>
+            <div class="col-4 bg-secondary contenedor-pedidos">
+                <div class="pedidos h-100">
+                    <mat-card *ngFor="let pedido of pedidoTotal.pedidos" class="my-2">
+                        <div class="text-center w-100">
+                            <h3>
+                                <b> {{ pedido.plato.nombre_plato }}</b>
+                            </h3>
+                        </div>
+                        <div class="w-100">
+                            <mat-form-field appearance="fill" floatLabel="always">
+                                <mat-label>Cantidad</mat-label>
+                                <input matInput type="number" class="example-right-align" value="{{ pedido.cantidad_pedido }}" placeholder="0" />
+                                <div matPrefix class="wrapper-indicator">
+                                    <button (click)="addPedido(pedido.plato._id)" mat-icon-button>
                     <mat-icon>add_circle</mat-icon>
                   </button>
-                </div>
-                <div matSuffix class="wrapper-indicator">
-                  <button mat-icon-button>
+                                </div>
+                                <div matSuffix class="wrapper-indicator">
+                                    <button (click)="reducePedido(pedido.plato._id)" mat-icon-button>
                     <mat-icon>remove_circle</mat-icon>
                   </button>
-                </div>
-              </mat-form-field>
-              <button (click)="removePlato(pedido.plato._id)" mat-icon-button>
+                                </div>
+                            </mat-form-field>
+                            <button (click)="removePlato(pedido.plato._id)" mat-icon-button>
                 <mat-icon color="warn">delete</mat-icon>
               </button>
+                        </div>
+
+                        <p>Precio U. {{ pedido.plato.precio_plato | currency }}</p>
+                        <p>
+                            Precio T. {{ pedido.plato.precio_plato * pedido.cantidad_pedido | currency }}
+                        </p>
+                    </mat-card>
+
+                    <div class="ventaPedido">
+                        <mat-card>
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Observación</mat-label>
+                                <textarea matInput placeholder="Ingrese aquí las observaciones..."></textarea>
+                            </mat-form-field>
+                            <div class="d-flex justify-content-between">
+                                <table>
+                                    <tr>
+                                        <td>Sub Total:</td>
+                                        <td>{{getSubtotal() | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Iva 12%:</td>
+                                        <td>{{getSubtotal()*(0.12) | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>{{getSubtotal()*(1.12) | currency}}</td>
+                                    </tr>
+                                </table>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <button mat-raised-button (click)="drawer.toggle()" (click)="cancelarPedido()" class="mb-2" color="warn">Cancelar</button>
+                                    <button mat-raised-button class="mb-2 btn-dark">Enviar</button>
+                                </div>
+
+                            </div>
+
+                        </mat-card>
+                    </div>
+                </div>
             </div>
-
-            <p>Precio U. {{ pedido.plato.precio_plato | currency }}</p>
-            <p>
-              Precio T.
-              {{
-                pedido.plato.precio_plato * pedido.cantidad_pedido | currency
-              }}
-            </p>
-          </mat-card>
-
-          <div class="ventaPedido">
-            <mat-card>
-              <mat-form-field class="w-100" appearance="fill">
-                <mat-label>Observación</mat-label>
-                <textarea matInput placeholder="Ingrese aquí las observaciones..."></textarea>
-              </mat-form-field>
-             <div class="d-flex justify-content-between">
-              <table>
-                <tr>
-                  <td>Sub Total:</td>
-                  <td>{{getSubtotal() | currency}}</td>
-                </tr>
-                <tr>
-                  <td>Iva 12%:</td>
-                  <td>{{getSubtotal()*(0.12) | currency}}</td>
-                </tr>
-                <tr>
-                  <td>Total</td>
-                  <td>{{getSubtotal()*(1.12) | currency}}</td>
-                </tr>
-              </table>
-              <div class="d-flex flex-column justify-content-center">
-                <button mat-raised-button  (click)="drawer.toggle()" (click)="cancelarPedido()" class="mb-2" color="warn">Cancelar</button>
-                <button mat-raised-button  class="mb-2 btn-dark" >Enviar</button>
-              </div>
-              
-             </div>
-              
-            </mat-card>
-          </div>
         </div>
-      </div>
-    </div>
-  </mat-drawer>
-  <div class="container-fliud row m-0">
-    <div class="col-8 container mt-3">
-      <div class="row">
-        <div
-          *ngFor="let mesa of mesas; let index = index"
-          class="col col-sm-2 text-center"
-          (click)="seleccionarMesa(mesa)"
-        >
-          <button
-            *ngIf="mesa.estado == 1"
-            (click)="drawer.toggle()"
-            mat-button
-            matBadge="!"
-            class="p-0"
-          >
+    </mat-drawer>
+    <div class="container-fliud row m-0">
+        <div class="col-8 container mt-3">
+            <div class="row">
+                <div *ngFor="let mesa of mesas; let index = index" class="col col-sm-2 text-center" (click)="seleccionarMesa(mesa)">
+                    <button *ngIf="mesa.estado == 1" (click)="drawer.toggle()" mat-button matBadge="!" class="p-0">
             <fa-icon
               class="display-4 text-secondary mesa"
               [icon]="faSquareIcon"
             ></fa-icon>
           </button>
 
-          <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
+                    <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
             <fa-icon
               class="display-4 text-secondary mesa"
               [icon]="faSquareIcon"
             ></fa-icon>
           </button>
-          <p>{{ mesa.nombre_mesa }}</p>
+                    <p>{{ mesa.nombre_mesa }}</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-4 bg-secondary contenedor-pedidos">
-      <div class="pedidos h-100">
-        <mat-card class="my-2">
-          <div class="d-flex justify-content-between">
-            <h5 class="m-0">Mesa #</h5>
-            <span>tiempo de espera 0:00</span>
-          </div>
-          <div class="d-flex flex-column mb-3">
-            <span>descripción</span>
-            <span>Descripción del pedido</span>
-          </div>
+        <div class="col-4 bg-secondary contenedor-pedidos">
+            <div class="pedidos h-100">
+                <mat-card class="my-2">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="m-0">Mesa #</h5>
+                        <span>tiempo de espera 0:00</span>
+                    </div>
+                    <div class="d-flex flex-column mb-3">
+                        <span>descripción</span>
+                        <span>Descripción del pedido</span>
+                    </div>
 
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-success">Servido</button>
-            <button class="btn btn-danger">Cancelado</button>
-          </div>
-        </mat-card>
-        <mat-card class="my-2">Simple card</mat-card>
-        <mat-card class="my-2">Simple card</mat-card>
-        <mat-card class="my-2">Simple card</mat-card>
-        <mat-card class="my-2">Simple card</mat-card>
-      </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-success">Servido</button>
+                        <button class="btn btn-danger">Cancelado</button>
+                    </div>
+                </mat-card>
+                <mat-card class="my-2">Simple card</mat-card>
+                <mat-card class="my-2">Simple card</mat-card>
+                <mat-card class="my-2">Simple card</mat-card>
+                <mat-card class="my-2">Simple card</mat-card>
+            </div>
+        </div>
     </div>
-  </div>
 </mat-drawer-container>
