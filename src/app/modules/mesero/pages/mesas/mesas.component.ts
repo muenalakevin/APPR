@@ -50,13 +50,22 @@ export class MesasComponent implements OnInit {
       (mesas) => {
         const Data: MesaSeleccionada[] = <MesaSeleccionada[]>mesas;
         this.mesas = <MesaSeleccionada[]>Data;
+
+        
+
         if(this.mesaActual!=undefined){
-          this.PedidoService.getPedido(this.mesaActual._id).subscribe(res=>   {
-            if(res!=null){
-              this.pedidoTotal=res as Pedido
-            }
-            
-          })
+          const estadoMesa = this.mesas.find(mesa=>mesa._id == this.mesaActual._id)
+          if(estadoMesa.estado==0){
+            this.drawer.toggle()
+          }else{
+            this.PedidoService.getPedido(this.mesaActual._id).subscribe(res=>   {
+              if(res!=null){
+                this.pedidoTotal=res as Pedido
+              }
+              
+            })
+          }
+          
         }
         
       }
@@ -102,7 +111,7 @@ export class MesasComponent implements OnInit {
     }
   }
    addPlato(plato:Plato){
-     console.log(this.mesaActual.estado);
+
      if(this.mesaActual.estado == 0){
       const pedido:Pedido ={
         id_mesa:this.mesaActual._id,
@@ -151,7 +160,6 @@ export class MesasComponent implements OnInit {
  }
  cancelarPedido(){
    this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa).subscribe()
-   this.drawer.toggle()
  }
  mouseleave (event:Event) {
    this.renderer2.removeClass(event.target, 'mat-elevation-z5')
