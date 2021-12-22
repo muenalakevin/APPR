@@ -31,6 +31,9 @@ export class PedidoService {
   getPedido(idMesa:string){
     return this.http.get(environment.API_URL + '/pedido/'+idMesa,this.httpOptions);
   }
+  getPedido2(idMesa:string){
+    return this.http.get(environment.API_URL + '/pedido/2/'+idMesa,this.httpOptions);
+  }
 
   guardarPedido(pedido:Pedido){
     return this.http.post(environment.API_URL + '/pedido',{pedido},this.httpOptions);
@@ -41,7 +44,7 @@ export class PedidoService {
     return this.http.delete(environment.API_URL + '/pedido/'+idMesa,this.httpOptions);
   }
 
-  
+
   editarPedido(pedido:Pedido){
     return this.http.patch(environment.API_URL + '/pedido',{pedido},this.httpOptions);
   }

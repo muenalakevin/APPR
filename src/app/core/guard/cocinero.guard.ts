@@ -12,11 +12,12 @@ export class CocineroGuard implements CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      return true;
       const res=  this.RolService.isRol('cociero');
       if (res) {
         return true;
       }
-  
+
       // not logged in so redirect to login page
       this.router.navigate(['/auth/login']);
       return false;

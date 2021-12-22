@@ -5,7 +5,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Route } from "@angular/router";
-  import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faSquare } from '@fortawesome/free-solid-svg-icons';
+  import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faSquare,faFish } from '@fortawesome/free-solid-svg-icons';
 import {   } from '@fortawesome/fontawesome-svg-core';
 import { } from '@fortawesome/free-brands-svg-icons';
 import {  } from '@fortawesome/free-regular-svg-icons';
@@ -18,12 +18,13 @@ import {  } from '@fortawesome/angular-fontawesome';
 })
 export class NavbarComponent implements OnInit {
 
-  chartAreaIcon = faChartArea; 
+  chartAreaIcon = faChartArea;
   userIcon=faUser;
   hamburgerIcon =faHamburger
   utensilsIcon=faUtensils
   cashRegisterIcon=faCashRegister
   usersIcon =faUsers;
+  fish= faFish
   squareIcon=faSquare
   usuario:Token
 

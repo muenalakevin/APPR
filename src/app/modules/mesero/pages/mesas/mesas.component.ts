@@ -36,14 +36,14 @@ export class MesasComponent implements OnInit {
   mesaActual: MesaSeleccionada;
   platos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
-  dateNow:Date 
+  dateNow:Date
   pedidoForm: FormGroup = new FormGroup({
     observacion: new FormControl(null),
   });
   searchForm: FormGroup = new FormGroup({
     search: new FormControl(null),
   });
- 
+
   constructor(
     private MesaService: MesaService,
     private CategoriaService: CategoriaService,
@@ -86,6 +86,7 @@ export class MesasComponent implements OnInit {
       this.mesas = <MesaSeleccionada[]>mesas;
 
       if (this.mesaActual != undefined) {
+
         this.mesaActual = this.mesas.find(
           (mesa) => this.mesaActual._id == mesa._id
         );
@@ -149,15 +150,9 @@ export class MesasComponent implements OnInit {
     }else{
       return true
     }
-  
+
   }
-  pedidoTotal: Pedido = {
-    id_mesa: '',
-    observacion: '',
-    horaDeEntrega:null,
-    horaDeEnvio:null,
-    pedidos: [],
-  };
+  pedidoTotal: Pedido = new Pedido()
   removePlato(idPlato: string) {
     this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.filter((pedido) => {
       return pedido.plato._id !== idPlato;
@@ -171,6 +166,7 @@ export class MesasComponent implements OnInit {
   addPlato(plato: Plato) {
 
     if (this.mesaActual.estado == 0) {
+
       const pedido: Pedido = {
         id_mesa: this.mesaActual._id,
         observacion: this.pedidoForm.value.observacion,
@@ -180,7 +176,7 @@ export class MesasComponent implements OnInit {
       };
 
       this.PedidoService.guardarPedido(pedido).subscribe();
-    } else if (this.mesaActual.estado == 1) {
+    } else if (this.mesaActual.estado >= 1) {
       let pedidos = this.pedidoTotal.pedidos;
       const existPedido = pedidos.find(
         (pedido) => pedido.plato._id == plato._id
@@ -205,10 +201,18 @@ export class MesasComponent implements OnInit {
   seleccionarMesa(mesa: MesaSeleccionada) {
     this.mesaActual = mesa;
     if (this.mesaActual != undefined) {
+      console.log(this.mesaActual)
       if (this.mesaActual.estado >= 1) {
-        this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
-          this.pedidoTotal = res as Pedido;
+        this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
+          if(res!=undefined){
+            this.pedidoTotal = res as Pedido;
+            console.log(this.pedidoTotal)
+          }
+
         });
+      }else{
+        this.pedidoTotal = new Pedido()
+        this.pedidoForm.reset();
       }
     }
   }
@@ -222,6 +226,7 @@ export class MesasComponent implements OnInit {
   }
 
   cancelarPedido() {
+    console.log()
     this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa).subscribe(
       (res) => {
         this.clean();
@@ -267,18 +272,12 @@ export class MesasComponent implements OnInit {
   }
 
   clean() {
-    this.pedidoTotal = {
-      id_mesa: '',
-      observacion: '',
-      horaDeEntrega:null,
-      horaDeEnvio:null,
-      pedidos: [],
-    };
+    this.pedidoTotal = new Pedido()
     this.pedidoForm.reset();
     this.mesaActual = undefined;
   }
-  
+
   applyFilterPlatos(event:Event){
-    
+
   }
 }

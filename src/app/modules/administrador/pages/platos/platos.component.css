@@ -12,30 +12,30 @@
     overflow: auto;
 
   }
-  
+
   .sidebar a {
     display: block;
     color: black;
     padding: 16px;
     text-decoration: none;
   }
-   
+
   .sidebar a.active {
     background-color: #04AA6D;
     color: white;
   }
-  
+
   .sidebar a:hover:not(.active) {
     background-color: #555;
     color: white;
   }
-  
+
   div.content {
     margin-left: 200px;
     padding: 1px 16px;
 
   }
-  
+
   @media screen and (max-width: 700px) {
     .sidebar {
       width: 100%;
@@ -45,7 +45,7 @@
     .sidebar a {float: left;}
     div.content {margin-left: 0;}
   }
-  
+
   @media screen and (max-width: 400px) {
     .sidebar a {
       text-align: center;
@@ -65,3 +65,26 @@ th.mat-header-cell {
 .make-gold {
     background-color: rgb(253, 242, 177)
 }
+
+
+/**/
+
+::ng-deep table{
+  width: 100%;
+ }
+
+ ::ng-deep .mat-column-categorias_plato {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 28% !important;
+   width: 28% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+
+   word-break: break-word;
+
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
