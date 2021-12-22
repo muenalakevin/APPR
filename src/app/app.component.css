@@ -1,0 +1,10 @@
+@import "~swiper/swiper-bundle";
+.mat-sidenav-content{
+    padding: 5px;
+}
+* { padding: 0; margin: 0; }
+
+html, body, #fullheight {
+    min-height: 100% !important;
+    height: 100%;
+}

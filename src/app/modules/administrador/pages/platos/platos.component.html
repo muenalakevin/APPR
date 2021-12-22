@@ -1,0 +1,121 @@
+
+<mat-tab-group>
+  <mat-tab label="Platos"><div class="col-md-10 container">
+    <h2 style="margin: auto"> Platos</h2>
+  
+    <div class="table-responsive">
+      <button mat-raised-button color="primary" (click)="openDialogAgregar()">Agregar plato</button>
+      <br> <mat-form-field appearance="standard">
+        <mat-label>Buscador</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Escribe..." #input>
+        
+      </mat-form-field>
+      <p class="text-warning " *ngIf="existAllCategory()">Existen platos sin categoría, seleccione el check para filtrar
+        <mat-checkbox [checked]="filtrar" (click)="filtrarNoCategory()" color="primary" class="example-margin">
+        
+        </mat-checkbox>
+
+      </p>
+    <table  mat-table [dataSource]="dataSource" matSort >
+      <ng-container matColumnDef="nombre_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre_plato}} </td>
+      </ng-container>
+      <ng-container matColumnDef="descripcion_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+        <td mat-cell *matCellDef="let element"> {{element.descripcion_plato}} </td>
+      </ng-container>
+      <ng-container matColumnDef="receta_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Receta </th>
+        <td mat-cell *matCellDef="let element"> {{element.receta_plato}} </td>
+      </ng-container>
+      <ng-container matColumnDef="precio_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+        <td mat-cell *matCellDef="let element"> {{element.precio_plato| currency: 'USD' | lowercase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="categorias_plato">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Categorías </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip-list>
+            <mat-chip *ngFor="let id of element.categorias_plato" [value]="id">
+                {{cambioIdForName(id)}}
+            </mat-chip>
+        </mat-chip-list>
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="Editar">
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="openDialogEditar(element)" >
+            <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Eliminar">
+          <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="eliminarPlato(element._id)">
+              <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+       
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row  [ngClass]="{'make-gold': row.categorias_plato.length==0}" *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+    </mat-paginator>
+  </div>
+  </div> </mat-tab> 
+  <mat-tab label="Categorías"> 
+    <div class="col-md-10 container">
+      <h2 style="margin: auto"> Categorías</h2>
+      
+    <div class="table-responsive">
+      <button mat-raised-button color="primary" (click)="openDialogAgregarCategoria()">Agregar categoría</button>
+      <br> <mat-form-field appearance="standard">
+        <mat-label>Buscador</mat-label>
+        <input matInput (keyup)="applyFilterCategoria($event)" placeholder="Escribe..." #input>
+      </mat-form-field>
+      <table #sortCategoria="matSort"  mat-table [dataSource]="dataCategorias" matSort>
+        <ng-container matColumnDef="nombre_categoria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre_categoria}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion_categiria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+          <td mat-cell *matCellDef="let element"> {{element.descripcion_categoria}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="Editar">
+          <th mat-header-cell *matHeaderCellDef> Editar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent" (click)="openDialogEditarCategoria(element)" >
+              <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Eliminar">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="warn" (click)="eliminarCategoria(element._id)">
+                <mat-icon class="mat-18">delete</mat-icon>
+            </button>
+            </td>
+          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCategorias"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCategorias;"></tr>
+      </table>
+      <mat-paginator  #paginatorCategoria [pageSize]="4" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+      </mat-paginator>
+
+  </div>
+  </div>
+</mat-tab>
+</mat-tab-group>
+
+
+
+

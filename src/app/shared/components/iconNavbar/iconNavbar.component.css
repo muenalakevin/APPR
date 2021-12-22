@@ -1,0 +1,5 @@
+.none {
+
+    pointer-events:none;
+    cursor: default!important;
+}

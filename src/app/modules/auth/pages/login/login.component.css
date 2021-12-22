@@ -1,0 +1,48 @@
+.contenedor{
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: rgb(250, 242, 232);
+}
+
+.btn{
+  background-color: rgb(243, 149, 87);
+  border-color: burlywood;
+
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: none;
+}
+.mat-form-field {
+
+
+}
+img{
+  max-width:250px
+}
+mat-card{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: antiquewhite;
+
+}
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.error {
+  padding: 16px;
+  width: 400px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}

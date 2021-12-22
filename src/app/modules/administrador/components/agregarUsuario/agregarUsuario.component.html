@@ -1,0 +1,94 @@
+
+    <h1 class="mdc-typography--headline1">Agregar usuario</h1>
+    <form autocomplete="off" [formGroup]="usuarioForm" (ngSubmit)="submitForm()" novalidate>
+      
+      <!-- Name -->
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de usuario" formControlName="nombre_usuario">
+        <mat-error >
+          <mat-error *ngIf="usuarioForm.controls['nombre_usuario'].errors?.['required']">
+            El nombre es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Correo</mat-label>
+        <input matInput (keyup)="ifExistEmail()" placeholder="Ingrese correo de usuario" formControlName="correo_usuario">
+        <mat-error >
+          <mat-error *ngIf="usuarioForm.controls['correo_usuario'].errors?.['pattern']">
+            El correo no cuenta con un formato correcto.
+          </mat-error>
+          <mat-error  *ngIf="usuarioForm.controls['correo_usuario'].errors?.['required']">
+            El correo es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <span class="text-danger " *ngIf="existEmail">
+        Correo ya esta registrado a un usuario.
+      </span>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Usuario</mat-label>
+        <input (keyup)="ifExistUser()" matInput placeholder="Ingrese usuario" formControlName="usuario_usuario">
+
+      
+
+      <mat-error *ngIf="!existUser">
+        
+        <mat-error *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['required']">
+          El usuario es requerido.
+        </mat-error>
+      
+      <mat-error *ngIf="usuarioForm.controls['usuario_usuario'].errors?.['pattern']">
+        Usuario solo puede contener letras.
+      </mat-error>
+     
+    </mat-error>
+  </mat-form-field>
+  <span class="text-danger " *ngIf="existUser">
+    usuario ya existe
+  </span>
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput  placeholder="Ingrese contraseña" [type]="hide ? 'password' : 'text'" formControlName="contrasenia_usuario">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error>
+          <mat-error *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['required']">
+            La contraseña es requerido.
+          </mat-error>
+          <mat-error *ngIf="usuarioForm.controls['contrasenia_usuario'].errors?.['pattern']">
+            Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+    
+      <mat-form-field appearance="outline">
+        <mat-label>Rol de usuario</mat-label>
+        <mat-select  formControlName="rol_usuario">
+          <mat-option *ngFor="let rol of roles" value={{rol._id}}>{{rol.nombre_rol}}</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+
+
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper d-flex justify-content-between">
+        <button mat-flat-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+      </div>
+
+    </form>
+   
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
