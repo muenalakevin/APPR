@@ -53,3 +53,7 @@ input::-webkit-inner-spin-button {
 input[type="number"][disabled] {
   color: rgb(0, 0, 0);
 }
+
+::ng-deep mat-drawer-content {
+  margin: 0!important;
+}

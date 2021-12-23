@@ -49,5 +49,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-right: 10px!important;
 }
 html, body{
-    overflow: hidden;
+    overflow-x: hidden;
 }

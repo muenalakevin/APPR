@@ -63,10 +63,12 @@ export class MesasComponent implements OnInit {
 
     let timeDiff =new Date( tiempoActual).getTime()  -  new Date(tiempo).getTime();
     timeDiff /= 1000;
-    const seconds = Math.round(timeDiff % 60);
+    let seconds:string = (Math.round(timeDiff % 60)).toString();
     timeDiff = Math.floor(timeDiff / 60);
     const minutes = Math.round(timeDiff % 60);
-
+    if(seconds.length == 1){
+      seconds = <string>" 0"+seconds.toString()
+    }
     return minutes+":"+seconds
   }
   async ngOnInit() {
