@@ -2,8 +2,23 @@
 
   <div class="col-4 bg-secondary contenedor-pedidos">
     <div class="pedidos h-100">
-      <div *ngFor="let pedido of pedidos" class="my-2">
-        <mat-card>
+      <form>
+        <div class="bg-white ">
+          <div class="selectBox" (click)="showCheckboxes()">
+            <select class="form-select">
+              <option>Seleccione categorias propias</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div  *ngIf="expanded">
+            <label *ngFor="let categoria of categorias" class="d-block" for={{categoria._id}}>
+              <input type="checkbox" id={{categoria._id}} (click)="checkCategoria(categoria._id)" [checked]="ifExistCategoriaSeleccioanda(categoria._id)"/>{{categoria.nombre_categoria}}</label>
+
+          </div>
+        </div>
+      </form>
+      <div *ngFor="let pedido of pedidosFiltrados" class="my-2">
+        <mat-card [ngClass]="setColor(pedido)">
           <div class="d-flex justify-content-between">
             <h5 class="m-0">Mesa #</h5>
             <span>tiempo de espera {{ timer(pedido) }}</span>
@@ -24,7 +39,7 @@
 
                    <h5><b>Nombre: {{ped.plato.nombre_plato}} </b></h5>
                    <h5>Cantidad pedida: {{ped.cantidad_pedido}}</h5>
-                   <h5>Servidos: {{ped.cantidad_servida}}</h5>
+                   <h5>Listos: {{ped.cantidad_servida}}</h5>
 
 
                   <mat-divider></mat-divider>
@@ -51,9 +66,9 @@
 
           <p>Nombre: {{ pedido.plato.nombre_plato }}</p>
           <p>Cant. Pedida:{{ pedido.cantidad_pedido}}</p>
-          <p>Cant. enviada:{{ pedido.cantidad_lista  }}</p>
+          <p>Listos:{{ pedido.cantidad_lista  }}</p>
           <div class="d-flex justify-content-center">
-            <button class="btn btn-success px-5">Listo</button>
+            <button *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido" (click)="modificarPedido(pedido)" class="btn btn-success px-5">Listo</button>
           </div>
        
 

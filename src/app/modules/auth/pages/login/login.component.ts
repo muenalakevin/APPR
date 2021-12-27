@@ -72,8 +72,13 @@ onValueChanges(): void {
     this.AuthenticationService.login(usuario).subscribe(
       (data) => this.correctLogin(<Session>data),
       (error) =>{
-        this.mensaje='Usuario o/y contraseña incorrecto';
-        this.AlertService.showErrorServidor()
+
+        if(error.status == 403){
+        this.AlertService.showWarning('Usuario o/y contraseña incorrecto')
+        }else{
+          this.AlertService.showErrorServidor()
+        }
+        
       }
     );
   }

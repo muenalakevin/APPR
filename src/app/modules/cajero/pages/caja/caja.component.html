@@ -1,0 +1,93 @@
+
+  <!-- ------------------------------------------------------------------------------------------------------- -->
+  <mat-drawer-container class="contenedor m-0" autosize>
+    <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
+      <div class="container-fliud row m-0 pl-0">
+        <div cdkDropListGroup class="container-fliud row m-0 cont">
+
+            <div class="col-4 bg-secondary contenedor-pedidos">
+              <div class="pedidos h-100">
+                <div
+            
+                cdkDropList
+                [cdkDropListData]="pedidoTotal.pedidos"
+                class="example-list"
+                
+                (cdkDropListDropped)="drop($event)">
+                <div *ngFor="let pedido of pedidoTotal.pedidos" cdkDrag   [cdkDragDisabled]="canDrag(pedido)" class="my-2" >
+                  <mat-card >
+                      
+                
+                    <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
+                    <h5>Cantidad pedida: {{pedido.cantidad_pedido}}</h5>
+                    <h5>Listos: {{pedido.cantidad_servida}}</h5>
+                </mat-card>
+                </div>
+                </div>
+              </div>
+              
+            </div>
+            
+            <div class="col-8 container mt-3">
+                <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
+                    Cerrar
+                  </button><br>
+
+             <div
+        cdkDropList
+        [cdkDropListData]=" pedidoSeleccionado.pedidos"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let pedido of pedidoSeleccionado.pedidos" cdkDrag>
+            <mat-card >
+                      
+                
+                <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
+                <h5>Cantidad pedida: {{pedido.cantidad_pedido}}</h5>
+                <h5>Listos: {{pedido.cantidad_servida}}</h5>
+            </mat-card>
+        </div>
+      </div>
+            </div>
+          </div>
+        </div>
+  
+    </mat-drawer>
+    <div class="container-fliud row m-0">
+      <div class="col-8 container mt-3">
+        <div class="row">
+          <div
+            *ngFor="let mesa of mesas; let index = index"
+            class="col col-sm-2 text-center"
+            (click)="seleccionarMesa(mesa)"
+          >
+            <button
+              *ngIf="mesa.estado == 1"
+              (click)="drawer.toggle()"
+              mat-button
+              matBadge="!"
+              class="p-0"
+            >
+              <fa-icon
+             
+                class="display-4 text-secondary mesa"
+                [icon]="faSquareIcon"
+              ></fa-icon>
+            </button>
+  
+            <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
+              
+              <fa-icon
+           
+                class="display-4  mesa"
+                [icon]="faSquareIcon"
+              ></fa-icon>
+            </button>
+            <p>{{ mesa.nombre_mesa }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-drawer-container>
+  

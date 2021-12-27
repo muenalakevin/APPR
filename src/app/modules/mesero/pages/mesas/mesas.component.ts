@@ -1,3 +1,6 @@
+
+import { CambioEstatico } from './../../../../shared/models/cambiosEstatios';
+import { AlertService } from './../../../../core/services/alert.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MesaSeleccionada } from './../../../../shared/models/mesaSeleccionada';
 import { PedidoService } from './../../../../core/services/pedido.service';
@@ -30,6 +33,7 @@ export class MesasComponent implements OnInit {
   private mesasSubscription: Subscription;
   mesas: MesaSeleccionada[] = [];
   pedidos: Pedido[] = [];
+  cambiosEstaticos:CambioEstatico[] = []
   private pedidosSubscription: Subscription;
   private platosSubscription: Subscription;
   private categoriasubscription: Subscription;
@@ -50,7 +54,8 @@ export class MesasComponent implements OnInit {
     private PlatoService: PlatoService,
     private renderer2: Renderer2,
     private PedidoService: PedidoService,
-    private cdRef:ChangeDetectorRef
+    private cdRef:ChangeDetectorRef,
+    private AlertService:AlertService,
   ) {}
   ngAfterViewChecked()
 {
@@ -117,14 +122,17 @@ export class MesasComponent implements OnInit {
     this.PedidoService.getPedidos().subscribe((pedidos) => {
       this.pedidos = <Pedido[]>pedidos;
       console.log(this.pedidos);
+      this.actualizarCambiosEstaticos()
     });
 
     this.pedidosSubscription = this.PedidoService.pedidos.subscribe(
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
+        console.log("solicitud");
+        this.actualizarCambiosEstaticos()
       }
     );
-
+    
     this.PlatoService.getPlatos().subscribe((platos) => {
       this.platos = platos as Plato[];
     });
@@ -133,6 +141,28 @@ export class MesasComponent implements OnInit {
     });
   }
   openMesa() {}
+  actualizarCambiosEstaticos(){
+    this.pedidos.map(ped=>{
+      let cambioEstatico = this.cambiosEstaticos.find(cE => cE._id==ped.id_mesa)
+      if(cambioEstatico!=null){
+        this.cambiosEstaticos.map(cE=>{
+          cE.pedidos.map(pedEs=>{
+             let plato=cambioEstatico.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id && cE._id==cambioEstatico._id)
+             let plato2=ped.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id&& cE._id==cambioEstatico._id)
+            if(plato!=undefined && plato2!=undefined){
+              if(plato.cantidad_lista!=plato2.cantidad_lista){
+                cE.cambio=true;
+            }
+            }
+            
+          })
+        })
+      }else{
+        
+        this.cambiosEstaticos.push({_id:ped.id_mesa,pedidos:ped.pedidos,cambio:false})
+      }
+    })
+  }
   mouseenter(event: Event) {
     this.renderer2.addClass(event.target, 'mat-elevation-z5');
   }
@@ -141,7 +171,31 @@ export class MesasComponent implements OnInit {
     this.PedidoService.enviarPedido(this.pedidoTotal).subscribe((res) => {});
     this.drawer.toggle()
   }
+  getColor(mesa:Mesa){
+    const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
+    if(pedido!=undefined ){
+      const tiempo = pedido.horaDeEnvio
+      const tiempoActual = new Date(this.dateNow )
+      let timeDiff =new Date( tiempoActual).getTime() - new Date(tiempo).getTime();
+      timeDiff /= 1000;
+      timeDiff = Math.floor(timeDiff / 60);
+      const minutes = Math.round(timeDiff % 60);
+      if(minutes<=5){
+        return "text-success"
+     }else if(minutes<=10){
+      return "text-warning"
+     }else if(minutes<=15){
+      return "text-danger"
+     }else{
+      return "text-dark"
+     }
+    }else{
+      return "text-primary"
+    }
+    
+    
 
+  }
   enviado(){
     if(this.mesaActual!= undefined){
       if( this.mesaActual.estado < 2){
@@ -156,15 +210,22 @@ export class MesasComponent implements OnInit {
   }
   pedidoTotal: Pedido = new Pedido()
   removePlato(idPlato: string) {
-    this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.filter((pedido) => {
-      return pedido.plato._id !== idPlato;
-    });
-    if (this.pedidoTotal.pedidos.length == 0) {
-      this.cancelarPedido();
-    } else {
-      this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {});
+    let plato = this.pedidoTotal.pedidos.find(ped=> ped.plato._id==idPlato)
+    if(plato.cantidad_lista==0){
+      this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.filter((pedido) => {
+        return pedido.plato._id !== idPlato;
+      });
+      if (this.pedidoTotal.pedidos.length == 0) {
+        this.cancelarPedido();
+      } else {
+        this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {});
+      }
+    }else{
+      this.AlertService.showWarning('No se puede eliminar una mesa que tenga platos listos')
     }
+   
   }
+
   addPlato(plato: Plato) {
 
     if (this.mesaActual.estado == 0) {
@@ -177,7 +238,10 @@ export class MesasComponent implements OnInit {
         pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0 }],
       };
 
-      this.PedidoService.guardarPedido(pedido).subscribe();
+      this.PedidoService.guardarPedido(pedido).subscribe(res=>{
+        this.pedidoTotal = (res as Pedido)      }
+        
+      );
     } else if (this.mesaActual.estado >= 1) {
       let pedidos = this.pedidoTotal.pedidos;
       const existPedido = pedidos.find(
@@ -228,7 +292,7 @@ export class MesasComponent implements OnInit {
   }
 
   cancelarPedido() {
-    console.log()
+
     this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa).subscribe(
       (res) => {
         this.clean();
@@ -261,11 +325,17 @@ export class MesasComponent implements OnInit {
       (pedido) => pedido.plato._id == idPlato
     );
     if (cantidadPedido.cantidad_pedido == 1) {
-      this.removePlato(idPlato);
+      if(cantidadPedido.cantidad_lista !=0){
+        this.removePlato(idPlato);
+      }
+      
     } else {
       this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map((pedido) => {
         if (idPlato == pedido.plato._id) {
-          pedido.cantidad_pedido -= 1;
+          if(pedido.cantidad_pedido>pedido.cantidad_lista){
+            pedido.cantidad_pedido -= 1;
+          }
+          
         }
         return pedido;
       });
@@ -279,7 +349,41 @@ export class MesasComponent implements OnInit {
     this.mesaActual = undefined;
   }
 
+  getColorPedido(pedido:Pedido){
+    let cambio = this.cambiosEstaticos.find(cE=>cE._id==pedido.id_mesa) 
+
+    if(cambio.cambio){
+      return "bg-info"
+    }else{
+      return ""
+    }
+   
+  }
+  cambiarValorCambio
+  (pedido:Pedido){
+    console.log(pedido);
+    let newCambiosEstaticos = this.cambiosEstaticos.map(cE=>{
+      if(cE._id==pedido.id_mesa){
+        cE.cambio = false;
+      }
+      return cE;
+    }) 
+    this.cambiosEstaticos = newCambiosEstaticos;
+  }
   applyFilterPlatos(event:Event){
 
+  }
+  listo(pedido:Pedido){
+    let servidos = 0
+    let pedidos = 0
+    pedido.pedidos.map(ped=>{
+      servidos += ped.cantidad_lista
+      pedidos += ped.cantidad_pedido
+    })
+    if(servidos==pedidos){
+      return true
+    }else{
+      return false
+    }
   }
 }
