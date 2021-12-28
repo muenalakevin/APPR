@@ -89,7 +89,7 @@ actualizarFiltroCategorias(){
     return ped.pedidos.length!=0
    
   })
-  console.log( this.pedidoSeleccionado);
+ 
   if( this.pedidoSeleccionado!=undefined){
     this.pedidoSeleccionado = this.pedidosFiltrados.find(pedFil=>this.pedidoSeleccionado.id_mesa==pedFil.id_mesa)
     if(this.pedidoSeleccionado!=undefined){
@@ -168,6 +168,7 @@ actualizarFiltroCategorias(){
     this.pedidoSeleccionado.pedidos=this.pedidoSeleccionado.pedidos.map(ped=>{
       if(ped.plato._id==pedido.plato._id){
         ped.cantidad_lista+=1
+        ped.cantidad_servida+=1
       }
       return ped
     })

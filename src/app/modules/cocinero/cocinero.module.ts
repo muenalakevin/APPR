@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,7 +29,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     MatDividerModule,
     MatListModule,
     Ng2SearchPipeModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
 
   ]
 })

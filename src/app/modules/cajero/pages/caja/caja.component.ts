@@ -1,3 +1,4 @@
+import { Plato } from './../../../../shared/models/plato';
 import { MesaService } from './../../../../core/services/mesa.service';
 import { MesaSeleccionada } from './../../../../shared/models/mesaSeleccionada';
 import { PedidoService } from './../../../../core/services/pedido.service';
@@ -8,7 +9,8 @@ import { PlatoPedido } from 'src/app/shared/models/platoPedido';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { MatDrawer } from '@angular/material/sidenav';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, CdkDragExit, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-caja',
@@ -22,17 +24,25 @@ export class CajaComponent implements OnInit {
   private pedidosSubscription: Subscription;
   private mesasSubscription: Subscription;
   pedidoSeleccionado:Pedido = new Pedido()
+  clientes:Array<any>=[]
+  stateCtrl = new FormControl();
+ 
+
   platosPedidos:PlatoPedido[] = []
   panelOpenState:boolean
   mesaActual:MesaSeleccionada
   pedidoTotal:Pedido  = new Pedido()
+  pedidoTotalAux:Pedido = new Pedido()
   mesas: MesaSeleccionada[] = [];
   constructor(
     private PedidoService:PedidoService,
     private MesaService:MesaService,
   ) { }
+  applyFilterPlatos(event:Event){
 
+  }
   ngOnInit(): void {
+
     this.MesaService.getMesas().subscribe((mesas) => {
       this.mesas = <MesaSeleccionada[]>mesas;
     });
@@ -49,6 +59,7 @@ export class CajaComponent implements OnInit {
           this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
             if (res != null) {
               this.pedidoTotal = res as Pedido;
+              this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
             }
           });
         } else {
@@ -59,15 +70,18 @@ export class CajaComponent implements OnInit {
     });
     this.PedidoService.getPedidos().subscribe((pedidos) => {
       this.pedidos = <Pedido[]>pedidos;
+
+          
     });
     this.pedidosSubscription = this.PedidoService.pedidos.subscribe(
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
-        /* this.actualizarFiltroCategorias() */
-        const pedidoFind = this.pedidos.find(ped=> ped.id_mesa == this.pedidoSeleccionado.id_mesa)
+     
+        const pedidoFind = this.pedidos.find(ped=> ped.id_mesa == this.pedidoTotal.id_mesa)
         
         if(pedidoFind!=null){
-          this.platosPedidos = pedidoFind.pedidos;
+          this.pedidoTotal = pedidoFind;
+          this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
         }
       })
 
@@ -88,7 +102,7 @@ export class CajaComponent implements OnInit {
           console.log(res)
           if(res!=undefined){
             this.pedidoTotal = res as Pedido;
-            console.log(this.pedidoTotal)
+            this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
           }
 
         });
@@ -105,16 +119,100 @@ export class CajaComponent implements OnInit {
     this.pedidoTotal = new Pedido()
     this.mesaActual = undefined;
   }
+  exited(event: CdkDragExit<string[]>) {
+    console.log('Exited', event.item.data);
+  }
   drop(event: CdkDragDrop<PlatoPedido[]>) {
+    let pedido = JSON.parse(JSON.stringify(event.previousContainer.data[event.previousIndex]));
+    console.log(event.previousContainer.data[event.previousIndex].cantidad_lista)
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      console.log("entra");
+     // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      if(this.pedidoTotal.pedidos.find(pTA=>pTA.plato._id==pedido.plato._id)!= undefined){
+        
+        this.pedidoTotal.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida += 1
+          }
+        })
+        if( this.pedidoTotalAux.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida>1){
+        this.pedidoTotalAux.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida -= 1
+          }
+        })
+      }else{
+        this.pedidoTotalAux.pedidos=this.pedidoTotalAux.pedidos.filter(ped=>ped.plato._id!=pedido.plato._id)
+      }
+      }else{
+        pedido.cantidad_servida=1
+        this.pedidoTotal.pedidos.push(pedido)
+        this.pedidoTotalAux.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida -= 1
+          }
+        })
+      }
+      
     }
+  }
+  dropAux(event: CdkDragDrop<PlatoPedido[]>) {
+    let pedido = JSON.parse(JSON.stringify(event.previousContainer.data[event.previousIndex]));
+    console.log(event.previousContainer.data[event.previousIndex].cantidad_lista)
+    if (event.previousContainer === event.container) {
+      console.log("entra");
+     // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      if(this.pedidoTotalAux.pedidos.find(pTA=>pTA.plato._id==pedido.plato._id)!= undefined){
+        
+        this.pedidoTotalAux.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida += 1
+          }
+        })
+        if( this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida>1){
+        this.pedidoTotal.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida -= 1
+          }
+        })
+      }else{
+        this.pedidoTotal.pedidos=this.pedidoTotal.pedidos.filter(ped=>ped.plato._id!=pedido.plato._id)
+      }
+      }else{
+        pedido.cantidad_servida=1
+        this.pedidoTotalAux.pedidos.push(pedido)
+        this.pedidoTotal.pedidos.map(ped=>{
+          if(ped.plato._id==pedido.plato._id){
+              ped.cantidad_servida -= 1
+          }
+        })
+      }
+      
+    }
+  }
+
+  getColor(mesa:Mesa){
+    const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
+    if(pedido!=undefined ){
+        return "text-secondary"
+    }else{
+        return "text-primary"
+    }
+    
+    
+
+  }
+  cantidadPedido(pedido:PlatoPedido){
+    let encontrado = this.pedidoTotalAux.pedidos.find(ped=>ped.plato._id == pedido.plato._id)
+    if(encontrado!=undefined){
+      return pedido.cantidad_servida - encontrado.cantidad_servida
+    }else{
+     return  pedido.cantidad_servida
+    }
+  }
+  cantidadPedidoAux(pedido:PlatoPedido){
+
   }
 }

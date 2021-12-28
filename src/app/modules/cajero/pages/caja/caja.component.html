@@ -19,8 +19,10 @@
                       
                 
                     <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
-                    <h5>Cantidad pedida: {{pedido.cantidad_pedido}}</h5>
-                    <h5>Listos: {{pedido.cantidad_servida}}</h5>
+                <h5>Cantidad consumida: {{pedido.cantidad_lista}}</h5>
+                <h5>faltantes de pagar: </h5>
+                <input type="text" class="bg-secondary text-white text-center" disabled value="{{pedido.cantidad_servida}}">
+         
                 </mat-card>
                 </div>
                 </div>
@@ -29,22 +31,52 @@
             </div>
             
             <div class="col-8 container mt-3">
-                <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
-                    Cerrar
-                  </button><br>
+                <div class="d-flex justify-content-end">
+                    <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
+                        Cerrar
+                      </button>
+                </div>
+ 
+                  <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                     Seleccionar cliente
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <input class="form-control" id="myInput" type="text" placeholder="buscar..">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      <button class="btn btn-primary w-100">Crear cliente</button>
+                    </ul>
+                  </div>
+<div class="row">
+    <div class="col-6"><p>Nombre: </p></div>
+    <div class="col-6"> <p>Direccion: </p></div>
+</div>
+<div class="row">
+    <div class="col-6"> <p>Cedula/ruc: </p></div>
+    <div class="col-6">  <p>fecha: </p></div>
+</div>
+                
+               
+               
+              
 
              <div
         cdkDropList
-        [cdkDropListData]=" pedidoSeleccionado.pedidos"
+
+        [cdkDropListData]=" pedidoTotalAux.pedidos"
         class="example-list"
-        (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let pedido of pedidoSeleccionado.pedidos" cdkDrag>
+        (cdkDropListDropped)="dropAux($event)">
+        <div class="example-box" *ngFor="let pedido of pedidoTotalAux.pedidos" [cdkDragData]="pedido" cdkDrag>
             <mat-card >
                       
                 
                 <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
-                <h5>Cantidad pedida: {{pedido.cantidad_pedido}}</h5>
-                <h5>Listos: {{pedido.cantidad_servida}}</h5>
+            <h5>Cantidad consumida: {{pedido.cantidad_lista}}</h5>
+            <h5>faltantes de pagar: </h5>
+            <input type="text" class="bg-secondary text-white text-center" disabled value="{{pedido.cantidad_servida}}">
+     
             </mat-card>
         </div>
       </div>
@@ -69,7 +101,7 @@
               class="p-0"
             >
               <fa-icon
-             
+            
                 class="display-4 text-secondary mesa"
                 [icon]="faSquareIcon"
               ></fa-icon>
@@ -78,7 +110,7 @@
             <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
               
               <fa-icon
-           
+              [ngClass]="getColor(mesa)"
                 class="display-4  mesa"
                 [icon]="faSquareIcon"
               ></fa-icon>

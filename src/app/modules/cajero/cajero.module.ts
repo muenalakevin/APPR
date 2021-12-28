@@ -1,3 +1,4 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -15,6 +16,7 @@ import { CajeroComponent } from './cajero.component';
 import { CajaComponent } from './pages/caja/caja.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatSidenavModule,
     FontAwesomeModule,
     MatIconModule,
-    DragDropModule
+    DragDropModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    Ng2SearchPipeModule
   ]
 })
 export class CajeroModule { }
