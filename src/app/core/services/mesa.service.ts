@@ -28,6 +28,10 @@ export class MesaService {
     return this.http.get(environment.API_URL + '/mesa',this.httpOptions);
   }
 
+  getMesa(idMesa:string){
+    return this.http.get(environment.API_URL + '/mesa/'+idMesa,this.httpOptions);
+  }
+
   guardarMesa(mesa:Mesa){
     return this.http.post(environment.API_URL + '/mesa',{mesa},this.httpOptions);
   }

@@ -1,3 +1,5 @@
+import { ClientesComponent } from './pages/clientes/clientes.component';
+import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -64,7 +66,9 @@ import { SwiperModule } from "swiper/angular";
 
     AgregarMesaComponent,
     EditarMesaComponent,
-    AgregacionRapidaComponent
+    AgregacionRapidaComponent,
+    ConfiguracionComponent,
+    ClientesComponent
 
   ],
   imports: [

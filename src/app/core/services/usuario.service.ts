@@ -45,7 +45,8 @@ export class UsuarioService {
   editarUsuario(usuario:Usuario){
     return this.http.patch(environment.API_URL + '/usuario',{usuario},this.httpOptions);
   }
-
+  
+  
   
 /* 
   getUserById(id: number): Observable<ApiResponse> {

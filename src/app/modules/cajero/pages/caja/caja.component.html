@@ -1,125 +1,247 @@
-
-  <!-- ------------------------------------------------------------------------------------------------------- -->
-  <mat-drawer-container class="contenedor m-0" autosize>
-    <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
-      <div class="container-fliud row m-0 pl-0">
-        <div cdkDropListGroup class="container-fliud row m-0 cont">
-
-            <div class="col-4 bg-secondary contenedor-pedidos">
-              <div class="pedidos h-100">
-                <div
-            
-                cdkDropList
-                [cdkDropListData]="pedidoTotal.pedidos"
-                class="example-list"
-                
-                (cdkDropListDropped)="drop($event)">
-                <div *ngFor="let pedido of pedidoTotal.pedidos" cdkDrag   [cdkDragDisabled]="canDrag(pedido)" class="my-2" >
-                  <mat-card >
-                      
-                
-                    <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
-                <h5>Cantidad consumida: {{pedido.cantidad_lista}}</h5>
-                <h5>faltantes de pagar: </h5>
-                <input type="text" class="bg-secondary text-white text-center" disabled value="{{pedido.cantidad_servida}}">
-         
-                </mat-card>
-                </div>
-                </div>
-              </div>
-              
-            </div>
-            
-            <div class="col-8 container mt-3">
-                <div class="d-flex justify-content-end">
-                    <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
-                        Cerrar
-                      </button>
-                </div>
- 
-                  <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                     Seleccionar cliente
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <input class="form-control" id="myInput" type="text" placeholder="buscar..">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      <button class="btn btn-primary w-100">Crear cliente</button>
-                    </ul>
-                  </div>
-<div class="row">
-    <div class="col-6"><p>Nombre: </p></div>
-    <div class="col-6"> <p>Direccion: </p></div>
-</div>
-<div class="row">
-    <div class="col-6"> <p>Cedula/ruc: </p></div>
-    <div class="col-6">  <p>fecha: </p></div>
-</div>
-                
-               
-               
-              
-
-             <div
-        cdkDropList
-
-        [cdkDropListData]=" pedidoTotalAux.pedidos"
-        class="example-list"
-        (cdkDropListDropped)="dropAux($event)">
-        <div class="example-box" *ngFor="let pedido of pedidoTotalAux.pedidos" [cdkDragData]="pedido" cdkDrag>
-            <mat-card >
-                      
-                
-                <h5><b>Nombre: {{pedido.plato.nombre_plato}} </b></h5>
-            <h5>Cantidad consumida: {{pedido.cantidad_lista}}</h5>
-            <h5>faltantes de pagar: </h5>
-            <input type="text" class="bg-secondary text-white text-center" disabled value="{{pedido.cantidad_servida}}">
-     
-            </mat-card>
-        </div>
-      </div>
-            </div>
-          </div>
-        </div>
-  
-    </mat-drawer>
-    <div class="container-fliud row m-0">
-      <div class="col-8 container mt-3">
-        <div class="row">
-          <div
-            *ngFor="let mesa of mesas; let index = index"
-            class="col col-sm-2 text-center"
-            (click)="seleccionarMesa(mesa)"
-          >
-            <button
-              *ngIf="mesa.estado == 1"
-              (click)="drawer.toggle()"
-              mat-button
-              matBadge="!"
-              class="p-0"
+<!-- ------------------------------------------------------------------------------------------------------- -->
+<mat-drawer-container class="contenedor m-0" autosize>
+  <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
+    <div class="container-fliud row m-0 pl-0">
+      <div cdkDropListGroup class="container-fliud row m-0 cont">
+        <div class="col-4 bg-secondary contenedor-pedidos">
+          <div class="pedidos h-100">
+            <div
+              cdkDropList
+              [cdkDropListData]="pedidoTotal.pedidos"
+              class="example-list2"
+              (cdkDropListDropped)="drop($event)"
             >
-              <fa-icon
-            
-                class="display-4 text-secondary mesa"
-                [icon]="faSquareIcon"
-              ></fa-icon>
+              <div
+                *ngFor="let pedido of pedidoTotal.pedidos"
+                cdkDrag
+                [cdkDragDisabled]="canDrag(pedido)"
+                class="my-2"
+              >
+                <mat-card>
+                  <div class="row">
+                    <div class="col-9">
+                      <h5>
+                        <b>Nombre: {{ pedido.plato.nombre_plato }} </b>
+                      </h5>
+                      <h5>Cantidad Consumida: {{ pedido.cantidad_lista }}</h5>
+                      <h5>
+                        Precio U.: {{ pedido.plato.precio_plato | currency }}
+                      </h5>
+                      <input
+                        type="text"
+                        class="bg-secondary text-white text-center"
+                        disabled
+                        value="{{ pedido.cantidad_servida }}"
+                      />
+                    </div>
+                    <div class="col-3">
+                      <button
+                        (click)="movePedidoPago(pedido)"
+                        class="h-100 btn btn-dark text-center"
+                      >
+                        >
+                      </button>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-8 container mt-3">
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              mat-raised-button
+              color="primary"
+              (click)="clean()"
+            >
+              Cerrar
             </button>
-  
-            <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
-              
-              <fa-icon
-              [ngClass]="getColor(mesa)"
-                class="display-4  mesa"
-                [icon]="faSquareIcon"
-              ></fa-icon>
+          </div>
+
+          <div class="dropdown">
+            <button
+              class="btn btn-dark dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Seleccionar cliente
             </button>
-            <p>{{ mesa.nombre_mesa }}</p>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <input
+                class="form-control"
+                id="myInput"
+                type="text"
+                [formControl]="search"
+                (keyup)="applyFilterPlatos($event)"
+                placeholder="buscar.."
+              />
+              <li
+                *ngFor="
+                  let cliente of clientes | filter: search.value;
+                  let i = index
+                "
+              >
+                <a
+                  class="dropdown-item"
+                  [routerLink]=""
+                  (click)="seleccionarCliente(cliente)"
+                  *ngIf="i < 3"
+                >
+                  {{ cliente.cedRuc_cliente }} - {{ cliente.nombre_cliente }}
+                  {{ cliente.apellido_cliente }}</a
+                >
+              </li>
+              <button class="btn btn-primary w-100" (click)="openDialogCrear()">
+                Crear cliente
+              </button>
+            </ul>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button
+              class="btn btn-dark text-white"
+              *ngIf="clienteSelected.nombre_cliente != ''"
+            >
+              Editar cliente
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b>Nombre:</b> {{ clienteSelected.nombre_cliente }}</p>
+            </div>
+            <div class="col-6">
+              <p><b>Apellido:</b> {{ clienteSelected.apellido_cliente }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b>Cedula/ruc:</b> {{ clienteSelected.cedRuc_cliente }}</p>
+            </div>
+            <div class="col-6">
+              <p><b>Direccion:</b> {{ clienteSelected.direccion_cliente }}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b>correo:</b> {{ clienteSelected.correo_cliente }}</p>
+            </div>
+            <div class="col-6">
+              <p><b>fecha:</b> {{ dateNow() }}</p>
+            </div>
+          </div>
+          <div>
+            <p>Forma de pago</p>
+            <select class="form-select" aria-label="Default select example"  [formControl]="pagoSelect">
+              <option selected>Efectivo</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+
+          <div
+            cdkDropList
+            [cdkDropListData]="pedidoTotalAux.pedidos"
+            class="example-list"
+            (cdkDropListDropped)="dropAux($event)"
+          >
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Regresar</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Precio U.</th>
+                  <th scope="col">Precio T.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="example-box"
+                  *ngFor="let pedido of pedidoTotalAux.pedidos"
+                  [cdkDragData]="pedido"
+                  cdkDrag
+                >
+                  <th scope="row">
+                    <button
+                      (click)="movePedidoTotal(pedido)"
+                      class="h-100 btn btn-dark text-center"
+                    >
+                      <
+                    </button>
+                  </th>
+                  <td>{{ pedido.plato.nombre_plato }}</td>
+                  <td>{{ pedido.cantidad_servida }}</td>
+                  <td>{{ pedido.plato.precio_plato | currency }}</td>
+                  <td>
+                    {{
+                      pedido.plato.precio_plato * pedido.cantidad_servida
+                        | currency
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <div class="row">
+              <div class="col-6 text-end">Sub total:</div>
+              <div class="col-6 text-center">{{ total | currency }}</div>
+              <div class="col-6 text-end">Iva:</div>
+              <div class="col-6 text-center">{{ total * 0.12 | currency }}</div>
+              <div class="col-6 text-end">Total:</div>
+              <div class="col-6 text-center">{{ total * 1.12 | currency }}</div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end my-5">
+            <button
+              class="btn btn-dark px-5"
+              *ngIf="canPay()"
+              (click)=" pagar()"
+            >
+              Pagar
+            </button>
           </div>
         </div>
       </div>
-
     </div>
-  </mat-drawer-container>
-  
+  </mat-drawer>
+  <div class="container-fliud row m-0">
+    <div class="col-8 container mt-3">
+      <div class="row">
+        <div
+          *ngFor="let mesa of mesas; let index = index"
+          class="col col-sm-2 text-center"
+          (click)="seleccionarMesa(mesa)"
+        >
+          <button
+            *ngIf="mesa.estado == 2"
+         
+            mat-button
+            matBadge="!"
+            class="p-0"
+          >
+            <fa-icon
+              class="display-4 text-secondary mesa"
+              [icon]="faSquareIcon"
+            ></fa-icon>
+          </button>
+
+          <button *ngIf="mesa.estado != 2" mat-button>
+            <fa-icon
+              [ngClass]="getColor(mesa)"
+              class="display-4 mesa"
+              [icon]="faSquareIcon"
+            ></fa-icon>
+          </button>
+          <p>{{ mesa.nombre_mesa }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

@@ -5,6 +5,7 @@ export class Pedido {
   public horaDeEnvio:Date
   public horaDeEntrega:Date
   public pedidos:PlatoPedido[]
+  public estado:number
     constructor(
 
 
@@ -14,5 +15,6 @@ export class Pedido {
       this.horaDeEnvio = new Date
       this.horaDeEntrega = new Date
       this.pedidos = []
+      this.estado = 0
     }
 }

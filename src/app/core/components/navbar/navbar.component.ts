@@ -5,7 +5,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, Route } from "@angular/router";
-  import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faSquare,faFish } from '@fortawesome/free-solid-svg-icons';
+  import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faSquare,faFish,faCogs,faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import {   } from '@fortawesome/fontawesome-svg-core';
 import { } from '@fortawesome/free-brands-svg-icons';
 import {  } from '@fortawesome/free-regular-svg-icons';
@@ -22,6 +22,8 @@ export class NavbarComponent implements OnInit {
   userIcon=faUser;
   hamburgerIcon =faHamburger
   utensilsIcon=faUtensils
+  cogsIcon=faCogs
+  userFriendsIcon=faUserFriends
   cashRegisterIcon=faCashRegister
   usersIcon =faUsers;
   fish= faFish

@@ -1,3 +1,4 @@
+import { MesaService } from './../../../../core/services/mesa.service';
 import { CategoriaCocinero } from './../../../../shared/models/categoriasCocinero';
 import { CocineroService } from './../../../../core/services/cocinero.service';
 import { CategoriaService } from './../../../../core/services/categoria.service';
@@ -10,6 +11,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 
 import { PedidoService } from './../../../../core/services/pedido.service';
+import { Mesa } from 'src/app/shared/models/mesa';
 
 @Component({
   selector: 'app-cocina',
@@ -30,6 +32,7 @@ export class CocinaComponent implements OnInit {
     private cdRef:ChangeDetectorRef,
     private CategoriaService:CategoriaService,
     private CocineroService:CocineroService,
+    private MesaService:MesaService,
   ) { }
   ngAfterViewChecked()
 {
@@ -164,15 +167,40 @@ actualizarFiltroCategorias(){
     this.platosPedidos = pedido.pedidos;
   }
   modificarPedido(pedido:PlatoPedido){
-   
+    let pedidos = 0
+    let listos = 0
     this.pedidoSeleccionado.pedidos=this.pedidoSeleccionado.pedidos.map(ped=>{
       if(ped.plato._id==pedido.plato._id){
         ped.cantidad_lista+=1
         ped.cantidad_servida+=1
       }
+      pedidos += ped.cantidad_pedido
+      listos +=ped.cantidad_lista
       return ped
     })
-    this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+  if(pedidos >= listos){
+
+    if(pedidos == listos){
+   
+      let mesa:MesaSeleccionada 
+      this.MesaService.getMesa(this.pedidoSeleccionado.id_mesa).subscribe(res=>{mesa=(res as MesaSeleccionada)
+        if(mesa.estado!=4){
+          mesa.estado = 4
+          this.MesaService.editarMesa(mesa).subscribe()
+          this.pedidoSeleccionado.horaDeEntrega = new Date(Date.now());
+          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+        }else{
+          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+        }
+      
+      })
+   
+    }else{
+      this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+    }
+    
+       
+  }
 
   }
   expanded = false;

@@ -1,3 +1,6 @@
+import { CrearClienteComponent } from './components/crearCliente/crearCliente.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -21,7 +24,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     CajeroComponent,
-    CajaComponent
+    CajaComponent,
+    CrearClienteComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     DragDropModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    Ng2SearchPipeModule
+    MatInputModule,
+    MatDialogModule
   ]
 })
 export class CajeroModule { }

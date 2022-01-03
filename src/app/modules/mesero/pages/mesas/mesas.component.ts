@@ -41,6 +41,7 @@ export class MesasComponent implements OnInit {
   platos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
   dateNow:Date
+  pedidoTotal: Pedido = new Pedido()
   pedidoForm: FormGroup = new FormGroup({
     observacion: new FormControl(null),
   });
@@ -97,15 +98,18 @@ export class MesasComponent implements OnInit {
         this.mesaActual = this.mesas.find(
           (mesa) => this.mesaActual._id == mesa._id
         );
-        if (this.mesaActual.estado != 0) {
-          this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
-            if (res != null) {
-              this.pedidoTotal = res as Pedido;
-            }
-          });
-        } else {
+        if (this.mesaActual.estado >=0 && this.mesaActual.estado <= 1) {
           this.clean();
           this.drawer.toggle();
+          
+        } else {
+          this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
+         
+            if (res != null) {
+              this.pedidoTotal = res as Pedido;
+
+            }
+          });
         }
       }
     });
@@ -121,14 +125,13 @@ export class MesasComponent implements OnInit {
     );
     this.PedidoService.getPedidos().subscribe((pedidos) => {
       this.pedidos = <Pedido[]>pedidos;
-      console.log(this.pedidos);
       this.actualizarCambiosEstaticos()
     });
 
     this.pedidosSubscription = this.PedidoService.pedidos.subscribe(
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
-        console.log("solicitud");
+       
         this.actualizarCambiosEstaticos()
       }
     );
@@ -142,6 +145,7 @@ export class MesasComponent implements OnInit {
   }
   openMesa() {}
   actualizarCambiosEstaticos(){
+
     this.pedidos.map(ped=>{
       let cambioEstatico = this.cambiosEstaticos.find(cE => cE._id==ped.id_mesa)
       if(cambioEstatico!=null){
@@ -150,6 +154,7 @@ export class MesasComponent implements OnInit {
              let plato=cambioEstatico.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id && cE._id==cambioEstatico._id)
              let plato2=ped.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id&& cE._id==cambioEstatico._id)
             if(plato!=undefined && plato2!=undefined){
+              console.log(plato.cantidad_lista,plato2.cantidad_lista);
               if(plato.cantidad_lista!=plato2.cantidad_lista){
                 cE.cambio=true;
             }
@@ -168,8 +173,11 @@ export class MesasComponent implements OnInit {
   }
   sendPedido() {
     this.pedidoTotal.observacion = this.pedidoForm.value.observacion
-    this.PedidoService.enviarPedido(this.pedidoTotal).subscribe((res) => {});
-    this.drawer.toggle()
+    console.log(this.pedidoTotal);
+    this.PedidoService.enviarPedido(this.pedidoTotal).subscribe((res) => {
+      this.drawer.toggle()
+    });
+ 
   }
   getColor(mesa:Mesa){
     const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
@@ -180,15 +188,21 @@ export class MesasComponent implements OnInit {
       timeDiff /= 1000;
       timeDiff = Math.floor(timeDiff / 60);
       const minutes = Math.round(timeDiff % 60);
-      if(minutes<=5){
-        return "text-success"
-     }else if(minutes<=10){
-      return "text-warning"
-     }else if(minutes<=15){
-      return "text-danger"
-     }else{
-      return "text-dark"
-     }
+      const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
+      if(mesa.estado!=4){
+        if(minutes<=5){
+          return "text-success"
+       }else if(minutes<=10){
+        return "text-warning"
+       }else if(minutes<=15){
+        return "text-danger"
+       }else{
+        return "text-dark"
+       }
+      }else{
+        return "text-secondary"
+      }
+      
     }else{
       return "text-primary"
     }
@@ -198,7 +212,7 @@ export class MesasComponent implements OnInit {
   }
   enviado(){
     if(this.mesaActual!= undefined){
-      if( this.mesaActual.estado < 2){
+      if( this.mesaActual.estado < 3){
         return true
       }else{
         return false
@@ -208,7 +222,7 @@ export class MesasComponent implements OnInit {
     }
 
   }
-  pedidoTotal: Pedido = new Pedido()
+
   removePlato(idPlato: string) {
     let plato = this.pedidoTotal.pedidos.find(ped=> ped.plato._id==idPlato)
     if(plato.cantidad_lista==0){
@@ -227,14 +241,15 @@ export class MesasComponent implements OnInit {
   }
 
   addPlato(plato: Plato) {
-
-    if (this.mesaActual.estado == 0) {
+   
+    if (this.mesaActual.estado >= 0 && this.mesaActual.estado <= 1 ) {
 
       const pedido: Pedido = {
         id_mesa: this.mesaActual._id,
         observacion: this.pedidoForm.value.observacion,
         horaDeEnvio:null,
         horaDeEntrega:null,
+        estado:1,
         pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0 }],
       };
 
@@ -242,7 +257,8 @@ export class MesasComponent implements OnInit {
         this.pedidoTotal = (res as Pedido)      }
         
       );
-    } else if (this.mesaActual.estado >= 1) {
+    } else if (this.mesaActual.estado >= 2) {
+
       let pedidos = this.pedidoTotal.pedidos;
       const existPedido = pedidos.find(
         (pedido) => pedido.plato._id == plato._id
@@ -265,20 +281,23 @@ export class MesasComponent implements OnInit {
     //this.platosAdd.push(plato)
   }
   seleccionarMesa(mesa: MesaSeleccionada) {
+
     this.mesaActual = mesa;
     if (this.mesaActual != undefined) {
       console.log(this.mesaActual)
-      if (this.mesaActual.estado >= 1) {
+      if (this.mesaActual.estado >= 2) {
         this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
           if(res!=undefined){
+            
             this.pedidoTotal = res as Pedido;
-            console.log(this.pedidoTotal)
+        
           }
 
         });
       }else{
         this.pedidoTotal = new Pedido()
         this.pedidoForm.reset();
+        console.log("e",this.pedidoTotal);
       }
     }
   }

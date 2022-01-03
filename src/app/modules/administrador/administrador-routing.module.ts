@@ -1,3 +1,5 @@
+import { ClientesComponent } from './pages/clientes/clientes.component';
+import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
 import { MesasComponent } from './pages/mesas/mesas.component';
 import { PlatosComponent } from './pages/platos/platos.component';
 import { ReportesComponent } from './pages/reportes/reportes.component';
@@ -14,6 +16,8 @@ const routes: Routes = [{ path: '', redirectTo:"reportes" },
 {path: 'reportes', component: ReportesComponent },
 { path: 'platos', component: PlatosComponent },
 { path: 'mesas', component: MesasComponent },
+{ path: 'clientes', component: ClientesComponent },
+{ path: 'configuracion', component: ConfiguracionComponent },
 ];
 
 @NgModule({

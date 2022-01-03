@@ -1,0 +1,47 @@
+<mat-tab-group>
+  <mat-tab label="Generales"> Generales</mat-tab>
+  <mat-tab label="Mesero">
+    <div class="container">
+      <form action="">
+        <mat-checkbox
+          color="primary"
+          [checked]="meseroConfig.get('nombre_cliente').value"
+          class="example-margin"
+        >
+          Un mesero podra editar la mesa de otro mesero a cargo de dicha mesa.
+        </mat-checkbox>
+      </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Cocina"> Cocina </mat-tab>
+  <mat-tab label="Cajero">
+    <div class="container">
+      <form action="" [formGroup]="configuracionCaja">
+        <h5>Iva</h5>
+        <mat-form-field appearance="outline">
+          <mat-label>Porcentaje de Iva</mat-label>
+          <input matInput type="number" placeholder="Iva" />
+          <mat-icon matSuffix>%</mat-icon>
+        </mat-form-field>
+        <h5>Metodos de pago</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre del Método de Pago</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr  *ngFor="let control of skills.controls; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td> <mat-form-field>
+              <input matInput [formControl]="$any(skills.controls[i])" />
+            </mat-form-field></td>
+            <td><button mat-raised-button color="warn" >-</button></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </mat-tab>
+</mat-tab-group>

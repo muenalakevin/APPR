@@ -151,7 +151,7 @@
           (click)="seleccionarMesa(mesa)"
         >
           <button
-            *ngIf="mesa.estado == 1"
+            *ngIf="mesa.estado == 2"
             (click)="drawer.toggle()"
             mat-button
             matBadge="!"
@@ -164,7 +164,7 @@
             ></fa-icon>
           </button>
 
-          <button *ngIf="mesa.estado != 1" mat-button (click)="drawer.toggle()">
+          <button *ngIf="mesa.estado != 2" mat-button (click)="drawer.toggle()">
             
             <fa-icon
             [ngClass]="getColor(mesa)"
