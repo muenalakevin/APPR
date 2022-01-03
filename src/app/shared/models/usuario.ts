@@ -5,7 +5,9 @@ export class  Usuario {
         public  usuario_usuario: string,
         public  correo_usuario: string,
         public contrasenia_usuario:string,
-        public rol_usuario:string
+        public rol_usuario:string,
+        public estado_usuario:number,
+
     ){}
-  
+
 }

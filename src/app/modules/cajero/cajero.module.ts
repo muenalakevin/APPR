@@ -20,12 +20,14 @@ import { CajaComponent } from './pages/caja/caja.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { EditarClienteComponent } from './components/editarCliente/editarCliente.component';
 
 @NgModule({
   declarations: [
     CajeroComponent,
     CajaComponent,
-    CrearClienteComponent
+    CrearClienteComponent,
+    EditarClienteComponent
   ],
   imports: [
     CommonModule,

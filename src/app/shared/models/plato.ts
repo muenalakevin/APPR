@@ -5,6 +5,7 @@ export class Plato {
         public descripcion_plato:string,
         public receta_plato:string,
         public precio_plato:number,
-        public categorias_plato:string[]
+        public categorias_plato:string[],
+        public estado_plato:number
     ){}
 }

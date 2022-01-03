@@ -52,7 +52,7 @@ export class AgregarCategoriaComponent implements OnInit {
     if(this.categoriaForm.get('descripcion_categoria').errors?.['required']){
       mensajeWarnign += "Falta descripcion de categoría. <br/>"
     }
-    
+
 
 
     if(mensajeWarnign == ''){
@@ -61,6 +61,7 @@ export class AgregarCategoriaComponent implements OnInit {
         _id:"",
         nombre_categoria: this.categoriaForm.value.nombre_categoria,
             descripcion_categoria:  this.categoriaForm.value.descripcion_categoria,
+            estado_categoria:0
       }
       this.dialogRef.close()
       this.CategoriaService.guardarCategoria(categoria).subscribe(
@@ -69,11 +70,11 @@ export class AgregarCategoriaComponent implements OnInit {
           this.AlertService.showErrorServidor()
         }
       );
-     
+
     }else{
       this.AlertService.showWarning(mensajeWarnign)
     }
-    
-    
+
+
   }
 }

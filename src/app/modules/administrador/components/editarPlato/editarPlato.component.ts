@@ -62,7 +62,7 @@ export class EditarPlatoComponent implements OnInit {
           )
       }) */
       const newCategoriSelected = this.data.categorias.filter(
-        categoria=> this.data.plato.categorias_plato.find(categoriaId=>categoriaId==categoria._id) 
+        categoria=> this.data.plato.categorias_plato.find(categoriaId=>categoriaId==categoria._id)
       )
       console.log(newCategoriSelected);
     this.platoForm = new FormGroup({
@@ -94,10 +94,10 @@ export class EditarPlatoComponent implements OnInit {
     }
     if (this.platoForm.get('descripcion_plato').errors?.['required']) {
       mensajeWarnign += 'Falta descripción de plato. <br/>';
-    } 
+    }
     if (this.platoForm.get('receta_plato').errors?.['required']) {
       mensajeWarnign += 'Falta receta de plato. <br/>';
-    } 
+    }
 
 
    /*  if (this.validatoMinLength()) {
@@ -114,9 +114,14 @@ export class EditarPlatoComponent implements OnInit {
         precio_plato: this.platoForm.value.precio_plato,
         categorias_plato: this.platoForm.value.categorias_plato.map(
           (categoria: CategoriaPlato) => {
+            if(categoria.estado_categoria== 0){
+              categoria.estado_categoria = 1
+              this.CategoriaService.editarCategoria(categoria).subscribe();
+            }
             return categoria._id;
           }
         ),
+        estado_plato:this.data.plato.estado_plato
       };
 
       this.dialogRef.close();
@@ -148,7 +153,7 @@ export class EditarPlatoComponent implements OnInit {
     return this.platoForm.get('categorias_plato').value.length == 0;
   }
   isSelected(categoria: CategoriaPlato) {
-    const categoriaFind = this.platoForm.value.categorias_plato.find((categoriaId:CategoriaPlato)=>categoriaId._id==categoria._id) 
+    const categoriaFind = this.platoForm.value.categorias_plato.find((categoriaId:CategoriaPlato)=>categoriaId._id==categoria._id)
 
 
     if (categoriaFind != null) {
@@ -179,6 +184,6 @@ export class EditarPlatoComponent implements OnInit {
   captureFile(event:Event):any{
     const archivoCapturado = <File>(event.target as HTMLInputElement).files[0]
     this.PlatoService.subirFoto(archivoCapturado).subscribe(res=>console.log(res))
-    
+
   }
 }

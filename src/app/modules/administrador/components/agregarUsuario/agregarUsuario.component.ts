@@ -14,7 +14,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
   selector: 'app-agregarUsuario',
   templateUrl: './agregarUsuario.component.html',
   styleUrls: ['./agregarUsuario.component.css'],
-  
+
 })
 export class AgregarUsuarioComponent implements OnInit {
   visible = true;
@@ -30,7 +30,7 @@ export class AgregarUsuarioComponent implements OnInit {
   async ifExistUser() {
     clearTimeout(this.timeOutUsername);
     this.timeOutUsername = setTimeout(()=>{this.UsuarioService.searchUser( this.usuarioForm.value.usuario_usuario).subscribe(resp=>{
-      this.existUser= true 
+      this.existUser= true
     },
       err=> this.existUser=false
     )}, 1000);
@@ -41,13 +41,13 @@ export class AgregarUsuarioComponent implements OnInit {
     console.log("si");
     clearTimeout(this.timeOutEmaul);
     this.timeOutEmaul = setTimeout(()=>{this.UsuarioService.searchEmail( this.usuarioForm.value.correo_usuario).subscribe(resp=>{
-      this.existEmail= true 
-      
+      this.existEmail= true
+
     },
       err=> this.existEmail=false
     )}, 1000);
   }
-  
+
   constructor(
     private RolService:RolService,
     private AlertService:AlertService,
@@ -68,7 +68,7 @@ export class AgregarUsuarioComponent implements OnInit {
       contrasenia_usuario: new FormControl(null, [
         Validators.required,
         Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"),
-      
+
 
       ]),
       rol_usuario: new FormControl(null, [
@@ -99,7 +99,7 @@ export class AgregarUsuarioComponent implements OnInit {
     }else  if(this.usuarioForm.get('usuario_usuario').errors?.['pattern']){
       mensajeWarnign += "Usuario solo puede contener letras.<br/>"
     }
-    
+
     if(this.usuarioForm.get('contrasenia_usuario').errors?.['required']){
       mensajeWarnign += "Falta contraseña de usuario. <br/>"
     }else if(this.usuarioForm.get('contrasenia_usuario').errors?.['pattern']){
@@ -118,12 +118,13 @@ export class AgregarUsuarioComponent implements OnInit {
     if(mensajeWarnign == ''){
 
       const usuario:UsuarioEnviar = {
-      
+
         nombre_usuario: this.usuarioForm.value.nombre_usuario,
             usuario_usuario:  this.usuarioForm.value.usuario_usuario,
             correo_usuario:  this.usuarioForm.value.correo_usuario,
            contrasenia_usuario:  this.usuarioForm.value.contrasenia_usuario,
-           rol_usuario: this.usuarioForm.value.rol_usuario
+           rol_usuario: this.usuarioForm.value.rol_usuario,
+           estado_usuario:0
       }
       this.dialogRef.close()
       this.UsuarioService.guardarUsuario(usuario).subscribe(
@@ -132,12 +133,12 @@ export class AgregarUsuarioComponent implements OnInit {
           this.AlertService.showErrorServidor()
         }
       );
-     
+
     }else{
       this.AlertService.showWarning(mensajeWarnign)
     }
-    
-    
+
+
   }
-  
+
 }

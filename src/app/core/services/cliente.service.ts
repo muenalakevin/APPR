@@ -23,6 +23,9 @@ constructor(
       guardarCliente(cliente:Cliente){
         return this.http.post(environment.API_URL + '/cliente',{cliente},this.httpOptions);
       }
+      editarCliente(cliente:Cliente){
+        return this.http.patch(environment.API_URL + '/cliente',{cliente},this.httpOptions);
+      }
       getClientes(){
         return this.http.get(environment.API_URL + '/cliente',this.httpOptions);
       }

@@ -50,6 +50,7 @@ export class AgregarPlatoComponent implements OnInit {
     private RolService: RolService,
     private AlertService: AlertService,
     private PlatoService: PlatoService,
+    private CategoriaService: CategoriaService,
     public dialogRef: MatDialogRef<AgregarPlatoComponent>,
     private FormBuilder:FormBuilder,
     private ngZone: NgZone,
@@ -63,11 +64,11 @@ export class AgregarPlatoComponent implements OnInit {
       descripcion_plato: new FormControl('', [Validators.required]),
       receta_plato: new FormControl('', [Validators.required]),
       precio_plato: new FormControl('', [Validators.required]),
-      categorias_plato:  new FormControl([], Validators.minLength(1)) 
+      categorias_plato:  new FormControl([], Validators.minLength(1))
 
     });
 
-  
+
   }
 
 
@@ -80,27 +81,32 @@ export class AgregarPlatoComponent implements OnInit {
     }
     if (this.platoForm.get('descripcion_plato').errors?.['required']) {
       mensajeWarnign += 'Falta descripción de plato. <br/>';
-    } 
+    }
     if (this.platoForm.get('receta_plato').errors?.['required']) {
       mensajeWarnign += 'Falta receta de plato. <br/>';
-    } 
+    }
 
-/* 
+/*
     if (this.validatoMinLength()) {
       mensajeWarnign += 'Falta categorias de plato. <br/>';
     } */
 
     if (mensajeWarnign == '') {
       const plato: Plato = {
-        
+
         _id: '',
         nombre_plato: this.platoForm.value.nombre_plato,
         descripcion_plato: this.platoForm.value.descripcion_plato,
         receta_plato: this.platoForm.value.receta_plato,
         precio_plato: this.platoForm.value.precio_plato,
         categorias_plato: this.platoForm.value.categorias_plato.map((categoria:CategoriaPlato)=>{
+          if(categoria.estado_categoria== 0){
+            categoria.estado_categoria = 1
+            this.CategoriaService.editarCategoria(categoria).subscribe();
+          }
           return categoria._id;
         })
+        ,estado_plato:0
       };
       this.dialogRef.close();
       this.PlatoService.guardarPlato(plato).subscribe(

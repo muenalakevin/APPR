@@ -36,7 +36,7 @@ export class EditarCategoriaComponent implements OnInit {
     public CategoriaService:CategoriaService,
     @Inject(MAT_DIALOG_DATA ) public data: {categoria: CategoriaPlato}) {
 
-      
+
       this.categoriaForm = new FormGroup({
         _id: new FormControl(this.data.categoria._id),
         nombre_categoria: new FormControl(this.data.categoria.nombre_categoria, [
@@ -46,11 +46,11 @@ export class EditarCategoriaComponent implements OnInit {
 
       });
 
-    
+
   }
 
   ngOnInit() {
-    
+
 
   }
   submitForm(){
@@ -61,7 +61,7 @@ export class EditarCategoriaComponent implements OnInit {
     if(this.categoriaForm.get('descripcion_categoria').errors?.['required']){
       mensajeWarnign += "Falta descripcion de categoría. <br/>"
     }
-    
+
 
     if(mensajeWarnign == ''){
 
@@ -69,6 +69,7 @@ export class EditarCategoriaComponent implements OnInit {
         _id:this.categoriaForm.value._id,
         nombre_categoria: this.categoriaForm.value.nombre_categoria,
             descripcion_categoria:  this.categoriaForm.value.descripcion_categoria,
+            estado_categoria:this.data.categoria.estado_categoria
       }
 
       this.dialogRef.close()
@@ -78,11 +79,11 @@ export class EditarCategoriaComponent implements OnInit {
           this.AlertService.showErrorServidor()
         }
       );
-     
+
     }else{
       this.AlertService.showWarning(mensajeWarnign)
     }
-    
-    
+
+
   }
 }

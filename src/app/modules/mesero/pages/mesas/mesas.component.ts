@@ -101,10 +101,10 @@ export class MesasComponent implements OnInit {
         if (this.mesaActual.estado >=0 && this.mesaActual.estado <= 1) {
           this.clean();
           this.drawer.toggle();
-          
+
         } else {
           this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
-         
+
             if (res != null) {
               this.pedidoTotal = res as Pedido;
 
@@ -131,11 +131,11 @@ export class MesasComponent implements OnInit {
     this.pedidosSubscription = this.PedidoService.pedidos.subscribe(
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
-       
+
         this.actualizarCambiosEstaticos()
       }
     );
-    
+
     this.PlatoService.getPlatos().subscribe((platos) => {
       this.platos = platos as Plato[];
     });
@@ -159,11 +159,11 @@ export class MesasComponent implements OnInit {
                 cE.cambio=true;
             }
             }
-            
+
           })
         })
       }else{
-        
+
         this.cambiosEstaticos.push({_id:ped.id_mesa,pedidos:ped.pedidos,cambio:false})
       }
     })
@@ -177,7 +177,7 @@ export class MesasComponent implements OnInit {
     this.PedidoService.enviarPedido(this.pedidoTotal).subscribe((res) => {
       this.drawer.toggle()
     });
- 
+
   }
   getColor(mesa:Mesa){
     const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
@@ -202,12 +202,12 @@ export class MesasComponent implements OnInit {
       }else{
         return "text-secondary"
       }
-      
+
     }else{
       return "text-primary"
     }
-    
-    
+
+
 
   }
   enviado(){
@@ -237,11 +237,14 @@ export class MesasComponent implements OnInit {
     }else{
       this.AlertService.showWarning('No se puede eliminar una mesa que tenga platos listos')
     }
-   
+
   }
 
   addPlato(plato: Plato) {
-   
+    if(plato.estado_plato == 0){
+      plato.estado_plato = 1
+      this.PlatoService.editarPlato(plato).subscribe();
+    }
     if (this.mesaActual.estado >= 0 && this.mesaActual.estado <= 1 ) {
 
       const pedido: Pedido = {
@@ -255,7 +258,7 @@ export class MesasComponent implements OnInit {
 
       this.PedidoService.guardarPedido(pedido).subscribe(res=>{
         this.pedidoTotal = (res as Pedido)      }
-        
+
       );
     } else if (this.mesaActual.estado >= 2) {
 
@@ -288,9 +291,9 @@ export class MesasComponent implements OnInit {
       if (this.mesaActual.estado >= 2) {
         this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
           if(res!=undefined){
-            
+
             this.pedidoTotal = res as Pedido;
-        
+
           }
 
         });
@@ -347,14 +350,14 @@ export class MesasComponent implements OnInit {
       if(cantidadPedido.cantidad_lista !=0){
         this.removePlato(idPlato);
       }
-      
+
     } else {
       this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map((pedido) => {
         if (idPlato == pedido.plato._id) {
           if(pedido.cantidad_pedido>pedido.cantidad_lista){
             pedido.cantidad_pedido -= 1;
           }
-          
+
         }
         return pedido;
       });
@@ -369,14 +372,14 @@ export class MesasComponent implements OnInit {
   }
 
   getColorPedido(pedido:Pedido){
-    let cambio = this.cambiosEstaticos.find(cE=>cE._id==pedido.id_mesa) 
+    let cambio = this.cambiosEstaticos.find(cE=>cE._id==pedido.id_mesa)
 
     if(cambio.cambio){
       return "bg-info"
     }else{
       return ""
     }
-   
+
   }
   cambiarValorCambio
   (pedido:Pedido){
@@ -386,7 +389,7 @@ export class MesasComponent implements OnInit {
         cE.cambio = false;
       }
       return cE;
-    }) 
+    })
     this.cambiosEstaticos = newCambiosEstaticos;
   }
   applyFilterPlatos(event:Event){

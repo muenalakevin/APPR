@@ -1,35 +1,38 @@
-import { ClienteService } from './../../../../core/services/cliente.service';
-import { Cliente } from './../../../../shared/models/cliente';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ClienteService } from 'src/app/core/services/cliente.service';
+import { Cliente } from 'src/app/shared/models/cliente';
 
 @Component({
-  selector: 'app-crearCliente',
-  templateUrl: './crearCliente.component.html',
-  styleUrls: ['./crearCliente.component.css']
+  selector: 'app-editarCliente',
+  templateUrl: './editarCliente.component.html',
+  styleUrls: ['./editarCliente.component.css']
 })
-export class CrearClienteComponent implements OnInit {
+export class EditarClienteComponent implements OnInit {
+
   clienteForm: FormGroup
   constructor(
     private ClienteService:ClienteService,
     private formBuilder:FormBuilder,
-    public dialogRef: MatDialogRef<CrearClienteComponent>,
+    public dialogRef: MatDialogRef<EditarClienteComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { cliente:Cliente}
   ) {
     this.clienteForm = this.formBuilder.group({
-      nombre_cliente: new FormControl(null, [
+      nombre_cliente: new FormControl(this.data.cliente.nombre_cliente, [
         Validators.required,
       ]),
-      apellido_cliente: new FormControl(null, [
+      apellido_cliente: new FormControl(this.data.cliente.apellido_cliente, [
         Validators.required
       ]),
-      cedRuc_cliente: new FormControl("", [
+      cedRuc_cliente: new FormControl(this.data.cliente.cedRuc_cliente, [
         Validators.required
       ]),
-      correo_cliente: new FormControl(null, [
+      correo_cliente: new FormControl(this.data.cliente.correo_cliente, [
         Validators.email,
       ]),
-      direccion_cliente: new FormControl(null, [
+      direccion_cliente: new FormControl(this.data.cliente.direccion_cliente, [
       ]),
 
 
@@ -38,25 +41,6 @@ export class CrearClienteComponent implements OnInit {
       	validator: this.MatchCedula
     	});
 
-  }
-
-  ngOnInit() {
-  }
- async submitForm(){
-    if(this.clienteForm.valid){
-      const cliente:Cliente = {
-            _id: "",
-            nombre_cliente:  this.clienteForm.value.nombre_cliente,
-            apellido_cliente:  this.clienteForm.value.apellido_cliente,
-            cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
-            correo_cliente: this.clienteForm.value.correo_cliente,
-            direccion_cliente: this.clienteForm.value.direccion_cliente,
-      }
-      await this.ClienteService.guardarCliente(cliente).subscribe(res=>{
-        this.dialogRef.close({cliente:res})
-      })
-
-    }
   }
   MatchCedula(clienteForm: AbstractControl):ValidationErrors | null {
     let cedula = clienteForm.get('cedRuc_cliente').value; // to get value in input tag
@@ -149,7 +133,26 @@ export class CrearClienteComponent implements OnInit {
     }
     return null */
 }
-  validarCedula(cedula:string){
+  ngOnInit() {
+  }
+ async submitForm(){
+    if(this.clienteForm.valid){
+      const cliente:Cliente = {
+            _id: this.data.cliente._id,
+            nombre_cliente:  this.clienteForm.value.nombre_cliente,
+            apellido_cliente:  this.clienteForm.value.apellido_cliente,
+            cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
+            correo_cliente: this.clienteForm.value.correo_cliente,
+            direccion_cliente: this.clienteForm.value.direccion_cliente,
+      }
+      await this.ClienteService.editarCliente(cliente).subscribe(res=>{
+
+        this.dialogRef.close({cliente:cliente})
+      })
+
+    }
+  }
+  validarCedula(cedula:string):boolean{
     if(cedula.length == 10){
 
       //Obtenemos el digito de la region que sonlos dos primeros digitos

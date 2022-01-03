@@ -62,18 +62,18 @@ export class EditarUsuarioComponent implements OnInit {
         ]),
         contrasenia_usuario: new FormControl(null, [
           Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-  
+
         ]),
         rol_usuario: new FormControl(this.rolSelect, [
           Validators.required,
         ]),
       });
     })
-    
+
   }
 
   ngOnInit() {
-    
+
 
   }
   submitForm(){
@@ -95,9 +95,9 @@ export class EditarUsuarioComponent implements OnInit {
       if(this.usuarioForm.get('contrasenia_usuario').errors?.['pattern']){
         mensajeWarnign += "Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.<br/>"
       }
-  
+
     }
-    
+
     if(this.usuarioForm.get('rol_usuario').errors?.['required']){
       mensajeWarnign += "Falta rol de usuario. <br/>"
     }
@@ -109,7 +109,8 @@ export class EditarUsuarioComponent implements OnInit {
             usuario_usuario:  this.usuarioForm.value.usuario_usuario,
             correo_usuario:  this.usuarioForm.value.correo_usuario,
            contrasenia_usuario:  this.usuarioForm.value.contrasenia_usuario,
-           rol_usuario: this.usuarioForm.value.rol_usuario
+           rol_usuario: this.usuarioForm.value.rol_usuario,
+           estado_usuario: this.data.usuario.estado_usuario
       }
       console.log(usuario)
       this.dialogRef.close()
@@ -119,11 +120,11 @@ export class EditarUsuarioComponent implements OnInit {
           this.AlertService.showErrorServidor()
         }
       );
-     
+
     }else{
       this.AlertService.showWarning(mensajeWarnign)
     }
-    
-    
+
+
   }
 }
