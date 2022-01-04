@@ -235,11 +235,12 @@ export class CajaComponent implements OnInit {
         })
       }
       }else{
-        pedido.cantidad_servida=1
-
         if(pedido.cantidad_servida==1){
           this.pedidoTotal.pedidos=this.pedidoTotal.pedidos.filter(ped=>ped.plato._id!=pedido.plato._id)
         }
+        pedido.cantidad_servida=1
+
+
         this.pedidoTotalAux.pedidos.push(pedido)
 
         this.pedidoTotalPagar.pedidos.map(ped=>{
@@ -399,10 +400,11 @@ if(month < 10){
         this.pedidoTotalAux.pedidos=this.pedidoTotalAux.pedidos.filter(ped=>ped.plato._id!=pedido.plato._id)
       }
       }else{
-        pedido.cantidad_servida=1
         if(pedido.cantidad_servida==1){
           this.pedidoTotalAux.pedidos=this.pedidoTotalAux.pedidos.filter(ped=>ped.plato._id!=pedido.plato._id)
         }
+        pedido.cantidad_servida=1
+
         this.pedidoTotal.pedidos.push(pedido)
         this.pedidoTotalPagar.pedidos.map(ped=>{
           if(ped.plato._id==pedido.plato._id){
@@ -448,10 +450,16 @@ if(month < 10){
     if(servido==0){
       this.pedidoTotalPagar.estado = 3
       this.mesaActual.estado = 1
-
+      console.log("antes res")
+      console.log(this.pedidoTotalPagar)
       this.MesaService.editarMesa(this.mesaActual).subscribe(res=>{
        console.log( this.pedidoTotalPagar);
-        this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe()
+        this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(res=>{
+          console.log("res")
+          console.log(res)
+        }
+
+        )
         this.clean()
         this.clear()
       }

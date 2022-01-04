@@ -20,7 +20,7 @@
       <div *ngFor="let pedido of pedidosFiltrados" class="my-2">
         <mat-card [ngClass]="setColor(pedido)">
           <div class="d-flex justify-content-between">
-            <h5 class="m-0">Mesa #</h5>
+            <h5 class="m-0">{{getNombreMesa(pedido)}}</h5>
             <span>tiempo de espera {{ timer(pedido) }}</span>
           </div>
           <div class="d-flex flex-column mb-3">
@@ -70,7 +70,7 @@
           <div class="d-flex justify-content-center">
             <button *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido" (click)="modificarPedido(pedido)" class="btn btn-success px-5">Listo</button>
           </div>
-       
+
 
       </mat-card>
     </div>

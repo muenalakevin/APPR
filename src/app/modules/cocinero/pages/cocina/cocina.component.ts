@@ -27,6 +27,7 @@ export class CocinaComponent implements OnInit {
   categoriasSeleccionadas:CategoriaCocinero = new CategoriaCocinero()
   platosPedidos:PlatoPedido[]=[]
   pedidosFiltrados:Pedido[]
+  mesas: MesaSeleccionada[] = [];
   constructor(
     private PedidoService:PedidoService,
     private cdRef:ChangeDetectorRef,
@@ -47,6 +48,9 @@ ifExistCategoriaSeleccioanda(categoriaId:string){
     return false;
   }
 }
+getNombreMesa(pedido:Pedido){
+  return this.mesas.find(mes=>mes._id==pedido.id_mesa).nombre_mesa
+}
 checkCategoria(categoriaId:string){
   let ExistCategoria = this.categoriasSeleccionadas.categorias_seleccionadas.find(cat=>{return cat == categoriaId})
 
@@ -56,12 +60,12 @@ checkCategoria(categoriaId:string){
     });
 
   }else{
-    
+
     this.categoriasSeleccionadas.categorias_seleccionadas.push(categoriaId)
   }
 
-  this.CocineroService.updateCategoriasCocinero(this.categoriasSeleccionadas).subscribe(res=>{ 
-  
+  this.CocineroService.updateCategoriasCocinero(this.categoriasSeleccionadas).subscribe(res=>{
+
 
    })
 
@@ -77,22 +81,22 @@ actualizarFiltroCategorias(){
 
     ped.pedidos = ped.pedidos.filter(ped2=>{
       let retorna2 = false
-   
+
         this.categoriasSeleccionadas.categorias_seleccionadas.map(catSel=>{
          let pedFind = ped2.plato.categorias_plato.find(catPla=>catPla == catSel)
           if(pedFind!=undefined){
             retorna2 = true
           }
-           
+
         })
-        
+
        return retorna2
     })
-    
+
     return ped.pedidos.length!=0
-   
+
   })
- 
+
   if( this.pedidoSeleccionado!=undefined){
     this.pedidoSeleccionado = this.pedidosFiltrados.find(pedFil=>this.pedidoSeleccionado.id_mesa==pedFil.id_mesa)
     if(this.pedidoSeleccionado!=undefined){
@@ -100,23 +104,26 @@ actualizarFiltroCategorias(){
     }else{
       this.platosPedidos = []
     }
-  
+
   }
 
 }
 
   ngOnInit(): void {
-    this.CocineroService.obtenerCategoriasCocinero().subscribe(res=>{ 
-      
+    this.MesaService.getMesas().subscribe((mesas) => {
+      this.mesas = <MesaSeleccionada[]>mesas;
+    });
+    this.CocineroService.obtenerCategoriasCocinero().subscribe(res=>{
+
       this.categoriasSeleccionadas = (res as CategoriaCocinero)
       this.PedidoService.getPedidos().subscribe((pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
 
         this.actualizarFiltroCategorias()
-        
 
- 
-        
+
+
+
       });
     })
 
@@ -137,7 +144,7 @@ actualizarFiltroCategorias(){
         this.pedidos = <Pedido[]>pedidos;
         this.actualizarFiltroCategorias()
         const pedidoFind = this.pedidos.find(ped=> ped.id_mesa == this.pedidoSeleccionado.id_mesa)
-        
+
         if(pedidoFind!=null){
           this.platosPedidos = pedidoFind.pedidos;
         }
@@ -181,9 +188,10 @@ actualizarFiltroCategorias(){
   if(pedidos >= listos){
 
     if(pedidos == listos){
-   
-      let mesa:MesaSeleccionada 
-      this.MesaService.getMesa(this.pedidoSeleccionado.id_mesa).subscribe(res=>{mesa=(res as MesaSeleccionada)
+
+      let mesa:MesaSeleccionada
+      this.MesaService.getMesa(this.pedidoSeleccionado.id_mesa).subscribe(res=>{
+        mesa=(res as MesaSeleccionada)
         if(mesa.estado!=4){
           mesa.estado = 4
           this.MesaService.editarMesa(mesa).subscribe()
@@ -192,14 +200,14 @@ actualizarFiltroCategorias(){
         }else{
           this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
         }
-      
+
       })
-   
+
     }else{
       this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
     }
-    
-       
+
+
   }
 
   }
@@ -225,5 +233,5 @@ actualizarFiltroCategorias(){
       return ''
     }
   }
-  
+
 }

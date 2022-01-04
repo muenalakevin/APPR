@@ -101,10 +101,8 @@ export class MesasComponent implements OnInit {
         if (this.mesaActual.estado >=0 && this.mesaActual.estado <= 1) {
           this.clean();
           this.drawer.toggle();
-
         } else {
           this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
-
             if (res != null) {
               this.pedidoTotal = res as Pedido;
 
@@ -142,6 +140,9 @@ export class MesasComponent implements OnInit {
     this.platosSubscription = this.PlatoService.platos.subscribe((platos) => {
       this.platos = platos as Plato[];
     });
+  }
+  getNombreMesa(pedido:Pedido){
+    return this.mesas.find(mes=>mes._id==pedido.id_mesa).nombre_mesa
   }
   openMesa() {}
   actualizarCambiosEstaticos(){
@@ -245,6 +246,7 @@ export class MesasComponent implements OnInit {
       plato.estado_plato = 1
       this.PlatoService.editarPlato(plato).subscribe();
     }
+
     if (this.mesaActual.estado >= 0 && this.mesaActual.estado <= 1 ) {
 
       const pedido: Pedido = {
@@ -263,6 +265,7 @@ export class MesasComponent implements OnInit {
     } else if (this.mesaActual.estado >= 2) {
 
       let pedidos = this.pedidoTotal.pedidos;
+      console.log(this.pedidoTotal)
       const existPedido = pedidos.find(
         (pedido) => pedido.plato._id == plato._id
       );

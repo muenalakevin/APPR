@@ -12,7 +12,7 @@
           <button matSuffix mat-button><mat-icon >search</mat-icon></button>
           </mat-form-field>
           <br/>
-         
+
           </form>
 
         <div class="row">
@@ -158,14 +158,14 @@
             class="p-0"
           >
             <fa-icon
-           
+
               class="display-4 text-secondary mesa"
               [icon]="faSquareIcon"
             ></fa-icon>
           </button>
 
           <button *ngIf="mesa.estado != 2" mat-button (click)="drawer.toggle()">
-            
+
             <fa-icon
             [ngClass]="getColor(mesa)"
               class="display-4  mesa"
@@ -181,7 +181,7 @@
         <div *ngFor="let pedido of pedidos" class="my-2">
           <mat-card style="transition: 1s;"   [ngClass]="getColorPedido(pedido)">
             <div class="d-flex justify-content-between">
-              <h5 class="m-0">Mesa #</h5>
+              <h5 class="m-0">{{getNombreMesa(pedido)}}</h5>
               <span>tiempo de espera {{ timer(pedido) }}</span>
             </div>
             <div class="d-flex flex-column mb-3">
@@ -198,19 +198,19 @@
                   </mat-expansion-panel-header>
                   <mat-list>
                     <div *ngFor="let ped of pedido.pedidos">
-                  
+
                      <h5><b>Nombre: {{ped.plato.nombre_plato}} </b></h5>
                      <h5>Cantidad pedida: {{ped.cantidad_pedido}}</h5>
                      <h5>Servidos: {{ped.cantidad_servida}}</h5>
 
-               
+
                     <mat-divider></mat-divider>
                   </div>
 
                   </mat-list>
                 </mat-expansion-panel>
               </mat-accordion>
-            
+
             </div>
 
             <div class="d-flex justify-content-center">
