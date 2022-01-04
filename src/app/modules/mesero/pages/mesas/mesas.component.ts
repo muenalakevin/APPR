@@ -350,7 +350,7 @@ export class MesasComponent implements OnInit {
       (pedido) => pedido.plato._id == idPlato
     );
     if (cantidadPedido.cantidad_pedido == 1) {
-      if(cantidadPedido.cantidad_lista !=0){
+      if(cantidadPedido.cantidad_lista ==0){
         this.removePlato(idPlato);
       }
 

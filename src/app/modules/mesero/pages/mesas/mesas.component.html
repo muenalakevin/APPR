@@ -66,14 +66,16 @@
                   matSuffix
                   class="wrapper-indicator bg-black text-white"
                   (click)="reducePedido(pedido.plato._id)"
+                  *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido"
                 >
-                  <button class="" mat-icon-button>
+                  <button    class="" mat-icon-button>
                     <mat-icon>remove</mat-icon>
                   </button>
                 </div>
               </mat-form-field>
               <button
                 class="w-25"
+                *ngIf="pedido.cantidad_lista<=0"
                 (click)="removePlato(pedido.plato._id)"
                 mat-icon-button
               >
@@ -119,6 +121,7 @@
                 </table>
                 <div class="d-flex flex-column justify-content-center">
                   <button
+                  *ngIf="enviado()"
                     mat-raised-button
                     (click)="cancelarPedido()"
                     class="mb-2"
@@ -214,7 +217,7 @@
             </div>
 
             <div class="d-flex justify-content-center">
-              <button *ngIf="listo(pedido)"  class="btn btn-success">Servido</button>
+              <!-- <button *ngIf="listo(pedido)"  class="btn btn-success">Servido</button> -->
            <!--    <button class="btn btn-danger">Cancelado</button> -->
             </div>
           </mat-card>

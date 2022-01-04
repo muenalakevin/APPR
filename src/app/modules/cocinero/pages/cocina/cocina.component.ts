@@ -120,10 +120,6 @@ actualizarFiltroCategorias(){
         this.pedidos = <Pedido[]>pedidos;
 
         this.actualizarFiltroCategorias()
-
-
-
-
       });
     })
 
