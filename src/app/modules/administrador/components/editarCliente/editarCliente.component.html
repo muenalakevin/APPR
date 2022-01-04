@@ -1,0 +1,80 @@
+
+    <h1 class="mdc-typography--headline1">Editar cliente</h1>
+    <form autocomplete="off" [formGroup]="clienteForm" (ngSubmit)="submitForm()" novalidate>
+
+      <!-- Name -->
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de cliente" formControlName="nombre_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['nombre_cliente'].errors?.['required']">
+            El nombre es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Ingrese apellido de cliente" formControlName="apellido_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['apellido_cliente'].errors?.['required']">
+            El Apellido es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Cedula/Ruc</mat-label>
+        <input matInput placeholder="Ingrese Cedula/Ruc de cliente" formControlName="cedRuc_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['cedRuc_cliente'].errors?.['required']">
+            El Cedula/Ruc es requerido.
+          </mat-error>
+          <mat-error *ngIf="clienteForm.controls['cedRuc_cliente'].errors?.['MatchCedula']">
+            El Cedula/Ruc no es valida.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Correo</mat-label>
+        <input matInput placeholder="Ingrese correo de cliente" formControlName="correo_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['correo_cliente'].errors?.['required']">
+            El Correo es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Ingrese dirección de cliente" formControlName="direccion_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['direccion_cliente'].errors?.['required']">
+            El Dirección es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+
+
+
+
+
+
+
+
+
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper d-flex justify-content-between">
+        <button mat-flat-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+      </div>
+
+    </form>
+
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->

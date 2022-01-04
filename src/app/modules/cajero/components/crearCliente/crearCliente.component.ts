@@ -60,6 +60,9 @@ export class CrearClienteComponent implements OnInit {
   }
   MatchCedula(clienteForm: AbstractControl):ValidationErrors | null {
     let cedula = clienteForm.get('cedRuc_cliente').value; // to get value in input tag
+    if(cedula.length==13){
+      cedula = cedula.substring(0,10)
+    }
 
 
 

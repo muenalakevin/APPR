@@ -1,38 +1,35 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ClienteService } from 'src/app/core/services/cliente.service';
-import { Cliente } from 'src/app/shared/models/cliente';
+import { ClienteService } from './../../../../core/services/cliente.service';
+import { Cliente } from './../../../../shared/models/cliente';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-editarCliente',
-  templateUrl: './editarCliente.component.html',
-  styleUrls: ['./editarCliente.component.css']
+  selector: 'app-agregarCliente',
+  templateUrl: './agregarCliente.component.html',
+  styleUrls: ['./agregarCliente.component.css']
 })
-export class EditarClienteComponent implements OnInit {
-
+export class AgregarClienteComponent implements OnInit {
   clienteForm: FormGroup
   constructor(
     private ClienteService:ClienteService,
     private formBuilder:FormBuilder,
-    public dialogRef: MatDialogRef<EditarClienteComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { cliente:Cliente}
+    public dialogRef: MatDialogRef<AgregarClienteComponent>,
   ) {
     this.clienteForm = this.formBuilder.group({
-      nombre_cliente: new FormControl(this.data.cliente.nombre_cliente, [
+      nombre_cliente: new FormControl(null, [
         Validators.required,
       ]),
-      apellido_cliente: new FormControl(this.data.cliente.apellido_cliente, [
+      apellido_cliente: new FormControl(null, [
         Validators.required
       ]),
-      cedRuc_cliente: new FormControl(this.data.cliente.cedRuc_cliente, [
+      cedRuc_cliente: new FormControl("", [
         Validators.required
       ]),
-      correo_cliente: new FormControl(this.data.cliente.correo_cliente, [
+      correo_cliente: new FormControl(null, [
         Validators.email,
       ]),
-      direccion_cliente: new FormControl(this.data.cliente.direccion_cliente, [
+      direccion_cliente: new FormControl(null, [
       ]),
 
 
@@ -42,12 +39,30 @@ export class EditarClienteComponent implements OnInit {
     	});
 
   }
+
+  ngOnInit() {
+  }
+ async submitForm(){
+    if(this.clienteForm.valid){
+      const cliente:Cliente = {
+            _id: "",
+            nombre_cliente:  this.clienteForm.value.nombre_cliente,
+            apellido_cliente:  this.clienteForm.value.apellido_cliente,
+            cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
+            correo_cliente: this.clienteForm.value.correo_cliente,
+            direccion_cliente: this.clienteForm.value.direccion_cliente,
+      }
+      await this.ClienteService.guardarCliente(cliente).subscribe(res=>{
+        this.dialogRef.close({cliente:res})
+      })
+
+    }
+  }
   MatchCedula(clienteForm: AbstractControl):ValidationErrors | null {
     let cedula = clienteForm.get('cedRuc_cliente').value; // to get value in input tag
     if(cedula.length==13){
       cedula = cedula.substring(0,10)
     }
-
 
 
     if(cedula.length == 10){
@@ -136,26 +151,7 @@ export class EditarClienteComponent implements OnInit {
     }
     return null */
 }
-  ngOnInit() {
-  }
- async submitForm(){
-    if(this.clienteForm.valid){
-      const cliente:Cliente = {
-            _id: this.data.cliente._id,
-            nombre_cliente:  this.clienteForm.value.nombre_cliente,
-            apellido_cliente:  this.clienteForm.value.apellido_cliente,
-            cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
-            correo_cliente: this.clienteForm.value.correo_cliente,
-            direccion_cliente: this.clienteForm.value.direccion_cliente,
-      }
-      await this.ClienteService.editarCliente(cliente).subscribe(res=>{
-
-        this.dialogRef.close({cliente:cliente})
-      })
-
-    }
-  }
-  validarCedula(cedula:string):boolean{
+  validarCedula(cedula:string){
     if(cedula.length == 10){
 
       //Obtenemos el digito de la region que sonlos dos primeros digitos

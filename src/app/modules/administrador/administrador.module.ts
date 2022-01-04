@@ -1,3 +1,4 @@
+import { AgregarClienteComponent } from './components/agregarCliente/agregarCliente.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -68,7 +69,8 @@ import { SwiperModule } from "swiper/angular";
     EditarMesaComponent,
     AgregacionRapidaComponent,
     ConfiguracionComponent,
-    ClientesComponent
+    ClientesComponent,
+    AgregarClienteComponent
 
   ],
   imports: [
