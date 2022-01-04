@@ -16,6 +16,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     MeseroComponent,
@@ -37,7 +38,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     MatExpansionModule,
     MatDividerModule,
     MatListModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    MatSelectModule
   ]
 })
 export class MeseroModule { }

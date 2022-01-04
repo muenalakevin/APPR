@@ -5,15 +5,22 @@
         <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
           Cerrar
         </button><br>
-        <form [formGroup]="searchForm">
+        <form [formGroup]="searchForm" class="d-inline">
           <mat-form-field class="example-full-width">
           <span matPrefix> </span>
           <input type="tel" (keyup)="applyFilterPlatos($event)"  matInput placeholder="Search" formControlName= "search">
           <button matSuffix mat-button><mat-icon >search</mat-icon></button>
           </mat-form-field>
-          <br/>
-
+          <div class="d-inline-block">
+          <div class="select">
+          <select #select name="" id="inputGroupSelect01"  (change)="filtrarCategoria($event)">
+            <option value="all" >todas las categorias</option>
+            <option value={{categoria._id}}  *ngFor="let categoria of categorias">{{categoria.nombre_categoria}}</option>
+          </select>
+        </div>
+      </div>
           </form>
+          <br/>
 
         <div class="row">
           <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center">
@@ -68,6 +75,7 @@
                   (click)="reducePedido(pedido.plato._id)"
                   *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido"
                 >
+
                   <button    class="" mat-icon-button>
                     <mat-icon>remove</mat-icon>
                   </button>

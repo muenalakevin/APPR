@@ -9,7 +9,7 @@ import { CategoriaService } from './../../../../core/services/categoria.service'
 import { CategoriaPlato } from 'src/app/shared/models/categoriaPlato';
 import { MesaService } from './../../../../core/services/mesa.service';
 import { Subscription, Observable, interval } from 'rxjs';
-import { ChangeDetectorRef, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { Plato } from 'src/app/shared/models/plato';
@@ -39,6 +39,7 @@ export class MesasComponent implements OnInit {
   private categoriasubscription: Subscription;
   mesaActual: MesaSeleccionada;
   platos: Plato[] = [];
+  allPlatos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
   dateNow:Date
   pedidoTotal: Pedido = new Pedido()
@@ -58,6 +59,7 @@ export class MesasComponent implements OnInit {
     private cdRef:ChangeDetectorRef,
     private AlertService:AlertService,
   ) {}
+  @ViewChild('select') input:ElementRef;
   ngAfterViewChecked()
 {
   this.dateNow = new Date(Date.now())
@@ -136,9 +138,12 @@ export class MesasComponent implements OnInit {
 
     this.PlatoService.getPlatos().subscribe((platos) => {
       this.platos = platos as Plato[];
+      this.allPlatos = platos as Plato[];
+
     });
     this.platosSubscription = this.PlatoService.platos.subscribe((platos) => {
       this.platos = platos as Plato[];
+      this.allPlatos = platos as Plato[];
     });
   }
   getNombreMesa(pedido:Pedido){
@@ -287,7 +292,7 @@ export class MesasComponent implements OnInit {
     //this.platosAdd.push(plato)
   }
   seleccionarMesa(mesa: MesaSeleccionada) {
-
+    this.allCategory();
     this.mesaActual = mesa;
     if (this.mesaActual != undefined) {
       console.log(this.mesaActual)
@@ -344,6 +349,35 @@ export class MesasComponent implements OnInit {
     this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {
       /* this.pedidoTotal=res as Pedido */
     });
+  }
+
+  allCategory(){
+    (document.getElementById('inputGroupSelect01') as HTMLInputElement).value = "all";
+    this.platos = this.allPlatos
+  }
+  filtrarCategoria(event:Event){
+    let id = (event.target as HTMLInputElement).value
+    console.log(id)
+    if(id!="all"){
+      this.platos = this.allPlatos.filter(pla=>{
+        let paso = false
+        pla.categorias_plato.map(cat=>{
+          if(cat == id){
+            paso=true
+          }
+        })
+        if(paso){
+          return pla
+        }else{
+          return null
+        }
+      });
+
+    }else{
+      this.platos = this.allPlatos
+    }
+
+
   }
   reducePedido(idPlato: string) {
     const cantidadPedido = this.pedidoTotal.pedidos.find(

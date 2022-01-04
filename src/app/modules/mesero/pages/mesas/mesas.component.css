@@ -3,11 +3,46 @@
     overflow-y: scroll;
     position: relative;
 }
+select {
+  /* Reset Select */
+  appearance: none;
+  outline: 0;
+
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  background-color: var(--darkgray);
+  background-image: none;
+  cursor: pointer;
+}
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  border-radius: .25em;
+  overflow: hidden;
+}
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  background-color: #34495e;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+.select:hover::after {
+  color: #f39c12;
+}
+
 .mesa{
     cursor:pointer;
 }
 .pedidos{
-    
+
     min-height: 100% !important;
 }
 input::-webkit-inner-spin-button {
@@ -29,7 +64,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     justify-content: center;
   }
-  
+
   .example-sidenav {
     padding: 20px;
   }
