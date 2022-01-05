@@ -50,6 +50,8 @@ import { EditarMesaComponent } from './components/editar-mesa/editar-mesa.compon
 import { AgregacionRapidaComponent } from './components/agregacion-rapida/agregacion-rapida.component';
 import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { SwiperModule } from "swiper/angular";
+import { NgApexchartsModule } from "ng-apexcharts";
+import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component';
 @NgModule({
   declarations: [
     AdministradorComponent,
@@ -70,13 +72,13 @@ import { SwiperModule } from "swiper/angular";
     AgregacionRapidaComponent,
     ConfiguracionComponent,
     ClientesComponent,
-    AgregarClienteComponent
+    AgregarClienteComponent,
+    ClientesDiaComponent
 
   ],
   imports: [
-
     CommonModule,
-    AdministradorRoutingModule, 
+    AdministradorRoutingModule,
     MatTableModule,
     MatSortModule,
     MatFormFieldModule,
@@ -95,11 +97,14 @@ import { SwiperModule } from "swiper/angular";
     FormsModule,
     FontAwesomeModule,
     SwiperModule,
-    HttpClientModule
+    HttpClientModule,
+    NgApexchartsModule,
   ],
   exports:[MatTableModule,MatSortModule,MatFormFieldModule,
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,
-    MatSidenavModule,MatSelectModule,MatCheckboxModule],
+    MatSidenavModule,MatSelectModule,MatCheckboxModule,
+    ClientesDiaComponent
+  ],
   providers: [AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
 })
 export class AdministradorModule { }

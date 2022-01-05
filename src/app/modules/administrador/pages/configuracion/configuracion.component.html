@@ -1,29 +1,146 @@
 <mat-tab-group>
-  <mat-tab label="Generales"> Generales</mat-tab>
+  <mat-tab label="Generales">
+    <div class="container">
+      <h3>Colores</h3>
+      <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
+
+      <label for="exampleColorInput" class="form-label">Color de fondo</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+
+    </div>
+
+
+  </mat-tab>
   <mat-tab label="Mesero">
     <div class="container">
-      <form action="">
+      <form [formGroup]="meseroConfig">
+        <h3>Seleccione rangos maximos de espera en minutos</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Satisfaccion adecuada</mat-label>
+          <input formControlName="satisfaccionAdecuada" type="number" matInput placeholder="0">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Ejemplo: 5</mat-hint>
+        </mat-form-field> <br>
+        <mat-form-field appearance="outline">
+          <mat-label>Satisfaccion media</mat-label>
+          <input formControlName="satisfaccionMedia"  type="number" matInput placeholder="0">
+          <mat-icon matSuffix>sentiment_dissatisfied</mat-icon>
+          <mat-hint>Ejemplo: 10</mat-hint>
+        </mat-form-field><br>
+        <mat-form-field appearance="outline">
+          <mat-label>Disatisfaccion</mat-label>
+          <input formControlName="disatisfaccion"  type="number" matInput placeholder="0">
+          <mat-icon matSuffix>sentiment_very_dissatisfied</mat-icon>
+          <mat-hint>Ejemplo: 15</mat-hint>
+        </mat-form-field><br>
+        <hr>
+        <h3>Colores</h3>
+      <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
+
+      <label for="exampleColorInput" class="form-label">Color de mesa satisfaccion adecuada</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorSatisfaccion"
+        class="my-auto mx-3"
+      >
+      </mat-checkbox>
+      <input type="color" formControlName="colorSatisfaccion" class="form-control form-control-color" id="exampleColorInput"  formGroupName="colorSatisfaccion"  title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de mesa satisfaccion media</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorSatisfaccionMedia"
+        class="my-auto mx-3"
+
+      >
+      </mat-checkbox>
+      <input type="color"
+      (colorPickerChange)="meseroConfig.get('colorSatisfaccionMedia').setValue($event)"
+      formControlName="colorSatisfaccionMedia" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de mesa Disatisfaccion</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorDisatisfaccion"
+        class="my-auto mx-3"
+      >
+      </mat-checkbox>
+      <input type="color"
+       formControlName="colorDisatisfaccion"
+       (colorPickerChange)="meseroConfig.get('colorDisatisfaccion').setValue($event)"
+       class="form-control form-control-color" id="exampleColorInput"  title="Choose your color">
+      </div>
+        <hr>
+        <h3>Pedidos de mesero</h3>
         <mat-checkbox
           color="primary"
-          [checked]="meseroConfig.get('nombre_cliente').value"
+          formControlName="meseroEdit"
           class="example-margin"
         >
-          Un mesero podra editar la mesa de otro mesero a cargo de dicha mesa.
+          Un mesero podra editar mesas ocupadas por otros meseros.
         </mat-checkbox>
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button color="primary" (click)="guardarConfiguracionMesero()" >Guardar</button>
+        </div>
       </form>
     </div>
   </mat-tab>
-  <mat-tab label="Cocina"> Cocina </mat-tab>
+  <mat-tab label="Cocina">
+    <div class="container">
+      <h3>Colores</h3>
+      <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
+      <label for="exampleColorInput" class="form-label">Color de mesas listas</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox>
+      <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de boton ver</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de boton listo</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+    </div>
+  </mat-tab>
   <mat-tab label="Cajero">
     <div class="container">
       <form action="" [formGroup]="configuracionCaja">
-        <h5>Iva</h5>
+        <h3>Iva</h3>
         <mat-form-field appearance="outline">
           <mat-label>Porcentaje de Iva</mat-label>
           <input matInput type="number" placeholder="Iva" />
           <mat-icon matSuffix>%</mat-icon>
+          <mat-hint>Ejemplo: 12 </mat-hint>
         </mat-form-field>
-        <h5>Metodos de pago</h5>
+        <hr>
+        <h3>Metodos de pago</h3>
         <table class="table">
           <thead>
             <tr>
@@ -41,7 +158,56 @@
             <td><button mat-raised-button color="warn" >-</button></td>
           </tr>
         </table>
-      </form>
+        <hr>
+        <h3>Cierre de caja</h3>
+        <mat-checkbox
+        color="primary"
+
+        class="example-margin"
+      >
+       Cajero podra ver la previa de cierre de caja.
+      </mat-checkbox>
+      <hr>
+      <h3>Colores</h3>
+      <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
+      <label for="exampleColorInput" class="form-label">Color de flechas</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de boton agregar cliente</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox>
+      <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de boton editar cliente</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+      <label for="exampleColorInput" class="form-label">Color de boton pagar</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+
+        class="my-auto mx-3"
+      >
+      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </div>
+    </form>
     </div>
   </mat-tab>
 </mat-tab-group>
