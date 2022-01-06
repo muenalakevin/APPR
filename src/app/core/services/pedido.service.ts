@@ -27,6 +27,9 @@ export class PedidoService {
   getPedidos(){
     return this.http.get(environment.API_URL + '/pedido',this.httpOptions);
   }
+  getPedidosFecha(fechaInicio:Date,fechaFin:Date){
+    return this.http.post(environment.API_URL + '/pedido/fecha',{fechaInicio,fechaFin},this.httpOptions);
+  }
 
   getPedido(idMesa:string){
     return this.http.get(environment.API_URL + '/pedido/'+idMesa,this.httpOptions);
@@ -39,9 +42,9 @@ export class PedidoService {
     return this.http.post(environment.API_URL + '/pedido',{pedido},this.httpOptions);
   }
 
-  eliminarPedido(idMesa:string){
+  eliminarPedido(id_mesa:string,id_pedido:string){
 
-    return this.http.delete(environment.API_URL + '/pedido/'+idMesa,this.httpOptions);
+    return this.http.post(environment.API_URL + '/pedido/delete',{id_pedido,id_mesa},this.httpOptions);
   }
 
 

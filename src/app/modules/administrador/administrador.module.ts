@@ -27,7 +27,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MatPseudoCheckboxModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -52,6 +52,9 @@ import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTI
 import { SwiperModule } from "swiper/angular";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component';
+import { MinutosEntregasClientesComponent } from './charts/minutosEntregasClientes/minutosEntregasClientes.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 @NgModule({
   declarations: [
     AdministradorComponent,
@@ -66,18 +69,20 @@ import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component
     EditarCategoriaComponent,
     AgregarPlatoComponent,
     EditarPlatoComponent,
-
     AgregarMesaComponent,
     EditarMesaComponent,
     AgregacionRapidaComponent,
     ConfiguracionComponent,
     ClientesComponent,
     AgregarClienteComponent,
-    ClientesDiaComponent
+    ClientesDiaComponent,
+    MinutosEntregasClientesComponent
 
   ],
   imports: [
     CommonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     AdministradorRoutingModule,
     MatTableModule,
     MatSortModule,
@@ -103,8 +108,9 @@ import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component
   exports:[MatTableModule,MatSortModule,MatFormFieldModule,
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,
     MatSidenavModule,MatSelectModule,MatCheckboxModule,
-    ClientesDiaComponent
+    ClientesDiaComponent,
+    MinutosEntregasClientesComponent,
   ],
-  providers: [AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
+  providers: [ MatDatepickerModule,  AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
 })
 export class AdministradorModule { }

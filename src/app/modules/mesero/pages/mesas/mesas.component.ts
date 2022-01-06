@@ -16,6 +16,8 @@ import { Plato } from 'src/app/shared/models/plato';
 import { Pedido } from 'src/app/shared/models/pedido';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatDrawer } from '@angular/material/sidenav';
+import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 @Component({
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
@@ -29,6 +31,7 @@ export class MesasComponent implements OnInit {
   subTotal = 0;
   list: MesaSeleccionada[] = [];
   showFiller = false;
+  configuracionMesero:configuracionMesero
   panelOpenState:boolean
   private mesasSubscription: Subscription;
   mesas: MesaSeleccionada[] = [];
@@ -58,6 +61,7 @@ export class MesasComponent implements OnInit {
     private PedidoService: PedidoService,
     private cdRef:ChangeDetectorRef,
     private AlertService:AlertService,
+    private configuracionService:ConfiguracionService,
   ) {}
   @ViewChild('select') input:ElementRef;
   ngAfterViewChecked()
@@ -80,6 +84,9 @@ export class MesasComponent implements OnInit {
     return minutes+":"+seconds
   }
   async ngOnInit() {
+    this.configuracionService.getConfiguracionMesero().subscribe(res=>{
+      this.configuracionMesero = res as configuracionMesero
+    })
     interval(1000).subscribe(() => {
       this.pedidos=this.pedidos
     })
@@ -185,6 +192,39 @@ export class MesasComponent implements OnInit {
     });
 
   }
+/*   getStyle(mesa:Mesa){
+    const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
+    if(pedido!=undefined ){
+      const tiempo = pedido.horaDeEnvio
+      const tiempoActual = new Date(this.dateNow )
+      let timeDiff =new Date( tiempoActual).getTime() - new Date(tiempo).getTime();
+      timeDiff /= 1000;
+      timeDiff = Math.floor(timeDiff / 60);
+      const minutes = Math.round(timeDiff % 60);
+      const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
+      if(mesa.estado!=4){
+        console.log(this.configuracionMesero.satisfaccionAdecuada)
+        if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
+          this.color = this.configuracionMesero.colorSatisfaccion.check
+          return this.configuracionMesero.colorSatisfaccion.color
+       }else if(minutes<=this.configuracionMesero.satisfaccionMedia){
+        this.color = this.configuracionMesero.colorSatisfaccionMedia.check
+        return this.configuracionMesero.colorSatisfaccionMedia.color
+       }else if(minutes<=this.configuracionMesero.disatisfaccion){
+        this.color = this.configuracionMesero.colorDisatisfaccion.check
+        return this.configuracionMesero.colorDisatisfaccion.color
+       }else{
+        return "#000"
+       }
+      }else{
+        return "#6c757d"
+      }
+
+    }else{
+      return "#0d6efd"
+    }
+  }
+ */
   getColor(mesa:Mesa){
     const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
     if(pedido!=undefined ){
@@ -196,26 +236,52 @@ export class MesasComponent implements OnInit {
       const minutes = Math.round(timeDiff % 60);
       const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
       if(mesa.estado!=4){
-        if(minutes<=5){
-          return "text-success"
-       }else if(minutes<=10){
-        return "text-warning"
-       }else if(minutes<=15){
-        return "text-danger"
+        if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
+          if(this.configuracionMesero.colorSatisfaccion.check){
+            return this.configuracionMesero.colorSatisfaccion.color
+          }else{
+            return "#28a745"
+          }
+
+       }else if(minutes<=this.configuracionMesero.satisfaccionMedia){
+        if(this.configuracionMesero.colorSatisfaccionMedia.check){
+          return this.configuracionMesero.colorSatisfaccionMedia.color
+        }else{
+          return "#ffc107"
+        }
+       }else if(minutes<=this.configuracionMesero.disatisfaccion){
+        if(this.configuracionMesero.colorDisatisfaccion.check){
+          return this.configuracionMesero.colorDisatisfaccion.color
+        }else{
+          return "#dc3545"
+        }
        }else{
-        return "text-dark"
+        if(this.configuracionMesero.colorFueraTiempo.check){
+          return this.configuracionMesero.colorFueraTiempo.color
+        }else{
+          return "#343a40"
+        }
+
        }
       }else{
-        return "text-secondary"
+        if(this.configuracionMesero.colorOcupada.check){
+          return this.configuracionMesero.colorOcupada.color
+        }else{
+          return "#6c757d"
+        }
+
       }
 
     }else{
-      return "text-primary"
+      if(this.configuracionMesero.colorDisponible.check){
+        return this.configuracionMesero.colorDisponible.color
+      }else{
+        return "#0d6efd"
+      }
+
     }
-
-
-
   }
+
   enviado(){
     if(this.mesaActual!= undefined){
       if( this.mesaActual.estado < 3){
@@ -255,6 +321,7 @@ export class MesasComponent implements OnInit {
     if (this.mesaActual.estado >= 0 && this.mesaActual.estado <= 1 ) {
 
       const pedido: Pedido = {
+        _id: "",
         id_mesa: this.mesaActual._id,
         observacion: this.pedidoForm.value.observacion,
         horaDeEnvio:null,
@@ -323,7 +390,7 @@ export class MesasComponent implements OnInit {
 
   cancelarPedido() {
 
-    this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa).subscribe(
+    this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa,this.pedidoTotal._id).subscribe(
       (res) => {
         this.clean();
       }

@@ -449,14 +449,11 @@ if(month < 10){
     console.log(this.pedidoTotalPagar);
     if(servido==0){
       this.pedidoTotalPagar.estado = 3
+      this.pedidoTotalPagar.horaDeEntrega = new Date(Date.now())
       this.mesaActual.estado = 1
-      console.log("antes res")
-      console.log(this.pedidoTotalPagar)
       this.MesaService.editarMesa(this.mesaActual).subscribe(res=>{
-       console.log( this.pedidoTotalPagar);
         this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(res=>{
-          console.log("res")
-          console.log(res)
+
         }
 
         )

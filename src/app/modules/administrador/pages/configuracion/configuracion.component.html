@@ -4,14 +4,14 @@
       <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
 
-      <label for="exampleColorInput" class="form-label">Color de fondo</label>
+      <label for="" class="form-label">Color de fondo</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
 
     </div>
@@ -22,63 +22,131 @@
     <div class="container">
       <form [formGroup]="meseroConfig">
         <h3>Seleccione rangos maximos de espera en minutos</h3>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="my-2">
           <mat-label>Satisfaccion adecuada</mat-label>
           <input formControlName="satisfaccionAdecuada" type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
           <mat-hint>Ejemplo: 5</mat-hint>
+          <mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['required']">
+              Satisfaccion adecuada requiere un numero
+            </mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['mayoresMenores']">
+              Satisfaccion adecuada no puede ser mayor que satisfaccion media y disatisfaccion
+            </mat-error>
+          </mat-error>
         </mat-form-field> <br>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="my-2">
           <mat-label>Satisfaccion media</mat-label>
           <input formControlName="satisfaccionMedia"  type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_dissatisfied</mat-icon>
           <mat-hint>Ejemplo: 10</mat-hint>
+          <mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['required']">
+              Satisfaccion media requiere un numero
+            </mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['mayoresMenores']">
+              Satisfaccion media no puede ser menor que satisfaccion adecuada y mayor que disatisfaccion
+            </mat-error>
+          </mat-error>
         </mat-form-field><br>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="my-2">
           <mat-label>Disatisfaccion</mat-label>
           <input formControlName="disatisfaccion"  type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_very_dissatisfied</mat-icon>
           <mat-hint>Ejemplo: 15</mat-hint>
+          <mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['required']">
+              Disatisfaccion requiere un numero
+            </mat-error>
+            <mat-error  *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['mayoresMenores']">
+              Disatisfaccion no puede ser menor que satisfaccion adecuada y satisfaccion media
+            </mat-error>
+          </mat-error>
         </mat-form-field><br>
         <hr>
         <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
 
-      <label for="exampleColorInput" class="form-label">Color de mesa satisfaccion adecuada</label>
+      <label for="" class="form-label">Color de mesa satisfaccion adecuada</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
         formControlName="checkColorSatisfaccion"
         class="my-auto mx-3"
+        (click)="meseroConfig.get('checkColorSatisfaccion').setValue(!meseroConfig.get('checkColorSatisfaccion').value)"
       >
       </mat-checkbox>
-      <input type="color" formControlName="colorSatisfaccion" class="form-control form-control-color" id="exampleColorInput"  formGroupName="colorSatisfaccion"  title="Choose your color">
+      <input type="color" formControlName="colorSatisfaccion" class="form-control form-control-color"   formGroupName="colorSatisfaccion"  title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de mesa satisfaccion media</label>
+      <label for="" class="form-label">Color de mesa satisfaccion media</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
         formControlName="checkColorSatisfaccionMedia"
         class="my-auto mx-3"
-
+        (click)="meseroConfig.get('checkColorSatisfaccionMedia').setValue(!meseroConfig.get('checkColorSatisfaccionMedia').value)"
       >
       </mat-checkbox>
       <input type="color"
       (colorPickerChange)="meseroConfig.get('colorSatisfaccionMedia').setValue($event)"
-      formControlName="colorSatisfaccionMedia" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+      formControlName="colorSatisfaccionMedia" class="form-control form-control-color"  title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de mesa Disatisfaccion</label>
+      <label for="" class="form-label">Color de mesa Disatisfaccion</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
         formControlName="checkColorDisatisfaccion"
         class="my-auto mx-3"
+        (click)="meseroConfig.get('checkColorDisatisfaccion').setValue(!meseroConfig.get('checkColorDisatisfaccion').value)"
       >
       </mat-checkbox>
       <input type="color"
        formControlName="colorDisatisfaccion"
        (colorPickerChange)="meseroConfig.get('colorDisatisfaccion').setValue($event)"
-       class="form-control form-control-color" id="exampleColorInput"  title="Choose your color">
+       class="form-control form-control-color"   title="Choose your color">
+      </div>
+      <label for="" class="form-label">Color de mesa fuera de tiempo</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorFueraTiempo"
+        class="my-auto mx-3"
+        (click)="meseroConfig.get('checkColorFueraTiempo').setValue(!meseroConfig.get('checkColorFueraTiempo').value)"
+      >
+      </mat-checkbox>
+      <input type="color"
+       formControlName="colorFueraTiempo"
+       (colorPickerChange)="meseroConfig.get('colorFueraTiempo').setValue($event)"
+       class="form-control form-control-color"   title="Choose your color">
+      </div>
+      <label for="" class="form-label">Color de mesa ocupada</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorOcupada"
+        class="my-auto mx-3"
+        (click)="meseroConfig.get('checkColorOcupada').setValue(!meseroConfig.get('checkColorOcupada').value)"
+      >
+      </mat-checkbox>
+      <input type="color"
+       formControlName="colorOcupada"
+       (colorPickerChange)="meseroConfig.get('colorOcupada').setValue($event)"
+       class="form-control form-control-color"   title="Choose your color">
+      </div>
+      <label for="" class="form-label">Color de mesa Disponible</label>
+      <div class="d-flex">
+        <mat-checkbox
+        color="primary"
+        formControlName="checkColorDisponible"
+        class="my-auto mx-3"
+        (click)="meseroConfig.get('checkColorDisponible').setValue(!meseroConfig.get('checkColorDisponible').value)"
+      >
+      </mat-checkbox>
+      <input type="color"
+       formControlName="colorDisponible"
+       (colorPickerChange)="meseroConfig.get('colorDisponible').setValue($event)"
+       class="form-control form-control-color"   title="Choose your color">
       </div>
         <hr>
         <h3>Pedidos de mesero</h3>
@@ -86,10 +154,11 @@
           color="primary"
           formControlName="meseroEdit"
           class="example-margin"
+          (click)="meseroConfig.get('meseroEdit').setValue(!meseroConfig.get('meseroEdit').value)"
         >
           Un mesero podra editar mesas ocupadas por otros meseros.
         </mat-checkbox>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mb-5">
           <button mat-raised-button color="primary" (click)="guardarConfiguracionMesero()" >Guardar</button>
         </div>
       </form>
@@ -99,7 +168,7 @@
     <div class="container">
       <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
-      <label for="exampleColorInput" class="form-label">Color de mesas listas</label>
+      <label for="" class="form-label">Color de mesas listas</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -107,25 +176,25 @@
         class="my-auto mx-3"
       >
       </mat-checkbox>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de boton ver</label>
+      <label for="" class="form-label">Color de boton ver</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de boton listo</label>
+      <label for="" class="form-label">Color de boton listo</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
     </div>
   </mat-tab>
@@ -170,16 +239,16 @@
       <hr>
       <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
-      <label for="exampleColorInput" class="form-label">Color de flechas</label>
+      <label for="" class="form-label">Color de flechas</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de boton agregar cliente</label>
+      <label for="" class="form-label">Color de boton agregar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -187,25 +256,26 @@
         class="my-auto mx-3"
       >
       </mat-checkbox>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de boton editar cliente</label>
+      <label for="" class="form-label">Color de boton editar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="exampleColorInput" class="form-label">Color de boton pagar</label>
+      <label for="" class="form-label">Color de boton pagar</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
 
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+      </mat-checkbox>
+      <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
     </form>
     </div>

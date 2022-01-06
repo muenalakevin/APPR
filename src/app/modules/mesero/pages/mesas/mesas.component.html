@@ -178,7 +178,7 @@
           <button *ngIf="mesa.estado != 2" mat-button (click)="drawer.toggle()">
 
             <fa-icon
-            [ngClass]="getColor(mesa)"
+            [ngStyle]="{'color':getColor(mesa)}"
               class="display-4  mesa"
               [icon]="faSquareIcon"
             ></fa-icon>

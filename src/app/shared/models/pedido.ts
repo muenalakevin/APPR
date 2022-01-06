@@ -1,5 +1,6 @@
 import { PlatoPedido } from './platoPedido';
 export class Pedido {
+  public _id:string
   public id_mesa:string
   public observacion:string
   public horaDeEnvio:Date
@@ -10,6 +11,7 @@ export class Pedido {
 
 
     ){
+      this._id = ""
       this.id_mesa = ""
       this.observacion = ""
       this.horaDeEnvio = new Date

@@ -1,0 +1,26 @@
+<div id="chart">
+
+  <mat-form-field appearance="fill">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input (dateChange)="orgValueChange()" [(ngModel)]="fechaInicio" matStartDate placeholder="Start date">
+      <input (dateChange)="orgValueChange()" [(ngModel)]="fechaFin" matEndDate placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [stroke]="chartOptions.stroke"
+    [colors]="chartOptions.colors"
+    [dataLabels]="chartOptions.dataLabels"
+    [legend]="chartOptions.legend"
+    [markers]="chartOptions.markers"
+    [grid]="chartOptions.grid"
+    [yaxis]="chartOptions.yaxis"
+    [title]="chartOptions.title"
+  ></apx-chart>
+</div>

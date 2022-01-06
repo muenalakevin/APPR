@@ -4,6 +4,7 @@ import { StorageService } from 'src/app/core/services/storage.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Mesa } from './../../shared/models/mesa';
 import { Injectable } from '@angular/core';
+import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,8 @@ export class ConfiguracionService {
     /* configuracionMesero */
     getConfiguracionMesero(){
       return this.http.get(environment.API_URL + '/configuracion/mesero',this.httpOptions);
+    }
+    updateConfiguracionMesero(configuracionMesero:configuracionMesero){
+      return this.http.patch(environment.API_URL + '/configuracion/mesero',configuracionMesero,this.httpOptions);
     }
 }
