@@ -71,7 +71,6 @@ export class ConfiguracionComponent implements OnInit {
   skills:FormArray = new FormArray([new FormControl('', Validators.required),new FormControl('', Validators.required)]);
   ngOnInit() {
     this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
-      console.log(res)
       this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
         let configuracionMesero = res as configuracionMesero
         this.meseroConfig =  this.formBuilder.group({

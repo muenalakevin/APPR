@@ -33,7 +33,8 @@ export class MesasComponent implements OnInit {
   public displayedColumns = [
     'mesa',
     'nombre_mesa',
-    'descripcion_mesa','Editar',
+    'descripción_mesa',
+    'Editar',
     'Eliminar',
   ];
 
@@ -111,7 +112,6 @@ export class MesasComponent implements OnInit {
   async ngOnInit() {
     this.MesaService.getMesas().subscribe((mesas) => {
       this.mesas = <Mesa[]>mesas;
-      console.log(mesas);
       this.dataSource.data = mesas as Mesa[];
     });
 
@@ -137,13 +137,13 @@ export class MesasComponent implements OnInit {
       if (res) {
         this.MesaService.eliminarMesa(_id).subscribe(
           (data) =>
-            this.AlertService.showSuccess('Plato eliminado con exito'),
+            this.AlertService.showSuccess('Plato eliminado con éxito'),
           (error) => {
             this.AlertService.showErrorServidor();
           }
         );
       } else {
-        console.log('Cancelacion');
+        console.log('Cancelación');
       }
     });
   }

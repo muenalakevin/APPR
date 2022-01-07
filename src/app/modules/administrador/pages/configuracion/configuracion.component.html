@@ -21,46 +21,46 @@
   <mat-tab label="Mesero">
     <div class="container">
       <form [formGroup]="meseroConfig">
-        <h3>Seleccione rangos maximos de espera en minutos</h3>
+        <h3>Seleccione rangos máximos de espera en minutos</h3>
         <mat-form-field appearance="outline" class="my-2">
-          <mat-label>Satisfaccion adecuada</mat-label>
+          <mat-label>Satisfacción adecuada</mat-label>
           <input formControlName="satisfaccionAdecuada" type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
           <mat-hint>Ejemplo: 5</mat-hint>
           <mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['required']">
-              Satisfaccion adecuada requiere un numero
+              Satisfacción adecuada requiere un numero
             </mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['mayoresMenores']">
-              Satisfaccion adecuada no puede ser mayor que satisfaccion media y disatisfaccion
+              Satisfacción adecuada no puede ser mayor que satisfacción media y insatisfacción
             </mat-error>
           </mat-error>
         </mat-form-field> <br>
         <mat-form-field appearance="outline" class="my-2">
-          <mat-label>Satisfaccion media</mat-label>
+          <mat-label>Satisfacción media</mat-label>
           <input formControlName="satisfaccionMedia"  type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_dissatisfied</mat-icon>
           <mat-hint>Ejemplo: 10</mat-hint>
           <mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['required']">
-              Satisfaccion media requiere un numero
+              Satisfacción media requiere un numero
             </mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['mayoresMenores']">
-              Satisfaccion media no puede ser menor que satisfaccion adecuada y mayor que disatisfaccion
+              Satisfacción media no puede ser menor que satisfaccion adecuada y mayor que insatisfacción
             </mat-error>
           </mat-error>
         </mat-form-field><br>
         <mat-form-field appearance="outline" class="my-2">
-          <mat-label>Disatisfaccion</mat-label>
+          <mat-label>Insatisfacción</mat-label>
           <input formControlName="disatisfaccion"  type="number" matInput placeholder="0">
           <mat-icon matSuffix>sentiment_very_dissatisfied</mat-icon>
           <mat-hint>Ejemplo: 15</mat-hint>
           <mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['required']">
-              Disatisfaccion requiere un numero
+              Insatisfacción requiere un numero
             </mat-error>
             <mat-error  *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['mayoresMenores']">
-              Disatisfaccion no puede ser menor que satisfaccion adecuada y satisfaccion media
+              Insatisfacción no puede ser menor que satisfaccion adecuada y satisfaccion media
             </mat-error>
           </mat-error>
         </mat-form-field><br>
@@ -92,7 +92,7 @@
       (colorPickerChange)="meseroConfig.get('colorSatisfaccionMedia').setValue($event)"
       formControlName="colorSatisfaccionMedia" class="form-control form-control-color"  title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de mesa Disatisfaccion</label>
+      <label for="" class="form-label">Color de mesa Insatisfacción</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -156,7 +156,7 @@
           class="example-margin"
           (click)="meseroConfig.get('meseroEdit').setValue(!meseroConfig.get('meseroEdit').value)"
         >
-          Un mesero podra editar mesas ocupadas por otros meseros.
+          Un mesero podrá editar mesas ocupadas por otros meseros.
         </mat-checkbox>
         <div class="d-flex justify-content-center mb-5">
           <button mat-raised-button color="primary" (click)="guardarConfiguracionMesero()" >Guardar</button>
@@ -178,7 +178,7 @@
       </mat-checkbox>
       <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de boton ver</label>
+      <label for="" class="form-label">Color de botón ver</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -187,7 +187,7 @@
       >
       </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de boton listo</label>
+      <label for="" class="form-label">Color de botón listo</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -234,7 +234,7 @@
 
         class="example-margin"
       >
-       Cajero podra ver la previa de cierre de caja.
+       Cajero podrá ver la previa de cierre de caja.
       </mat-checkbox>
       <hr>
       <h3>Colores</h3>
@@ -248,7 +248,7 @@
       >
       </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de boton agregar cliente</label>
+      <label for="" class="form-label">Color de botón agregar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -258,7 +258,7 @@
       </mat-checkbox>
       <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de boton editar cliente</label>
+      <label for="" class="form-label">Color de botón editar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
@@ -267,7 +267,7 @@
       >
       </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
-      <label for="" class="form-label">Color de boton pagar</label>
+      <label for="" class="form-label">Color de botón pagar</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
