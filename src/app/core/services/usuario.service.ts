@@ -26,6 +26,10 @@ export class UsuarioService {
   getUsers(){
     return this.http.get(environment.API_URL + '/usuario',this.httpOptions);
   }
+  
+  getUsersMeseros(){
+    return this.http.get(environment.API_URL + '/usuario/mesero',this.httpOptions);
+  }
 
   guardarUsuario(usuario:UsuarioEnviar){
     return this.http.post(environment.API_URL + '/usuario',{usuario},this.httpOptions);

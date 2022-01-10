@@ -1,3 +1,4 @@
+import { EgresoComponent } from './pages/egreso/egreso.component';
 import { CrearClienteComponent } from './components/crearCliente/crearCliente.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -27,7 +28,8 @@ import { EditarClienteComponent } from './components/editarCliente/editarCliente
     CajeroComponent,
     CajaComponent,
     CrearClienteComponent,
-    EditarClienteComponent
+    EditarClienteComponent,
+    EgresoComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +49,8 @@ import { EditarClienteComponent } from './components/editarCliente/editarCliente
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    
   ]
 })
 export class CajeroModule { }

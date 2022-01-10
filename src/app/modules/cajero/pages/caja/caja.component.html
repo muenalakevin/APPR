@@ -1,4 +1,5 @@
 <!-- ------------------------------------------------------------------------------------------------------- -->
+<div *ngIf="caja!=null;else cajaChica">
 <mat-drawer-container class="contenedor m-0" autosize>
   <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
     <div class="container-fliud row m-0 pl-0">
@@ -212,8 +213,8 @@
       </div>
     </div>
   </mat-drawer>
-  <div class="container-fliud row m-0">
-    <div class="col-8 container mt-3">
+  <div class="container-fliud row m-0 h-80">
+    <div class="col-8 container mt-3 position-relative h-100">
       <div class="row">
         <div
           *ngFor="let mesa of mesas; let index = index"
@@ -243,6 +244,35 @@
           <p>{{ mesa.nombre_mesa }}</p>
         </div>
       </div>
+      <div class="position-absolute bottom-0  d-flex justify-content-between w-100">
+        <button class="btn btn-dark" (click)="modalGasto()">Realizar cierre de caja</button>
+        <button class="btn btn-primary" (click)="modalGasto()">Realizar gasto</button>
+      </div>
     </div>
   </div>
 </mat-drawer-container>
+</div>
+<ng-template #cajaChica>
+  <div class="container">
+    <h1 class="text-center">Abrir caja</h1>
+    <h2 class="text-center">Aun no tienes una caja abierta, ingresa los datos para proceder a realizar los cobros.</h2>
+    <form action="" class="d-flex justify-content-center w-100" [formGroup]="cajaForm">
+    <mat-form-field  appearance="outline" class="w-50">
+    
+      <mat-label>Caja chica</mat-label>
+      <input type="number" matInput placeholder="Ingrese nombre de egreso" formControlName="caja_chica">
+      <mat-error >
+        <mat-error *ngIf="cajaForm.controls['caja_chica'].errors?.['required']">
+          Caja chica es requerido.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    
+  </form>
+  <div class="d-flex justify-content-center w-100">
+    <button (click)="guardarCaja()" class="btn btn-primary">Abrir caja</button>
+  </div>
+ 
+  </div>
+  
+</ng-template>

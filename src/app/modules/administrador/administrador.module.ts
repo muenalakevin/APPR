@@ -1,3 +1,4 @@
+import { EgresosEIngresosComponent } from './charts/egresosEIngresos/egresosEIngresos.component';
 import { AgregarClienteComponent } from './components/agregarCliente/agregarCliente.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { ConfiguracionComponent } from './pages/configuracion/configuracion.component';
@@ -52,8 +53,10 @@ import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTI
 import { SwiperModule } from "swiper/angular";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component';
-import { MinutosEntregasClientesComponent } from './charts/minutosEntregasClientes/minutosEntregasClientes.component';
+import { MinutosEntregasClientesComponent, CustomDateFormat2, CustomDateFormat1, CustomDateFormat3 } from './charts/minutosEntregasClientes/minutosEntregasClientes.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
 
 @NgModule({
   declarations: [
@@ -76,8 +79,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ClientesComponent,
     AgregarClienteComponent,
     ClientesDiaComponent,
-    MinutosEntregasClientesComponent
-
+    MinutosEntregasClientesComponent,
+    EgresosEIngresosComponent,
+    CustomDateFormat2,
+    CustomDateFormat1,
+    CustomDateFormat3
   ],
   imports: [
     CommonModule,
@@ -104,6 +110,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     SwiperModule,
     HttpClientModule,
     NgApexchartsModule,
+    MatMomentDateModule,
   ],
   exports:[MatTableModule,MatSortModule,MatFormFieldModule,
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,

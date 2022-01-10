@@ -1,16 +1,15 @@
-import { environment } from './../../../environments/environment';
-import { Socket } from 'ngx-socket-io';
+import { Egreso } from './../../shared/models/egreso';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Socket } from 'ngx-socket-io';
+import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { Pedido } from 'src/app/shared/models/pedido';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PedidoService {
+export class EgresoService {
 
-  pedidos = this.socket.fromEvent<Pedido[]>('pedidos');
 
   headers_object = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -41,22 +40,8 @@ export class PedidoService {
     return this.http.get(environment.API_URL + '/pedido/2/'+idMesa,this.httpOptions);
   }
 
-  guardarPedido(pedido:Pedido){
-    return this.http.post(environment.API_URL + '/pedido',{pedido},this.httpOptions);
-  }
-
-  eliminarPedido(id_mesa:string,id_pedido:string){
-
-    return this.http.post(environment.API_URL + '/pedido/delete',{id_pedido,id_mesa},this.httpOptions);
-  }
-
-
-  editarPedido(pedido:Pedido){
-    return this.http.patch(environment.API_URL + '/pedido',{pedido},this.httpOptions);
-  }
-
-  enviarPedido(pedido:Pedido){
-    return this.http.post(environment.API_URL + '/pedido/enviar',{pedido},this.httpOptions);
+  guardarEgreso(egreso:Egreso){
+    return this.http.post(environment.API_URL + '/egreso',{egreso},this.httpOptions);
   }
 
 }

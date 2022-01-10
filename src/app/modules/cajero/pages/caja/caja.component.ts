@@ -1,3 +1,7 @@
+import { Caja } from './../../../../shared/models/caja';
+import { CajaService } from './../../../../core/services/caja.service';
+import { AlertService } from './../../../../core/services/alert.service';
+import { EgresoComponent } from './../egreso/egreso.component';
 import { ComprobanteService } from './../../../../core/services/comprobante.service';
 import { Comprobante } from './../../../../shared/models/comprobante';
 import { ClienteService } from './../../../../core/services/cliente.service';
@@ -43,21 +47,61 @@ export class CajaComponent implements OnInit {
   pedidoTotalPagar:Pedido  = new Pedido()
   pedidoTotalAux:Pedido = new Pedido()
   mesas: MesaSeleccionada[] = [];
-
+  caja:Caja = null
   pagoSelect = new FormControl("Efectivo");
-
+  cajaForm:FormGroup = this.FormBuilder.group({
+    caja_chica: new FormControl(0, [
+      Validators.required,
+    ])
+  })
 
   constructor(
     private PedidoService:PedidoService,
+    private FormBuilder:FormBuilder,
     private MesaService:MesaService,
     public dialog: MatDialog,
     public ClienteService: ClienteService,
     public ComprobanteService: ComprobanteService,
+    public AlertService: AlertService,
+    public CajaService: CajaService,
   ) { }
   applyFilterPlatos(event:Event){
 
   }
+  async guardarCaja(){
+    if(this.cajaForm.valid){
+      const caja:Caja = {
+            _id: "",
+            id_cajero:  "", 
+            caja_chica: this.cajaForm.value.cajaChica, 
+            cantidad_egreso: 0,
+            cantidad_ingreso: 0,
+            cantidad_descuentos: 0,
+            estado:  1,
+            createdAt: new Date()
+      }
+    await  this.CajaService.guardarCaja(caja).subscribe(res=>{
+      this.caja = res as Caja;
+        this.AlertService.showSuccess("Caja abierta con éxito.")
+       
+      })
+
+    }else{
+      this.AlertService.showWarning("No se pudo abrir la caja, ingrese una cantidad.")
+    }
+  }
+  modalGasto(){
+    const dialogRef = this.dialog.open(EgresoComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.clienteSelected = result.cliente
+    })
+    
+  }
   ngOnInit(): void {
+    this.CajaService.getCaja().subscribe(res=>{
+      this.caja=res as Caja;
+    })
     this.ClienteService.getClientes().subscribe(res=>{
        this.clientes = res as Cliente[]
     })
@@ -453,7 +497,8 @@ if(month < 10){
       this.mesaActual.estado = 1
       this.MesaService.editarMesa(this.mesaActual).subscribe(res=>{
         this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(res=>{
-
+          this.AlertService.showSuccess("Comprobante guardado con éxito.")
+          this.AlertService.showSuccess("Todos los platos fueron pagados.")
         }
 
         )
@@ -462,7 +507,7 @@ if(month < 10){
       }
       )
     }else{
-      this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe()
+      this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(()=>{  this.AlertService.showSuccess("Comprobante guardado con éxito.")})
       this.clear()
     }
 

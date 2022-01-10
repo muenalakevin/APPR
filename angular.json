@@ -35,7 +35,9 @@
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/moment/ts3.1-typings/moment.d.ts"
+            ]
           },
           "configurations": {
             "production": {

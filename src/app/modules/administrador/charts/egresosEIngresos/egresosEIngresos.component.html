@@ -1,7 +1,7 @@
 <div id="chart">
-  <h2>Reporte de satisfacción</h2>
+  <h2>Reporte de Ingresos e Egresos</h2>
   <div class="input-group mb-3">
-    <label class="input-group-text" for="inputGroupSelect01">Mesero</label>
+    <label class="input-group-text" for="inputGroupSelect01">Cajero</label>
     <select [(ngModel)]="mesero" (change)="orgValueChange()" class="form-select" id="inputGroupSelect01">
       <option value="" selected>Todos</option>
       <option value={{mesero._id}} *ngFor="let mesero of meseros" >{{mesero.usuario_usuario}}</option>
@@ -114,21 +114,13 @@
 </ng-template>
 </div>
     
-
-
-
-  
   <apx-chart
     [series]="chartOptions.series"
     [chart]="chartOptions.chart"
     [xaxis]="chartOptions.xaxis"
-    [stroke]="chartOptions.stroke"
     [colors]="chartOptions.colors"
+    [stroke]="chartOptions.stroke"
+    [tooltip]="chartOptions.tooltip"
     [dataLabels]="chartOptions.dataLabels"
-    [legend]="chartOptions.legend"
-    [markers]="chartOptions.markers"
-    [grid]="chartOptions.grid"
-    [yaxis]="chartOptions.yaxis"
-    [title]="chartOptions.title"
   ></apx-chart>
 </div>
