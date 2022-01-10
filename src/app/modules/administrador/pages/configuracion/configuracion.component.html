@@ -209,20 +209,25 @@
           <mat-hint>Ejemplo: 12 </mat-hint>
         </mat-form-field>
         <hr>
-        <h3>Metodos de pago</h3>
+        <h3>Métodos de pago</h3>
+        <button class="btn btn-primary" (click)="addMetodoPago()">Agregar método de pago</button>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Nombre del Método de Pago</th>
+              <th scope="col">Porcentaje</th>
               <th scope="col">Eliminar</th>
             </tr>
           </thead>
-          <tbody>
-          <tr  *ngFor="let control of skills.controls; index as i">
+          <tbody formArrayName="metodosPago">
+          <tr  *ngFor="let metodoPago of metodosPago.controls; let i = index" [formGroup]="metodoPago.controls">
             <th scope="row">{{i+1}}</th>
             <td> <mat-form-field>
-              <input matInput [formControl]="$any(skills.controls[i])" />
+              <input matInput  formControlName="nombre" />
+            </mat-form-field></td>
+            <td> <mat-form-field>
+              <input matInput  formControlName="porcentaje"  />
             </mat-form-field></td>
             <td><button mat-raised-button color="warn" >-</button></td>
           </tr>

@@ -64,11 +64,18 @@ export class ConfiguracionComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ConfiguracionService: ConfiguracionService,
     ) { }
-  configuracionCaja:FormGroup = this.formBuilder.group({
-    metodosDePago : new FormArray([new FormControl('', Validators.required)])
+
+
+  addMetodoPago(){
+
+  }
+  configuracionCaja = this.formBuilder.group({
+    metodosPago : this.formBuilder.array([])
   })
 
-  skills:FormArray = new FormArray([new FormControl('', Validators.required),new FormControl('', Validators.required)]);
+  get metodosPago(){
+    return this.configuracionCaja.controls["metodosPago"] as FormArray;
+  }
   ngOnInit() {
     this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
       this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
@@ -100,11 +107,6 @@ export class ConfiguracionComponent implements OnInit {
       {
           validator: this.mayoresMenores
         })
-
-
-
-
-
       })
     this.configuracionCaja = new FormGroup({
       metodosDePago : new FormArray([new FormControl('', Validators.required),new FormControl('', Validators.required)])
