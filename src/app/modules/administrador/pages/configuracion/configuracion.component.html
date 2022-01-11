@@ -20,6 +20,7 @@
   </mat-tab>
   <mat-tab label="Mesero">
     <div class="container">
+     
       <form [formGroup]="meseroConfig">
         <h3>Seleccione rangos máximos de espera en minutos</h3>
         <mat-form-field appearance="outline" class="my-2">
@@ -65,9 +66,11 @@
           </mat-error>
         </mat-form-field><br>
         <hr>
+        
         <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
-
+      <div class="row">
+        <div class="col-6">
       <label for="" class="form-label">Color de mesa satisfaccion adecuada</label>
       <div class="d-flex">
         <mat-checkbox
@@ -148,6 +151,66 @@
        (colorPickerChange)="meseroConfig.get('colorDisponible').setValue($event)"
        class="form-control form-control-color"   title="Choose your color">
       </div>
+    </div>
+    <div class="col-6">
+      <div class="p-5 w-100">
+        <div class="header-preview-mesero w-100"></div>
+        <div class="container-preview-mesero w-100 border border-secondary">
+          <div class="row h-100">
+              <div class="col-9 px-3">
+                <div class="row text-center">
+                <div class="col-3 ">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorSatisfaccion').value ? this.meseroConfig.get('colorSatisfaccion').value : '#28a745'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+                </div>
+                <div class="col-3">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorSatisfaccionMedia').value ? this.meseroConfig.get('colorSatisfaccionMedia').value : '#ffc107'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+              </div>
+              <div class="col-3">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorDisatisfaccion').value ? this.meseroConfig.get('colorDisatisfaccion').value : '#dc3545'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+              </div>
+              <div class="col-3">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorFueraTiempo').value ? this.meseroConfig.get('colorFueraTiempo').value : '#343a40'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+              </div>
+              <div class="col-3">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorOcupada').value ? this.meseroConfig.get('colorOcupada').value : '#6c757d'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+              </div>
+              <div class="col-3">
+                  <fa-icon
+                  [ngStyle]="{'color': this.meseroConfig.get('checkColorDisponible').value ? this.meseroConfig.get('colorDisponible').value : '#0d6efd'}"
+                  class="display-6 mesa mesa-preview-mesero"
+                  [icon]="faSquareIcon"
+                ></fa-icon>
+                </div>
+              </div>
+            </div>
+              <div class="col-3  pedidos-preview-mesero ">
+               
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
         <hr>
         <h3>Pedidos de mesero</h3>
         <mat-checkbox
@@ -162,6 +225,8 @@
           <button mat-raised-button color="primary" (click)="guardarConfiguracionMesero()" >Guardar</button>
         </div>
       </form>
+      
+  
     </div>
   </mat-tab>
   <mat-tab label="Cocina">
@@ -221,7 +286,7 @@
             </tr>
           </thead>
           <tbody formArrayName="metodosPago">
-          <tr  *ngFor="let metodoPago of metodosPago.controls; let i = index" [formGroup]="metodoPago.controls">
+          <tr  *ngFor="let metodoPago of metodosPago.controls; let i = index" [formGroup]="metodoPago">
             <th scope="row">{{i+1}}</th>
             <td> <mat-form-field>
               <input matInput  formControlName="nombre" />

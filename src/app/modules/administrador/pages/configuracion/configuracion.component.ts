@@ -2,6 +2,7 @@ import { FormGroup, Validators, FormControl, FormArray, FormBuilder, AbstractCon
 import { Component, OnInit } from '@angular/core';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-configuracion',
@@ -9,6 +10,7 @@ import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero'
   styleUrls: ['./configuracion.component.css']
 })
 export class ConfiguracionComponent implements OnInit {
+  faSquareIcon=faSquare
   meseroConfig:FormGroup = this.formBuilder.group({
     satisfaccionAdecuada: new FormControl(0, [
       Validators.required,
@@ -66,15 +68,25 @@ export class ConfiguracionComponent implements OnInit {
     ) { }
 
 
-  addMetodoPago(){
 
-  }
   configuracionCaja = this.formBuilder.group({
-    metodosPago : this.formBuilder.array([])
+    metodosPago : this.formBuilder.array([
+      
+    ])
   })
 
   get metodosPago(){
     return this.configuracionCaja.controls["metodosPago"] as FormArray;
+  }
+  addMetodoPago(){
+    let metodoPago = this.formBuilder.group({
+      nombre: new FormControl("name", [
+        Validators.required,
+      ]),
+      porcentaje: new FormControl(0, [
+        Validators.required,
+      ])})
+      this.metodosPago.push(metodoPago);
   }
   ngOnInit() {
     this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
@@ -108,9 +120,6 @@ export class ConfiguracionComponent implements OnInit {
           validator: this.mayoresMenores
         })
       })
-    this.configuracionCaja = new FormGroup({
-      metodosDePago : new FormArray([new FormControl('', Validators.required),new FormControl('', Validators.required)])
-    })
 
 
 

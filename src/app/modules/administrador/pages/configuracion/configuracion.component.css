@@ -1,0 +1,18 @@
+::ng-deep .mat-tab-body-content {
+    overflow: hidden!important;
+}
+.header-preview-mesero{
+    height: 25px;
+    background-color: #212529;
+}
+.container-preview-mesero{
+    overflow: hidden;
+    height: 250px;
+}
+
+.mesa-preview-mesero{
+  
+}
+.pedidos-preview-mesero{
+    background-color: rgb(131, 131, 131); 
+}
