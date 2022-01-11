@@ -55,12 +55,18 @@ configuracionCaja = this.formBuilder.group({
   metodosPago : this.formBuilder.array([
 
   ]),
+
   colorFlechas: new FormControl(1),
+  checkColorFlechas: new FormControl(1),
   cierreCaja: new FormControl(""),
   colorAgregarCliente: new FormControl(""),
+  checkColorAgregarCliente: new FormControl(""),
   colorEditarCliente: new FormControl(""),
+  checkColorEditarCliente: new FormControl(""),
   colorFueraTiempo: new FormControl(""),
+  checkColorFueraTiempo: new FormControl(""),
   colorPagar: new FormControl(""),
+  checkColorPagar: new FormControl(""),
 })
   constructor(
     private AlertService:AlertService,
@@ -108,6 +114,7 @@ configuracionCaja = this.formBuilder.group({
         colorFlechas: new FormControl(configuracionCaja.colorFlechas.color),
         colorPagar: new FormControl(configuracionCaja.colorPagar.color),
       })
+      console.log(this.configuracionCaja)
       for (let i = 0; i < configuracionCaja.metodosPago.length; i++) {
         let metodoPago = this.formBuilder.group({
           nombre: new FormControl(configuracionCaja.metodosPago[i].nombre, [

@@ -1,8 +1,10 @@
 import { PlatoPedido } from './platoPedido';
 import { Pedido } from './pedido';
 import { Cliente } from './cliente';
+import { Caja } from './caja';
 export class Comprobante{
     public _id:string
+    public caja:Caja
     public pedido_comprobante:Pedido
     public cliente_comprobante:Cliente
     public fecha_comprobante:Date

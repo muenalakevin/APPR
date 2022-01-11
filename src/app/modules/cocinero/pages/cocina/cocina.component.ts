@@ -12,6 +12,8 @@ import { interval, Subscription } from 'rxjs';
 
 import { PedidoService } from './../../../../core/services/pedido.service';
 import { Mesa } from 'src/app/shared/models/mesa';
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
+import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 
 @Component({
   selector: 'app-cocina',
@@ -110,6 +112,7 @@ actualizarFiltroCategorias(){
 }
 
   ngOnInit(): void {
+
     this.MesaService.getMesas().subscribe((mesas) => {
       this.mesas = <MesaSeleccionada[]>mesas;
     });

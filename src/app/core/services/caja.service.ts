@@ -28,6 +28,10 @@ export class CajaService {
 
   guardarCaja(caja:Caja){
     return this.http.post(environment.API_URL + '/caja',{caja},this.httpOptions);
+
+  }
+  actualizarCaja(caja:Caja){
+    return this.http.patch(environment.API_URL + '/caja',{caja},this.httpOptions);
   }
 
 }

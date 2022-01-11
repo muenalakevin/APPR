@@ -269,7 +269,7 @@
         <h3>Iva</h3>
         <mat-form-field appearance="outline">
           <mat-label>Porcentaje de Iva</mat-label>
-          <input matInput type="number" placeholder="Iva" />
+          <input  formControlName="iva"  matInput type="number" placeholder="Iva" />
           <mat-icon matSuffix>%</mat-icon>
           <mat-hint>Ejemplo: 12 </mat-hint>
         </mat-form-field>
@@ -291,21 +291,41 @@
           <tbody formArrayName="metodosPago">
           <tr  *ngFor="let metodoPago of metodosPago.controls; let i = index" [formGroup]="metodoPago">
             <th scope="row">{{i+1}}</th>
-            <td> <mat-form-field>
-              <input matInput  formControlName="nombre" />
-            </mat-form-field></td>
-            <td> <mat-form-field>
-              <input matInput  formControlName="porcentaje"  />
-            </mat-form-field></td>
-            <td> <mat-form-field>
-              <input matInput  formControlName="valor"  />
-            </mat-form-field></td>
+            <td>
+              <mat-form-field appearance="outline">
+                <mat-label>Nobmre</mat-label>
+                <input formControlName="nombre" matInput type="text" placeholder="Ingrese nombre del método de pago" />
+                <mat-hint>Ejemplo: efectivo </mat-hint>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline">
+                <mat-label>Porcentaje</mat-label>
+
+                <input formControlName="porcentaje" matInput type="number" placeholder="Ingrese el porcentaje del método de pago" />
+                <mat-icon matSuffix>%</mat-icon>
+                <mat-hint>numero del 0 al 100 </mat-hint>
+              </mat-form-field>
+
+           </td>
+
+            <td>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                <mat-icon matPrefix>$</mat-icon>
+                <input formControlName="valor" matInput type="number" placeholder="Ingrese el valor del método de pago" />
+
+                <mat-hint>ejemplo: 2.50 </mat-hint>
+              </mat-form-field>
+
+       </td>
             <td>
               <div class="form-check form-switch">
                 <input
 
                 formControlName="descuentoIncremento"   class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                <label class="form-check-label" for="flexSwitchCheckDefault">incremento</label>
+                <label class="form-check-label" for="flexSwitchCheckDefault">{{(metodoPago.get('descuentoIncremento').value)?'Interés':'Descuento'}}</label>
               </div>
 
           </td>
@@ -318,19 +338,19 @@
         <hr>
         <h3>Cierre de caja</h3>
         <div class="form-check">
-          <input  formControlName="cierreCaja" class="form-check-input" type="radio" value="1" name="cierreCaja" id="flexRadioDefault1"checked>
+          <input  formControlName="cierreCaja" [value]="1" class="form-check-input" type="radio" name="cierreCaja" id="flexRadioDefault1"checked>
           <label class="form-check-label" for="flexRadioDefault1">
             Cajero no podrá ver el valor del cierre de caja.
           </label>
         </div>
         <div class="form-check">
-          <input formControlName="cierreCaja"  class="form-check-input" type="radio" value="2" name="cierreCaja" id="flexRadioDefault2" >
+          <input formControlName="cierreCaja"  [value]="2" class="form-check-input" type="radio"  name="cierreCaja" id="flexRadioDefault2" >
           <label class="form-check-label" for="flexRadioDefault2">
             Cajero podrá ver el valor después del cierre de caja.
           </label>
         </div>
         <div class="form-check">
-          <input formControlName="cierreCaja" class="form-check-input" type="radio"  value="3"name="cierreCaja" id="flexRadioDefault3" >
+          <input formControlName="cierreCaja" [value]="3" class="form-check-input" type="radio" name="cierreCaja" id="flexRadioDefault3" >
           <label class="form-check-label" for="flexRadioDefault3">
             Cajero siempre podrá ver el valor del cierre de caja.
           </label>
@@ -342,7 +362,8 @@
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-        (click)="configuracionCaja.get('checkColorFlechas').setValue(!meseroConfig.get('checkColorFlechas').value)"
+        formControlName="checkColorFlechas"
+        (click)="configuracionCaja.get('checkColorFlechas').setValue(!configuracionCaja.get('checkColorFlechas').value)"
         class="my-auto mx-3"
       >
       </mat-checkbox><input
@@ -354,7 +375,8 @@
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-        (click)="configuracionCaja.get('checkColorAgregarCliente').setValue(!meseroConfig.get('checkColorAgregarCliente').value)"
+        formControlName="checkColorAgregarCliente"
+        (click)="configuracionCaja.get('checkColorAgregarCliente').setValue(!configuracionCaja.get('checkColorAgregarCliente').value)"
         class="my-auto mx-3"
       >
       </mat-checkbox>
@@ -367,7 +389,8 @@
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-        (click)="configuracionCaja.get('checkColorEditarCliente').setValue(!meseroConfig.get('checkColorEditarCliente').value)"
+        formControlName="checkColorEditarCliente"
+        (click)="configuracionCaja.get('checkColorEditarCliente').setValue(!configuracionCaja.get('checkColorEditarCliente').value)"
         class="my-auto mx-3"
       >
       </mat-checkbox><input
@@ -379,8 +402,8 @@
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-        (click)="configuracionCaja.get('checkColorPagar').setValue(!meseroConfig.get('checkColorPagar').value)"
-
+        formControlName="checkColorPagar"
+        (click)="configuracionCaja.get('checkColorPagar').setValue(!configuracionCaja.get('checkColorPagar').value)"
         class="my-auto mx-3"
       >
       </mat-checkbox>

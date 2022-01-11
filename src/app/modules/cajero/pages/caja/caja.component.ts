@@ -22,6 +22,9 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import {CdkDragDrop, CdkDragExit, copyArrayItem, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { EditarClienteComponent } from '../../components/editarCliente/editarCliente.component';
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
+import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
+import { metodoPago } from 'src/app/shared/models/metodoPago';
 
 @Component({
   selector: 'app-caja',
@@ -37,6 +40,8 @@ export class CajaComponent implements OnInit {
   pedidoSeleccionado:Pedido = new Pedido()
   clientes:Cliente[] = []
   total = 0
+  metodoSelected:metodoPago = new metodoPago()
+  configuracionCaja:configuracionCaja
   stateCtrl = new FormControl();
  clienteSelected:Cliente = new Cliente();
    search:FormControl = new FormControl(null)
@@ -48,7 +53,7 @@ export class CajaComponent implements OnInit {
   pedidoTotalAux:Pedido = new Pedido()
   mesas: MesaSeleccionada[] = [];
   caja:Caja = null
-  pagoSelect = new FormControl("Efectivo");
+  pagoSelect = new FormControl(0);
   cajaForm:FormGroup = this.FormBuilder.group({
     caja_chica: new FormControl(0, [
       Validators.required,
@@ -64,16 +69,21 @@ export class CajaComponent implements OnInit {
     public ComprobanteService: ComprobanteService,
     public AlertService: AlertService,
     public CajaService: CajaService,
+    public ConfiguracionService: ConfiguracionService,
   ) { }
   applyFilterPlatos(event:Event){
 
+  }
+
+  changeMetodoSelected(metodo:number){
+    this.metodoSelected = this.configuracionCaja.metodosPago[metodo]
   }
   async guardarCaja(){
     if(this.cajaForm.valid){
       const caja:Caja = {
             _id: "",
-            id_cajero:  "", 
-            caja_chica: this.cajaForm.value.cajaChica, 
+            id_cajero:  "",
+            caja_chica: this.cajaForm.value.cajaChica,
             cantidad_egreso: 0,
             cantidad_ingreso: 0,
             cantidad_descuentos: 0,
@@ -83,7 +93,7 @@ export class CajaComponent implements OnInit {
     await  this.CajaService.guardarCaja(caja).subscribe(res=>{
       this.caja = res as Caja;
         this.AlertService.showSuccess("Caja abierta con éxito.")
-       
+
       })
 
     }else{
@@ -96,9 +106,15 @@ export class CajaComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.clienteSelected = result.cliente
     })
-    
+
   }
+
   ngOnInit(): void {
+    this.ConfiguracionService.getConfiguracionCaja().subscribe(res=>{
+      this.configuracionCaja = res as configuracionCaja
+      this.metodoSelected = this.configuracionCaja.metodosPago[0]
+
+    });
     this.CajaService.getCaja().subscribe(res=>{
       this.caja=res as Caja;
     })
@@ -195,9 +211,7 @@ export class CajaComponent implements OnInit {
   drop(event: CdkDragDrop<PlatoPedido[]>) {
 
     let pedido = JSON.parse(JSON.stringify(event.previousContainer.data[event.previousIndex]));
-    console.log(event.previousContainer.data[event.previousIndex].cantidad_lista)
     if (event.previousContainer === event.container) {
-      console.log("entra");
      // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       if(this.pedidoTotal.pedidos.find(pTA=>pTA.plato._id==pedido.plato._id)!= undefined){
@@ -309,10 +323,8 @@ export class CajaComponent implements OnInit {
     }else{
         return "text-primary"
     }
-
-
-
   }
+
   dateNow(){
     let date = new Date()
 
@@ -480,6 +492,7 @@ if(month < 10){
 
     let comprobante:Comprobante = new Comprobante();
     comprobante.cliente_comprobante=this.clienteSelected
+    comprobante.caja=this.caja
     comprobante.detalle_comprobante = this.pedidoTotalAux.pedidos
     comprobante.iva_comprobante = 0.12
     comprobante.pedido_comprobante = this.pedidoSeleccionado
@@ -490,15 +503,19 @@ if(month < 10){
     this.pedidoTotalPagar.pedidos.map(ped=>{
       servido+=ped.cantidad_servida
     })
-    console.log(this.pedidoTotalPagar);
+
+    this.caja.cantidad_ingreso = comprobante.total_comprobante
     if(servido==0){
+
       this.pedidoTotalPagar.estado = 3
       this.pedidoTotalPagar.horaDeEntrega = new Date(Date.now())
       this.mesaActual.estado = 1
       this.MesaService.editarMesa(this.mesaActual).subscribe(res=>{
         this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(res=>{
+          this.CajaService.actualizarCaja(this.caja).subscribe(()=>{
           this.AlertService.showSuccess("Comprobante guardado con éxito.")
           this.AlertService.showSuccess("Todos los platos fueron pagados.")
+          })
         }
 
         )
@@ -507,7 +524,11 @@ if(month < 10){
       }
       )
     }else{
-      this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(()=>{  this.AlertService.showSuccess("Comprobante guardado con éxito.")})
+      this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(()=>{
+        this.CajaService.actualizarCaja(this.caja).subscribe(()=>{
+          this.AlertService.showSuccess("Comprobante guardado con éxito.")})
+        })
+
       this.clear()
     }
 

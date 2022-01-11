@@ -39,6 +39,7 @@
                       <button
                         (click)="movePedidoPago(pedido)"
                         class="h-100 btn btn-dark text-center"
+                        [ngStyle]="{'background-color': this.configuracionCaja.colorFlechas.check ? this.configuracionCaja.colorFlechas.color : '#343a40'}"
                       >
                         >
                       </button>
@@ -97,14 +98,17 @@
                   {{ cliente.apellido_cliente }}</a
                 >
               </li>
-              <button class="btn btn-primary w-100" (click)="openDialogCrear()">
+              <button
+              [ngStyle]="{'background-color': this.configuracionCaja.colorAgregarCliente.check ? this.configuracionCaja.colorAgregarCliente.color : '#343a40'}"
+              class="btn color-white w-100" (click)="openDialogCrear()">
                 Crear cliente
               </button>
             </ul>
           </div>
           <div class="d-flex justify-content-end">
             <button
-              class="btn btn-dark text-white"
+            [ngStyle]="{'background-color': this.configuracionCaja.colorEditarCliente.check ? this.configuracionCaja.colorEditarCliente.color : '#343a40'}"
+              class="btn text-white"
               *ngIf="clienteSelected.nombre_cliente != ''"
               (click)="openDialogEditar()"
             >
@@ -137,11 +141,8 @@
           </div>
           <div>
             <p>Forma de pago</p>
-            <select class="form-select" aria-label="Default select example"  [formControl]="pagoSelect">
-              <option selected>Efectivo</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select  [formControl]="pagoSelect"   (change)="changeMetodoSelected($event.target.value)"   class="form-select" aria-label="Default select example" >
+              <option [value]="i" *ngFor="let metodoPago of configuracionCaja.metodosPago;let i = index" >{{metodoPago.nombre}}</option>
             </select>
           </div>
 
@@ -171,7 +172,8 @@
                   <th scope="row">
                     <button
                       (click)="movePedidoTotal(pedido)"
-                      class="h-100 btn btn-dark text-center"
+                      class="h-100 btn text-white text-center"
+                      [ngStyle]="{'background-color': this.configuracionCaja.colorFlechas.check ? this.configuracionCaja.colorFlechas.color : '#343a40'}"
                     >
                       <
                     </button>
@@ -194,15 +196,25 @@
             <div class="row">
               <div class="col-6 text-end">Sub total:</div>
               <div class="col-6 text-center">{{ total | currency }}</div>
+              <div class="col-6 text-end">Descuento:</div>
+              <div class="col-6 text-center" >{{ !metodoSelected.descuentoIncremento ?((( total * metodoSelected.porcentaje) + metodoSelected.valor ) | currency) :0| currency }}</div>
               <div class="col-6 text-end">Iva:</div>
               <div class="col-6 text-center">{{ total * 0.12 | currency }}</div>
+              <div class="col-6 text-end">Interés:</div>
+              <div class="col-6 text-center">{{ metodoSelected.descuentoIncremento?((( total * metodoSelected.porcentaje) + metodoSelected.valor ) | currency) : 0 | currency }}</div>
+              <hr>
               <div class="col-6 text-end">Total:</div>
-              <div class="col-6 text-center">{{ total * 1.12 | currency }}</div>
+              <div class="col-6 text-center">{{
+                metodoSelected.descuentoIncremento ?(((( total * metodoSelected.porcentaje) + metodoSelected.valor ) + total * 1.12 )| currency) :
+              ( (  total * 1.12 -(( total * metodoSelected.porcentaje) + metodoSelected.valor ) ) * 1.12 )| currency
+
+              }}</div>
             </div>
           </div>
           <div class="d-flex justify-content-end my-5">
             <button
-              class="btn btn-dark px-5"
+            [ngStyle]="{'background-color': this.configuracionCaja.colorPagar.check ? this.configuracionCaja.colorPagar.color : '#343a40'}"
+              class="btn text-white  px-5"
               *ngIf="canPay()"
               (click)=" pagar()"
             >
@@ -258,7 +270,7 @@
     <h2 class="text-center">Aun no tienes una caja abierta, ingresa los datos para proceder a realizar los cobros.</h2>
     <form action="" class="d-flex justify-content-center w-100" [formGroup]="cajaForm">
     <mat-form-field  appearance="outline" class="w-50">
-    
+
       <mat-label>Caja chica</mat-label>
       <input type="number" matInput placeholder="Ingrese nombre de egreso" formControlName="caja_chica">
       <mat-error >
@@ -267,12 +279,12 @@
         </mat-error>
       </mat-error>
     </mat-form-field>
-    
+
   </form>
   <div class="d-flex justify-content-center w-100">
     <button (click)="guardarCaja()" class="btn btn-primary">Abrir caja</button>
   </div>
- 
+
   </div>
-  
+
 </ng-template>
