@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -39,57 +41,88 @@ export class ConfiguracionComponent implements OnInit {
     checkColorDisponible: new FormControl(false, [
       Validators.required,
     ]),
-    colorSatisfaccion: new FormControl("", [
-      Validators.required,
-    ]),
-    colorSatisfaccionMedia: new FormControl("", [
-      Validators.required,
-    ]),
-    colorDisatisfaccion: new FormControl("", [
-      Validators.required,
-    ]),
-    colorFueraTiempo: new FormControl("", [
-      Validators.required,
-    ]),
-    colorOcupada: new FormControl("", [
-      Validators.required,
-    ]),
-    colorDisponible: new FormControl("", [
-      Validators.required,
-    ]),
-    meseroEdit: new FormControl("", [
-      Validators.required,
-    ]),
+    colorSatisfaccion: new FormControl(""),
+    colorSatisfaccionMedia: new FormControl(""),
+    colorDisatisfaccion: new FormControl(""),
+    colorFueraTiempo: new FormControl(""),
+    colorOcupada: new FormControl(""),
+    colorDisponible: new FormControl(""),
+    meseroEdit: new FormControl(""),
 
 })
+configuracionCaja = this.formBuilder.group({
+  iva: new FormControl(""),
+  metodosPago : this.formBuilder.array([
+
+  ]),
+  colorFlechas: new FormControl(1),
+  cierreCaja: new FormControl(""),
+  colorAgregarCliente: new FormControl(""),
+  colorEditarCliente: new FormControl(""),
+  colorFueraTiempo: new FormControl(""),
+  colorPagar: new FormControl(""),
+})
   constructor(
+    private AlertService:AlertService,
     private formBuilder: FormBuilder,
     private ConfiguracionService: ConfiguracionService,
     ) { }
 
 
 
-  configuracionCaja = this.formBuilder.group({
-    metodosPago : this.formBuilder.array([
-      
-    ])
-  })
+
 
   get metodosPago(){
     return this.configuracionCaja.controls["metodosPago"] as FormArray;
   }
   addMetodoPago(){
     let metodoPago = this.formBuilder.group({
-      nombre: new FormControl("name", [
+      nombre: new FormControl("", [
         Validators.required,
       ]),
-      porcentaje: new FormControl(0, [
-        Validators.required,
-      ])})
+      porcentaje: new FormControl(0),
+      valor: new FormControl(0),
+      descuentoIncremento: new FormControl(false),
+      estado: new FormControl(0),
+    })
       this.metodosPago.push(metodoPago);
   }
   ngOnInit() {
-    this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
+
+    this.ConfiguracionService.getConfiguracionCaja().subscribe(res=>{
+      let configuracionCaja = res as configuracionCaja
+      this.configuracionCaja = this.formBuilder.group({
+        iva: new FormControl(configuracionCaja.iva, [
+          Validators.required,
+        ]),
+        metodosPago:  new FormArray([]),
+        cierreCaja: new FormControl(configuracionCaja.cierreCaja, [
+          Validators.required,
+        ]),
+        checkColorAgregarCliente: new FormControl(configuracionCaja.colorAgregarCliente.check),
+        checkColorEditarCliente: new FormControl(configuracionCaja.colorEditarCliente.check),
+        checkColorFlechas: new FormControl(configuracionCaja.colorFlechas.check),
+        checkColorPagar: new FormControl(configuracionCaja.colorPagar.check),
+        colorAgregarCliente: new FormControl(configuracionCaja.colorAgregarCliente.color),
+        colorEditarCliente: new FormControl(configuracionCaja.colorEditarCliente.color),
+        colorFlechas: new FormControl(configuracionCaja.colorFlechas.color),
+        colorPagar: new FormControl(configuracionCaja.colorPagar.color),
+      })
+      for (let i = 0; i < configuracionCaja.metodosPago.length; i++) {
+        let metodoPago = this.formBuilder.group({
+          nombre: new FormControl(configuracionCaja.metodosPago[i].nombre, [
+            Validators.required,
+          ]),
+          porcentaje: new FormControl(configuracionCaja.metodosPago[i].porcentaje),
+          valor: new FormControl(configuracionCaja.metodosPago[i].valor),
+          descuentoIncremento: new FormControl(configuracionCaja.metodosPago[i].descuentoIncremento),
+          estado: new FormControl(configuracionCaja.metodosPago[i].estado),
+        })
+          this.metodosPago.push(metodoPago);
+
+      }
+    });
+
       this.ConfiguracionService.getConfiguracionMesero().subscribe(res=>{
         let configuracionMesero = res as configuracionMesero
         this.meseroConfig =  this.formBuilder.group({
@@ -121,11 +154,6 @@ export class ConfiguracionComponent implements OnInit {
         })
       })
 
-
-
-
-
-    })
   }
  mayoresMenores(meseroConfig: AbstractControl):ValidationErrors | null {3
 
@@ -182,8 +210,42 @@ export class ConfiguracionComponent implements OnInit {
     }
     console.log(configuracionMesero)
     this.ConfiguracionService.updateConfiguracionMesero(configuracionMesero).subscribe(res=>{
-      console.log(    res)
+      this.AlertService.showSuccess('Configuración de mesero guardado con éxito.')
     })
+  }else{
+    this.AlertService.showWarning('Ingrese todos los datos.')
+  }
+  }
+  guardarConfiguracioCaja(){
+    console.log(this.configuracionCaja.value)
+    if(this.configuracionCaja.valid){
+
+    let configuracionCaja:configuracionCaja ={
+      iva: this.configuracionCaja.get('iva').value,
+      metodosPago: this.configuracionCaja.get('metodosPago').value,
+      cierreCaja: this.configuracionCaja.get('cierreCaja').value,
+      colorAgregarCliente: {
+        check:this.configuracionCaja.get('checkColorAgregarCliente').value,
+        color:this.configuracionCaja.get('colorAgregarCliente').value,
+      },
+      colorEditarCliente: {
+        check:this.configuracionCaja.get('checkColorEditarCliente').value,
+        color:this.configuracionCaja.get('colorEditarCliente').value,
+      },
+      colorFlechas: {
+        check:this.configuracionCaja.get('checkColorFlechas').value,
+        color:this.configuracionCaja.get('colorFlechas').value,
+      },
+      colorPagar: {
+        check:this.configuracionCaja.get('checkColorPagar').value,
+        color:this.configuracionCaja.get('colorPagar').value,
+      },
+    }
+    this.ConfiguracionService.updateConfiguracionCaja(configuracionCaja).subscribe(res=>{
+      this.AlertService.showSuccess('Configuración de cajero guardado con éxito.')
+    })
+  }else{
+    this.AlertService.showWarning('Ingrese todos los datos.')
   }
   }
   checkValue(event: any){

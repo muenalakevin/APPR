@@ -37,7 +37,7 @@ export const MY_FORMATS = {
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
   },
-};  
+};
 
 
 
@@ -149,7 +149,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
     }
   };
 
-  fechaInicio:Date 
+  fechaInicio:Date
   fechaFin:Date = new Date(Date.now())
   pedidos:Pedido[]=[]
   pedidosSatisfaccion1:Pedido[]=[]
@@ -187,15 +187,15 @@ export class MinutosEntregasClientesComponent implements OnInit{
         }
       }
 
-      
+
 
     }
 
   chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDateRangePicker<Moment>) {
     if(this.tipoFiltrado > 1){
-      
 
-   
+
+
     if(this.paso==1){
       this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
       setTimeout(function(){
@@ -210,7 +210,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
     datepicker.close();
     }
   }
- 
+
 
   chosenYearHandler2(normalizedYear: Moment,  datepicker: MatDatepicker<Moment>) {
 
@@ -229,14 +229,14 @@ export class MinutosEntregasClientesComponent implements OnInit{
         this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
         this.orgValueChange()
       datepicker.close();
-      
+
       }
   }
   ngOnInit() {
 
     this.fechaInicio = new Date('2021-11-11T10:20:30Z');
     this.fechaFin = new Date(Date.now());
-    
+
   }
 
   filtrarPorSatisfaccion(nivelDeSatisfaccion1:number,nivelDeSatisfaccion2:number){
@@ -256,7 +256,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
     })
   }
   creardorDeDias(fechaInicio:Date, fechaFin:Date){
-   
+
     let diferencia = moment(fechaInicio).toDate().getTime()-fechaFin.getTime()
     var contdias = Math.abs(Math.round(diferencia/(1000*60*60*24)));
 
@@ -272,7 +272,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
     var current_date = new Date(fechaFin);
     return (current_date.getFullYear()  - past_date.getFullYear())+1;
   }
-  
+
   sacarArrayHoras(fechaInicio:Date){
 
     let stringConstruido:string[] = [];
@@ -293,11 +293,11 @@ export class MinutosEntregasClientesComponent implements OnInit{
     let mesInicial = fechaInicio.getMonth();
     let anioInicial = fechaInicio.getFullYear();
 
-   
+
     let stringConstruido:string[] = [];
       for(let i =0;i<cantidadDias;i++){
         let constructorString = ""
-       
+
 
         let dia = diaInicial.toString()
         let mes = (mesInicial+1).toString()
@@ -311,7 +311,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
         let isValidDate = moment(testDate, 'DD/MM/YYYY',true).isValid();
 
         if (isValidDate) {
-          
+
           constructorString = diaInicial +" "+ this.meses[mesInicial]+" "+anioInicial;
           diaInicial++
           stringConstruido.push(constructorString)
@@ -328,9 +328,9 @@ export class MinutosEntregasClientesComponent implements OnInit{
             diaInicial=1
           }
         }
-        
-          
-          
+
+
+
       }
       return stringConstruido;
   }
@@ -363,9 +363,9 @@ export class MinutosEntregasClientesComponent implements OnInit{
       }
       return stringConstruido;
   }
-  
+
   sacarPedidosHoras(fechaInicio:Date,pedidosSatisfaccion:Array<Pedido>){
-   
+
     let mesInicial = fechaInicio.getMonth()+1;
     let anioInicial = fechaInicio.getFullYear();
     let diaInicial = fechaInicio.getDate();
@@ -373,9 +373,9 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i = 0;i<=24;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
-        
+
           let horaInicialPedido = new Date(p.horaDeEntrega).getHours();
-        
+
                   if(horaInicialPedido>=i &&  horaInicialPedido<=i+1){
                     satisfaccion++
                   }
@@ -400,7 +400,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i =0;i<cantidadDias;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
-          
+
           let mesInicialPedido = new Date(p.horaDeEntrega).getMonth()+1;
           let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
           let diaInicialPedido = new Date(p.horaDeEntrega).getDate();
@@ -408,7 +408,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
             if(mesInicialPedido==mesInicial){
                 if(diaInicial+i==diaInicialPedido){
                 satisfaccion++
-                
+
               }
             }
           }
@@ -422,7 +422,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
             mesInicial = 1;
           } */
 
-          
+
       }
       return satisfaccionConstruido;
   }
@@ -486,8 +486,6 @@ export class MinutosEntregasClientesComponent implements OnInit{
         }else{
           this.fechaInicio = new Date(this.fechaFin.getFullYear(),month,1,0,0,0)
         }
-        console.log(this.fechaInicio);
-        console.log(this.fechaFin);
       this.orgValueChange()
     })
 
@@ -512,7 +510,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
         this.fechaFin = new Date(Date.now());
         this.fechaFin = new Date( this.fechaFin.getFullYear(),11,31,23,59,59);
         this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,0,0,0,0,0);
-  
+
       }
     }else{
       if(this.tipoFiltrado==1){
@@ -529,14 +527,14 @@ export class MinutosEntregasClientesComponent implements OnInit{
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
       }
     }
-   
-    
+
+
     this.orgValueChange()
   }
 
 
   orgValueChange(){
-    
+
     this.fechaInicio = moment(this.fechaInicio).toDate()
     this.fechaFin = moment(this.fechaFin).toDate()
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
@@ -580,18 +578,16 @@ export class MinutosEntregasClientesComponent implements OnInit{
         }
       }else{
         if(this.tipoFiltrado==1){
-          this.fechaFin = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),this.fechaFin.getDate(),0,0,0);
-          this.fechaInicio = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),this.fechaFin.getDate(),23,59,59);
+          this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0);
+          this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),23,59,59);
         }else if(this.tipoFiltrado==2){
-          this.fechaFin = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),1,0,0,0);
-          this.fechaInicio = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth() +1, 0).getDate(),23,59,59);
+          this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),1,0,0,0);
+          this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth() +1, 0).getDate(),23,59,59);
         }else{
-          this.fechaFin = new Date( this.fechaFin.getFullYear(),0,1,0,0,0);
-          this.fechaInicio = new Date( this.fechaFin.getFullYear(),11,31,23,59,59);
+          this.fechaInicio = new Date( this.fechaInicio.getFullYear(),0,1,0,0,0);
+          this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
         }
       }
-      console.log(this.fechaInicio);
-      console.log(this.fechaFin);
     this.PedidoService.getPedidosFecha(this.fechaInicio,this.fechaFin,this.tipoSeleccion,this.tipoFiltrado,this.mesero).subscribe(res=>{
 
       this.pedidos = res as Pedido[]
@@ -603,9 +599,9 @@ export class MinutosEntregasClientesComponent implements OnInit{
       let pedidos2
       let pedidos3
       let pedidos4
-      
 
-      
+
+
       if(this.tipoFiltrado==1){
         if(this.tipoSeleccion == 1){
           let cantidadDeDias=this.creardorDeDias(this.fechaInicio,this.fechaFin);
@@ -621,7 +617,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
           pedidos3= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion3)
           pedidos4= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion4)
         }
-       
+
       }else if(this.tipoFiltrado==2){
         if(this.tipoSeleccion == 1){
         let cantidadDeMeses=this.creardorDeMeses(this.fechaInicio,this.fechaFin);
@@ -655,7 +651,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
         pedidos4= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion4)
       }
       }
-      
+
        this.chartOptions = {
       series: [
         {

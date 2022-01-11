@@ -20,7 +20,7 @@
   </mat-tab>
   <mat-tab label="Mesero">
     <div class="container">
-     
+
       <form [formGroup]="meseroConfig">
         <h3>Seleccione rangos máximos de espera en minutos</h3>
         <mat-form-field appearance="outline" class="my-2">
@@ -66,7 +66,7 @@
           </mat-error>
         </mat-form-field><br>
         <hr>
-        
+
         <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
       <div class="row">
@@ -204,7 +204,7 @@
               </div>
             </div>
               <div class="col-3  pedidos-preview-mesero ">
-               
+
               </div>
           </div>
         </div>
@@ -225,8 +225,8 @@
           <button mat-raised-button color="primary" (click)="guardarConfiguracionMesero()" >Guardar</button>
         </div>
       </form>
-      
-  
+
+
     </div>
   </mat-tab>
   <mat-tab label="Cocina">
@@ -282,6 +282,9 @@
               <th scope="col">#</th>
               <th scope="col">Nombre del Método de Pago</th>
               <th scope="col">Porcentaje</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Descuento/Incremento</th>
+              <th scope="col">Estado</th>
               <th scope="col">Eliminar</th>
             </tr>
           </thead>
@@ -294,18 +297,44 @@
             <td> <mat-form-field>
               <input matInput  formControlName="porcentaje"  />
             </mat-form-field></td>
+            <td> <mat-form-field>
+              <input matInput  formControlName="valor"  />
+            </mat-form-field></td>
+            <td>
+              <div class="form-check form-switch">
+                <input
+
+                formControlName="descuentoIncremento"   class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">incremento</label>
+              </div>
+
+          </td>
+            <td> <mat-form-field>
+              <input matInput  formControlName="estado"  />
+            </mat-form-field></td>
             <td><button mat-raised-button color="warn" >-</button></td>
           </tr>
         </table>
         <hr>
         <h3>Cierre de caja</h3>
-        <mat-checkbox
-        color="primary"
-
-        class="example-margin"
-      >
-       Cajero podrá ver la previa de cierre de caja.
-      </mat-checkbox>
+        <div class="form-check">
+          <input  formControlName="cierreCaja" class="form-check-input" type="radio" value="1" name="cierreCaja" id="flexRadioDefault1"checked>
+          <label class="form-check-label" for="flexRadioDefault1">
+            Cajero no podrá ver el valor del cierre de caja.
+          </label>
+        </div>
+        <div class="form-check">
+          <input formControlName="cierreCaja"  class="form-check-input" type="radio" value="2" name="cierreCaja" id="flexRadioDefault2" >
+          <label class="form-check-label" for="flexRadioDefault2">
+            Cajero podrá ver el valor después del cierre de caja.
+          </label>
+        </div>
+        <div class="form-check">
+          <input formControlName="cierreCaja" class="form-check-input" type="radio"  value="3"name="cierreCaja" id="flexRadioDefault3" >
+          <label class="form-check-label" for="flexRadioDefault3">
+            Cajero siempre podrá ver el valor del cierre de caja.
+          </label>
+        </div>
       <hr>
       <h3>Colores</h3>
       <span>Nota: Si desea personalizar un color, habilite el check y escoja un color.</span> <br>
@@ -313,41 +342,57 @@
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-
+        (click)="configuracionCaja.get('checkColorFlechas').setValue(!meseroConfig.get('checkColorFlechas').value)"
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
+      </mat-checkbox><input
+      formControlName="colorFlechas"
+      (colorPickerChange)="configuracionCaja.get('colorFlechas').setValue($event)"
+      type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
       <label for="" class="form-label">Color de botón agregar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-
+        (click)="configuracionCaja.get('checkColorAgregarCliente').setValue(!meseroConfig.get('checkColorAgregarCliente').value)"
         class="my-auto mx-3"
       >
       </mat-checkbox>
-      <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
+      <input
+      formControlName="colorAgregarCliente"
+      (colorPickerChange)="configuracionCaja.get('colorAgregarCliente').setValue($event)"
+      type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
       <label for="" class="form-label">Color de botón editar cliente</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
-
+        (click)="configuracionCaja.get('checkColorEditarCliente').setValue(!meseroConfig.get('checkColorEditarCliente').value)"
         class="my-auto mx-3"
       >
-      </mat-checkbox><input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
+      </mat-checkbox><input
+      formControlName="colorEditarCliente"
+      (colorPickerChange)="configuracionCaja.get('colorEditarCliente').setValue($event)"
+      type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
       <label for="" class="form-label">Color de botón pagar</label>
       <div class="d-flex">
         <mat-checkbox
         color="primary"
+        (click)="configuracionCaja.get('checkColorPagar').setValue(!meseroConfig.get('checkColorPagar').value)"
 
         class="my-auto mx-3"
       >
       </mat-checkbox>
-      <input type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
+      <input
+      formControlName="colorPagar"
+        (colorPickerChange)="configuracionCaja.get('colorPagar').setValue($event)"
+      type="color" class="form-control form-control-color"  value="#563d7c" title="Choose your color">
       </div>
     </form>
+    <div class="d-flex justify-content-center mb-5">
+      <button mat-raised-button color="primary" (click)="guardarConfiguracioCaja()" >Guardar</button>
+    </div>
     </div>
   </mat-tab>
 </mat-tab-group>
