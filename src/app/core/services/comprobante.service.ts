@@ -20,10 +20,10 @@ constructor(
   private http:HttpClient,
   private StorageService:StorageService,
 ) { }
-guardarCliente(comprobante:Comprobante){
+guardarComprobante(comprobante:Comprobante){
   return this.http.post(environment.API_URL + '/comprobante',{comprobante},this.httpOptions);
 }
-getClientes(){
+geComprobantes(){
   return this.http.get(environment.API_URL + '/comprobante',this.httpOptions);
 }
 }

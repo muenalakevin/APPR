@@ -1,0 +1,26 @@
+<div class="container">
+  <h1 class="text-center">Cuadre de caja</h1>
+
+
+  <h2 class="text-center">Cuenta el dinero de caja, luego, ingresa el valor.</h2>
+  <div *ngIf="this.permiso == 3">
+    <h3>El cierre de caja debe ser de {{(caja.caja_chica +caja.cantidad_ingreso  - caja.cantidad_egreso) | currency}}</h3>
+  </div>
+  <form action="" class="d-flex justify-content-center w-100" [formGroup]="cajaForm">
+  <mat-form-field  appearance="outline" class="w-50">
+
+    <mat-label>Cierre de caja</mat-label>
+    <input type="number" matInput placeholder="Ingrese nombre de egreso" formControlName="cierre_caja">
+    <mat-error >
+      <mat-error *ngIf="cajaForm.controls['cierre_caja'].errors?.['required']">
+        Cierre de caja es requerido.
+      </mat-error>
+    </mat-error>
+  </mat-form-field>
+
+</form>
+<div class="d-flex justify-content-center w-100">
+  <button (click)="guardarCaja()" class="btn btn-primary">Cuadrar caja</button>
+</div>
+
+</div>

@@ -22,6 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EditarClienteComponent } from './components/editarCliente/editarCliente.component';
+import { CerrarCajaComponent } from './components/cerrarCaja/cerrarCaja.component';
+import { ComparativaCajaComponent } from './components/comparativaCaja/comparativaCaja.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { EditarClienteComponent } from './components/editarCliente/editarCliente
     CajaComponent,
     CrearClienteComponent,
     EditarClienteComponent,
-    EgresoComponent
+    EgresoComponent,
+    CerrarCajaComponent,
+    ComparativaCajaComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +54,7 @@ import { EditarClienteComponent } from './components/editarCliente/editarCliente
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    
+
   ]
 })
 export class CajeroModule { }

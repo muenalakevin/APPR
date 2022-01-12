@@ -33,7 +33,7 @@ export class MesasComponent implements OnInit {
   public displayedColumns = [
     'mesa',
     'nombre_mesa',
-    'descripción_mesa',
+    'descripcion_mesa',
     'Editar',
     'Eliminar',
   ];

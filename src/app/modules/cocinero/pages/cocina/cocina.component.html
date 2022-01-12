@@ -68,7 +68,7 @@
           <p>Cant. Pedida:{{ pedido.cantidad_pedido}}</p>
           <p>Listos:{{ pedido.cantidad_lista  }}</p>
           <div class="d-flex justify-content-center">
-            <button *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido" (click)="modificarPedido(pedido)" class="btn btn-success px-5">Listo</button>
+            <button *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido" [disabled]="botonListo" (click)="modificarPedido(pedido)" class="btn btn-success px-5">Listo</button>
           </div>
 
 

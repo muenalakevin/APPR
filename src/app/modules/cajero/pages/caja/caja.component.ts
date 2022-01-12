@@ -25,6 +25,8 @@ import { EditarClienteComponent } from '../../components/editarCliente/editarCli
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 import { metodoPago } from 'src/app/shared/models/metodoPago';
+import { CerrarCajaComponent } from '../../components/cerrarCaja/cerrarCaja.component';
+import { ComparativaCajaComponent } from '../../components/comparativaCaja/comparativaCaja.component';
 
 @Component({
   selector: 'app-caja',
@@ -44,15 +46,19 @@ export class CajaComponent implements OnInit {
   descuento = 0
   valor = 0
   interes = 0
+  subTotalIva = 0
   total = 0
+  subTotalConDescunto = 0
   metodoSelected:metodoPago = new metodoPago()
-  configuracionCaja:configuracionCaja
+  configuracionCaja:configuracionCaja = new configuracionCaja()
   stateCtrl = new FormControl();
  clienteSelected:Cliente = new Cliente();
    search:FormControl = new FormControl(null)
   platosPedidos:PlatoPedido[] = []
   panelOpenState:boolean
   mesaActual:MesaSeleccionada
+
+  pedidoReal:Pedido  = new Pedido()
   pedidoTotal:Pedido  = new Pedido()
   pedidoTotalPagar:Pedido  = new Pedido()
   pedidoTotalAux:Pedido = new Pedido()
@@ -86,17 +92,9 @@ export class CajaComponent implements OnInit {
   }
   async guardarCaja(){
     if(this.cajaForm.valid){
-      const caja:Caja = {
-            _id: "",
-            id_cajero:  "",
-            caja_chica: this.cajaForm.value.cajaChica,
-            cantidad_egreso: 0,
-            cantidad_ingreso: 0,
-            cantidad_descuentos: 0,
-            estado:  1,
-            createdAt: new Date()
-      }
-    await  this.CajaService.guardarCaja(caja).subscribe(res=>{
+      this.caja = new Caja()
+      this.caja.caja_chica = this.cajaForm.get('caja_chica').value,
+    await  this.CajaService.guardarCaja(this.caja).subscribe(res=>{
       this.caja = res as Caja;
         this.AlertService.showSuccess("Caja abierta con éxito.")
 
@@ -107,11 +105,55 @@ export class CajaComponent implements OnInit {
     }
   }
   modalGasto(){
-    const dialogRef = this.dialog.open(EgresoComponent);
+    const dialogRef = this.dialog.open(EgresoComponent,{data:{caja:this.caja}});
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.clienteSelected = result.cliente
+      if(result.caja!=undefined){
+        this.caja = result.caja
+      }else{
+
+      }
+
     })
+
+  }
+  modalCierre(){
+
+    if(this.pedidos.length>0){
+      let respuesta = this.AlertService.showConfirm("Aun se encuentran pedidos por atender, desea cerrar la caja?").then((res: boolean) => {
+        if (res) {
+          const dialogRef = this.dialog.open(CerrarCajaComponent, {
+            data: { caja:this.caja, permiso: this.configuracionCaja.cierreCaja },
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            this.caja = result.caja
+            if(this.configuracionCaja.cierreCaja>=2){
+              this.dialog.open(ComparativaCajaComponent,{
+                data: { caja1:result.caja1, caja2:result.caja2 },
+              })
+            }
+          })
+        } else {
+
+        }
+      });
+    }else{
+      const dialogRef = this.dialog.open(CerrarCajaComponent,{
+        data: { caja:this.caja, permiso: this.configuracionCaja.cierreCaja },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.caja = result.caja
+        if(this.configuracionCaja.cierreCaja>=2){
+          this.dialog.open(ComparativaCajaComponent,{
+            data: { caja1:result.caja1, caja2:result.caja2 },
+          })
+        }
+
+      })
+    }
+
+
+
 
   }
 
@@ -143,6 +185,7 @@ export class CajaComponent implements OnInit {
           this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
             if (res != null) {
               this.pedidoTotal = res as Pedido;
+              this.pedidoReal = JSON.parse(JSON.stringify(this.pedidoTotal))
               this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
             }
           });
@@ -165,6 +208,8 @@ export class CajaComponent implements OnInit {
 
         if(pedidoFind!=null){
           this.pedidoTotal = pedidoFind;
+          console.log(this.pedidoTotal.pedidos)
+          this.pedidoReal = JSON.parse(JSON.stringify(this.pedidoTotal))
           this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
         }
       })
@@ -179,24 +224,22 @@ export class CajaComponent implements OnInit {
     if (this.mesaActual != undefined) {
       console.log(this.mesaActual.estado);
       if (this.mesaActual.estado >= 2) {
-
         this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
-          console.log(res)
           if(res!=undefined){
+
             this.pedidoTotal = res as Pedido;
+            this.pedidoReal = JSON.parse(JSON.stringify(this.pedidoTotal))
             this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
             this.pedidoTotalPagar =  JSON.parse(JSON.stringify(this.pedidoTotal))
             this.pedidoSeleccionado = JSON.parse(JSON.stringify(this.pedidoTotal))
-
           }
           this.drawer.toggle()
         });
-
       }else{
+        this.pedidoReal = new Pedido()
         this.pedidoTotal = new Pedido()
         this.pedidoSeleccionado = JSON.parse(JSON.stringify(this.pedidoTotal))
       }
-
     }
   }
 
@@ -204,6 +247,7 @@ export class CajaComponent implements OnInit {
 
   }
   clean() {
+    this.pedidoReal = new Pedido()
     this.pedidoTotal = new Pedido()
     this.mesaActual = undefined;
     this.clear()
@@ -488,65 +532,95 @@ if(month < 10){
 
   async refreshPecios(){
     this.subTotal = 0
-    this.iva = 0
+    this.subTotalConDescunto = 0
+    this.subTotalIva = 0
     this.descuento = 0
     this.interes = 0
     this.total = 0
     await this.pedidoTotalAux.pedidos.map(ped=>{
       this.subTotal+= ped.plato.precio_plato* ped.cantidad_servida
     })
-console.log("iva conf",this.configuracionCaja.iva);
     this.valor = this.metodoSelected.valor
-  
+
     if(this.metodoSelected.descuentoIncremento){
       this.interes = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
       this.descuento = 0
-      this.iva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
-      this.total = Math.abs(this.subTotal  + this.iva )
+      this.subTotalIva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
+      this.total = Math.abs(this.subTotal  + this.subTotalIva )
       this.total = Math.abs(this.total + this.interes)
     }else{
       this.interes = 0
       this.descuento = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
       this.total = Math.abs(this.subTotal - this.descuento)
-      this.iva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
-      this.total = Math.abs((this.total + this.iva) - this.metodoSelected.valor)
+      this.subTotalConDescunto = this.total
+      this.subTotalIva = Math.abs(this.total* (this.configuracionCaja.iva/100))
+      this.total = Math.abs(this.total + this.subTotalIva)
     }
-    console.log("interes", this.interes);
-    console.log("descuento", this.descuento);
-    console.log("iva", this.iva);
-    console.log("total", this.total);
-    console.log("valor", this.valor);
-   
-   
+
+
+
   }
   pagar(){
 
     let comprobante:Comprobante = new Comprobante();
     comprobante.cliente_comprobante=this.clienteSelected
-    comprobante.caja=this.caja
+    comprobante.caja_comprobante=this.caja
     comprobante.detalle_comprobante = this.pedidoTotalAux.pedidos
-    comprobante.iva_comprobante = 0.12
+    comprobante.subTotal_comprobante = this.subTotal
+    comprobante.subTotalConDescunto_comprobante = this.subTotalConDescunto
+    comprobante.subTotalIva_comprobante = this.subTotalIva
+    comprobante.descuento_comprobante = this.descuento
+    comprobante.interes_comprobante = this.interes
+    comprobante.total_comprobante = this.total
+    comprobante.metodoPago_comprobante = this.metodoSelected
+    comprobante.iva_comprobante = this.configuracionCaja.iva
     comprobante.pedido_comprobante = this.pedidoSeleccionado
     comprobante.total_comprobante = this.total
-    comprobante.pago_comprobante = this.pagoSelect.value
-    this.ComprobanteService.guardarCliente(comprobante).subscribe()
-    let servido =0
-    this.pedidoTotalPagar.pedidos.map(ped=>{
-      servido+=ped.cantidad_servida
+    comprobante.metodoPago_comprobante = this.metodoSelected
+
+    this.caja.cantidad_descuentos = this.caja.cantidad_descuentos + this.descuento
+    this.caja.cantidad_intereses = this.caja.cantidad_intereses + this.interes
+    this.caja.cantidad_impuestos = this.caja.cantidad_impuestos + this.subTotalIva
+    this.caja.cantidad_ingreso = this.caja.cantidad_ingreso + this.total
+
+
+    this.ComprobanteService.guardarComprobante(comprobante).subscribe(res=>{
+      this.CajaService.actualizarCaja(this.caja).subscribe(res=>{
+
+        this.AlertService.showSuccess("Comprobante guardado con éxito.")
+      })
     })
+    let servido = 0
 
-    this.caja.cantidad_ingreso = comprobante.total_comprobante
-    if(servido==0){
+    let pedido = 0
+    let listo = 0
 
-      this.pedidoTotalPagar.estado = 3
-      this.pedidoTotalPagar.horaDeEntrega = new Date(Date.now())
+
+  this.pedidoReal.pedidos.map(
+    pR=>{
+
+      let pedidoFind = this.pedidoTotal.pedidos.find(p=>p.plato._id==pR.plato._id)
+
+      if(pedidoFind!= undefined){
+        pR.cantidad_servida =  pedidoFind.cantidad_servida
+      }else{
+        pR.cantidad_servida = 0
+      }
+      servido += pR.cantidad_servida
+      pedido += pR.cantidad_pedido
+      listo += pR.cantidad_lista
+    }
+  )
+
+
+    if(servido==0 && pedido == listo){
+
+      this.pedidoReal.estado = 3
+      this.pedidoReal.horaDeEntrega = new Date(Date.now())
       this.mesaActual.estado = 1
       this.MesaService.editarMesa(this.mesaActual).subscribe(res=>{
-        this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(res=>{
-          this.CajaService.actualizarCaja(this.caja).subscribe(()=>{
-          this.AlertService.showSuccess("Comprobante guardado con éxito.")
+        this.PedidoService.editarPedido(this.pedidoReal).subscribe(res=>{
           this.AlertService.showSuccess("Todos los platos fueron pagados.")
-          })
         }
 
         )
@@ -555,10 +629,7 @@ console.log("iva conf",this.configuracionCaja.iva);
       }
       )
     }else{
-      this.PedidoService.editarPedido(this.pedidoTotalPagar).subscribe(()=>{
-        this.CajaService.actualizarCaja(this.caja).subscribe(()=>{
-          this.AlertService.showSuccess("Comprobante guardado con éxito.")})
-        })
+      this.PedidoService.editarPedido(this.pedidoReal).subscribe(()=>{})
 
       this.clear()
     }

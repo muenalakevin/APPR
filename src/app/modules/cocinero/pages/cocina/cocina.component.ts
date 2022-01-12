@@ -14,6 +14,7 @@ import { PedidoService } from './../../../../core/services/pedido.service';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-cocina',
@@ -29,6 +30,7 @@ export class CocinaComponent implements OnInit {
   categoriasSeleccionadas:CategoriaCocinero = new CategoriaCocinero()
   platosPedidos:PlatoPedido[]=[]
   pedidosFiltrados:Pedido[]
+  botonListo:boolean = false
   mesas: MesaSeleccionada[] = [];
   constructor(
     private PedidoService:PedidoService,
@@ -36,6 +38,7 @@ export class CocinaComponent implements OnInit {
     private CategoriaService:CategoriaService,
     private CocineroService:CocineroService,
     private MesaService:MesaService,
+    private AlertService:AlertService,
   ) { }
   ngAfterViewChecked()
 {
@@ -173,6 +176,7 @@ actualizarFiltroCategorias(){
     this.platosPedidos = pedido.pedidos;
   }
   modificarPedido(pedido:PlatoPedido){
+    this.botonListo = true;
     let pedidos = 0
     let listos = 0
     this.pedidoSeleccionado.pedidos=this.pedidoSeleccionado.pedidos.map(ped=>{
@@ -195,15 +199,25 @@ actualizarFiltroCategorias(){
           mesa.estado = 4
           this.MesaService.editarMesa(mesa).subscribe()
           this.pedidoSeleccionado.horaDeEntrega = new Date(Date.now());
-          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+            this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
+            this.botonListo = false;
+          })
         }else{
-          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+            this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
+            this.botonListo = false;
+
+          })
         }
 
       })
 
     }else{
-      this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe()
+      this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+        this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
+        this.botonListo = false;
+      })
     }
 
 

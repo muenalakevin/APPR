@@ -154,7 +154,7 @@
     </div>
   </mat-drawer>
   <div class="container-fliud row m-0">
-    <div class="col-8 container mt-3">
+    <div class="col-8 container mt-3 position-relative">
       <div class="row">
         <div
           *ngFor="let mesa of mesas; let index = index"
@@ -184,6 +184,61 @@
             ></fa-icon>
           </button>
           <p>{{ mesa.nombre_mesa }}</p>
+        </div>
+      </div>
+      <div class="position-absolute bottom-0">
+
+
+
+        <div class="row p-5">
+          <div class="col-12 ">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorSatisfaccion.check ? this.configuracionMesero.colorSatisfaccion.color  : '#28a745'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa con tiempos tempranos
+          </div>
+          <div class="col-12">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorSatisfaccionMedia.check ? this.configuracionMesero.colorSatisfaccionMedia : '#ffc107'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa con tiempos aceptables
+        </div>
+        <div class="col-12">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorDisatisfaccion.check ? this.configuracionMesero.colorDisatisfaccion : '#dc3545'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa con tiempos de retraso
+        </div>
+        <div class="col-12">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorFueraTiempo.check ? this.configuracionMesero.colorFueraTiempo : '#343a40'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa con tiempos inaceptables
+        </div>
+        <div class="col-12">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorOcupada.check ? this.configuracionMesero.colorOcupada : '#6c757d'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa ocupada
+        </div>
+        <div class="col-12">
+            <fa-icon
+            [ngStyle]="{'color': this.configuracionMesero.colorDisponible.check ? this.configuracionMesero.colorDisponible : '#0d6efd'}"
+            class="display-6 mesa mesa-preview-mesero"
+            [icon]="faSquareIcon"
+          ></fa-icon>
+          Mesa disponible
+          </div>
         </div>
       </div>
     </div>

@@ -198,8 +198,8 @@
               <div class="col-6 text-center">{{  subTotal | currency }}</div>
               <div class="col-6 text-end">Descuento:</div>
               <div class="col-6 text-center" >{{  descuento | currency :0 }}</div>
-              <div class="col-6 text-end">Iva:</div>
-              <div class="col-6 text-center">{{ iva | currency }}</div>
+              <div class="col-6 text-end">Iva {{configuracionCaja.iva}}% de {{subTotalConDescunto}}:</div>
+              <div class="col-6 text-center">{{ subTotalIva | currency }}</div>
               <div class="col-6 text-end">Interés:</div>
               <div class="col-6 text-center">{{ interes | currency }}</div>
               <hr>
@@ -253,7 +253,7 @@
         </div>
       </div>
       <div class="position-absolute bottom-0  d-flex justify-content-between w-100">
-        <button class="btn btn-dark" (click)="modalGasto()">Realizar cierre de caja</button>
+        <button class="btn btn-dark" (click)="modalCierre()">Realizar cierre de caja</button>
         <button class="btn btn-primary" (click)="modalGasto()">Realizar gasto</button>
       </div>
     </div>
