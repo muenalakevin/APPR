@@ -39,6 +39,11 @@ export class CajaComponent implements OnInit {
   private mesasSubscription: Subscription;
   pedidoSeleccionado:Pedido = new Pedido()
   clientes:Cliente[] = []
+  subTotal = 0
+  iva = 0
+  descuento = 0
+  valor = 0
+  interes = 0
   total = 0
   metodoSelected:metodoPago = new metodoPago()
   configuracionCaja:configuracionCaja
@@ -77,6 +82,7 @@ export class CajaComponent implements OnInit {
 
   changeMetodoSelected(metodo:number){
     this.metodoSelected = this.configuracionCaja.metodosPago[metodo]
+    this.refreshPecios()
   }
   async guardarCaja(){
     if(this.cajaForm.valid){
@@ -162,8 +168,6 @@ export class CajaComponent implements OnInit {
           this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
         }
       })
-
-
   }
 
   canDrag(pedido:PlatoPedido) {
@@ -482,11 +486,38 @@ if(month < 10){
     return false
   }
 
-  refreshPecios(){
+  async refreshPecios(){
+    this.subTotal = 0
+    this.iva = 0
+    this.descuento = 0
+    this.interes = 0
     this.total = 0
-    this.pedidoTotalAux.pedidos.map(ped=>{
-      this.total+= ped.plato.precio_plato* ped.cantidad_servida
+    await this.pedidoTotalAux.pedidos.map(ped=>{
+      this.subTotal+= ped.plato.precio_plato* ped.cantidad_servida
     })
+console.log("iva conf",this.configuracionCaja.iva);
+    this.valor = this.metodoSelected.valor
+  
+    if(this.metodoSelected.descuentoIncremento){
+      this.interes = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
+      this.descuento = 0
+      this.iva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
+      this.total = Math.abs(this.subTotal  + this.iva )
+      this.total = Math.abs(this.total + this.interes)
+    }else{
+      this.interes = 0
+      this.descuento = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
+      this.total = Math.abs(this.subTotal - this.descuento)
+      this.iva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
+      this.total = Math.abs((this.total + this.iva) - this.metodoSelected.valor)
+    }
+    console.log("interes", this.interes);
+    console.log("descuento", this.descuento);
+    console.log("iva", this.iva);
+    console.log("total", this.total);
+    console.log("valor", this.valor);
+   
+   
   }
   pagar(){
 

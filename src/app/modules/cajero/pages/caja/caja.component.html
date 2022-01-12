@@ -195,20 +195,16 @@
           <div class="d-flex justify-content-end">
             <div class="row">
               <div class="col-6 text-end">Sub total:</div>
-              <div class="col-6 text-center">{{ total | currency }}</div>
+              <div class="col-6 text-center">{{  subTotal | currency }}</div>
               <div class="col-6 text-end">Descuento:</div>
-              <div class="col-6 text-center" >{{ !metodoSelected.descuentoIncremento ?((( total * metodoSelected.porcentaje) + metodoSelected.valor ) | currency) :0| currency }}</div>
+              <div class="col-6 text-center" >{{  descuento | currency :0 }}</div>
               <div class="col-6 text-end">Iva:</div>
-              <div class="col-6 text-center">{{ total * 0.12 | currency }}</div>
+              <div class="col-6 text-center">{{ iva | currency }}</div>
               <div class="col-6 text-end">Interés:</div>
-              <div class="col-6 text-center">{{ metodoSelected.descuentoIncremento?((( total * metodoSelected.porcentaje) + metodoSelected.valor ) | currency) : 0 | currency }}</div>
+              <div class="col-6 text-center">{{ interes | currency }}</div>
               <hr>
               <div class="col-6 text-end">Total:</div>
-              <div class="col-6 text-center">{{
-                metodoSelected.descuentoIncremento ?(((( total * metodoSelected.porcentaje) + metodoSelected.valor ) + total * 1.12 )| currency) :
-              ( (  total * 1.12 -(( total * metodoSelected.porcentaje) + metodoSelected.valor ) ) * 1.12 )| currency
-
-              }}</div>
+              <div class="col-6 text-center">{{ total | currency }}</div>
             </div>
           </div>
           <div class="d-flex justify-content-end my-5">
