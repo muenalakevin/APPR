@@ -18,6 +18,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { MatDrawer } from '@angular/material/sidenav';
 import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
+import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 @Component({
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
@@ -52,6 +53,7 @@ export class MesasComponent implements OnInit {
   searchForm: FormGroup = new FormGroup({
     search: new FormControl(null),
   });
+  configuracionCaja:configuracionCaja
 
   constructor(
     private MesaService: MesaService,
@@ -86,6 +88,9 @@ export class MesasComponent implements OnInit {
   async ngOnInit() {
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
       this.configuracionMesero = res as configuracionMesero
+    })
+    this.configuracionService.getConfiguracionCaja().subscribe(res=>{
+      this.configuracionCaja = res as configuracionCaja
     })
     interval(1000).subscribe(() => {
       this.pedidos=this.pedidos

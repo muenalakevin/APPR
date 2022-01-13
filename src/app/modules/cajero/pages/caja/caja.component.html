@@ -198,7 +198,7 @@
               <div class="col-6 text-center">{{  subTotal | currency }}</div>
               <div class="col-6 text-end">Descuento:</div>
               <div class="col-6 text-center" >{{  descuento | currency :0 }}</div>
-              <div class="col-6 text-end">Iva {{configuracionCaja.iva}}% de {{subTotalConDescunto}}:</div>
+              <div class="col-6 text-end">Iva {{configuracionCaja.iva}}% de {{subTotalConDescunto | currency }}:</div>
               <div class="col-6 text-center">{{ subTotalIva | currency }}</div>
               <div class="col-6 text-end">Interés:</div>
               <div class="col-6 text-center">{{ interes | currency }}</div>

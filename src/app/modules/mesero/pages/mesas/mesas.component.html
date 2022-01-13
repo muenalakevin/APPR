@@ -113,13 +113,13 @@
                 </mat-form-field>
               </form>
               <div class="d-flex justify-content-between">
-                <table>
+                <table class="w-50">
                   <tr>
                     <td>Sub Total:</td>
                     <td>{{ getSubtotal() | currency }}</td>
                   </tr>
                   <tr>
-                    <td>Iva 12%:</td>
+                    <div>Iva {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
                     <td>{{ getSubtotal() * 0.12 | currency }}</td>
                   </tr>
                   <tr>

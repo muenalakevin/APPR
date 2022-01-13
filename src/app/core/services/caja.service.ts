@@ -22,6 +22,11 @@ export class CajaService {
   constructor(private http: HttpClient,private StorageService:StorageService) {}
 
 
+  getCajasFecha(fechaInicio:Date,fechaFin:Date,tipoSeleccion:number,tipoFiltrado:number,cajero:string){
+    return this.http.post(environment.API_URL + '/caja/fecha',{fechaInicio,fechaFin,tipoSeleccion,tipoFiltrado,cajero},this.httpOptions);
+  }
+
+
   getCaja(){
     return this.http.get(environment.API_URL + '/caja',this.httpOptions);
   }

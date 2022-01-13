@@ -20,6 +20,9 @@ import {
   ApexStroke
 } from "ng-apexcharts";
 import { MatDatepicker, MatDateRangePicker } from '@angular/material/datepicker';
+import { CajaService } from 'src/app/core/services/caja.service';
+import { Caja } from 'src/app/shared/models/caja';
+import { C } from '@angular/cdk/keycodes';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -56,7 +59,7 @@ export class EgresosEIngresosComponent  {
         data: [11, 32, 45, 32, 34, 52, 41]
       }
     ],
-   
+
     chart: {
       height: 350,
       type: "area"
@@ -90,7 +93,7 @@ export class EgresosEIngresosComponent  {
 
 
 
-fechaInicio:Date 
+fechaInicio:Date
 fechaFin:Date = new Date(Date.now())
 pedidos:Pedido[]=[]
 pedidosSatisfaccion1:Pedido[]=[]
@@ -128,15 +131,12 @@ chosenYearHandler(normalizedYear: Moment, datepicker: MatDateRangePicker<Moment>
       }
     }
 
-    
+
 
   }
 
 chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDateRangePicker<Moment>) {
   if(this.tipoFiltrado > 1){
-    
-
- 
   if(this.paso==1){
     this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
     setTimeout(function(){
@@ -170,14 +170,14 @@ chosenMonthHandler2(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) 
       this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
       this.orgValueChange()
     datepicker.close();
-    
+
     }
 }
 ngOnInit() {
 
   this.fechaInicio = new Date('2021-11-11T10:20:30Z');
   this.fechaFin = new Date(Date.now());
-  
+
 }
 
 filtrarPorSatisfaccion(nivelDeSatisfaccion1:number,nivelDeSatisfaccion2:number){
@@ -197,7 +197,7 @@ filtrarPorSatisfaccion(nivelDeSatisfaccion1:number,nivelDeSatisfaccion2:number){
   })
 }
 creardorDeDias(fechaInicio:Date, fechaFin:Date){
- 
+
   let diferencia = moment(fechaInicio).toDate().getTime()-fechaFin.getTime()
   var contdias = Math.abs(Math.round(diferencia/(1000*60*60*24)));
 
@@ -234,11 +234,11 @@ sacarArrayDias(fechaInicio:Date, cantidadDias:number){
   let mesInicial = fechaInicio.getMonth();
   let anioInicial = fechaInicio.getFullYear();
 
- 
+
   let stringConstruido:string[] = [];
     for(let i =0;i<cantidadDias;i++){
       let constructorString = ""
-     
+
 
       let dia = diaInicial.toString()
       let mes = (mesInicial+1).toString()
@@ -252,7 +252,7 @@ sacarArrayDias(fechaInicio:Date, cantidadDias:number){
       let isValidDate = moment(testDate, 'DD/MM/YYYY',true).isValid();
 
       if (isValidDate) {
-        
+
         constructorString = diaInicial +" "+ this.meses[mesInicial]+" "+anioInicial;
         diaInicial++
         stringConstruido.push(constructorString)
@@ -269,9 +269,9 @@ sacarArrayDias(fechaInicio:Date, cantidadDias:number){
           diaInicial=1
         }
       }
-      
-        
-        
+
+
+
     }
     return stringConstruido;
 }
@@ -305,24 +305,28 @@ sacarArrayAnios(fechaInicio:Date, cantidadAnios:number){
     return stringConstruido;
 }
 
-sacarPedidosHoras(fechaInicio:Date,pedidosSatisfaccion:Array<Pedido>){
- 
+sacarDatosHoras(fechaInicio:Date,cajas:Array<Caja>,sacar:string){
+
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
   let diaInicial = fechaInicio.getDate();
-  let satisfaccionConstruido:number[] = [];
+  let valoresConnstruido:number[] = [];
     for(let i = 0;i<=24;i++){
-      let satisfaccion = 0
-      pedidosSatisfaccion.map(p=>{
-      
-        let horaInicialPedido = new Date(p.horaDeEntrega).getHours();
-      
+      let valor = 0
+      cajas.map(c=>{
+
+        let horaInicialPedido = new Date(c.createdAt).getHours();
+
                 if(horaInicialPedido>=i &&  horaInicialPedido<=i+1){
-                  satisfaccion++
+                  if(sacar == "ingreso"){
+                    valor += c.cantidad_egreso
+                  }else{
+                    valor += c.cantidad_egreso
+                  }
                 }
 
       })
-      satisfaccionConstruido.push(satisfaccion);
+      valoresConnstruido.push(valor);
         if(mesInicial<12){
           mesInicial++;
         }else{
@@ -330,31 +334,36 @@ sacarPedidosHoras(fechaInicio:Date,pedidosSatisfaccion:Array<Pedido>){
           mesInicial = 1;
         }
     }
-    return satisfaccionConstruido;
+    return valoresConnstruido;
 }
-sacarPedidosDias(fechaInicio:Date, cantidadDias:number,pedidosSatisfaccion:Array<Pedido>){
+sacarDatosPorDias(fechaInicio:Date, cantidadDias:number,caja:Array<Caja>,sacar:string){
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
   let diaInicial = fechaInicio.getDate();
 
-  let satisfaccionConstruido:number[] = [];
+  let valoresConnstruido:number[] = [];
     for(let i =0;i<cantidadDias;i++){
-      let satisfaccion = 0
-      pedidosSatisfaccion.map(p=>{
-        
-        let mesInicialPedido = new Date(p.horaDeEntrega).getMonth()+1;
-        let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
-        let diaInicialPedido = new Date(p.horaDeEntrega).getDate();
+      let valor = 0
+      caja.map(c=>{
+
+        let mesInicialPedido = new Date(c.createdAt).getMonth()+1;
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
+        let diaInicialPedido = new Date(c.createdAt).getDate();
         if(anioInicialPedido==anioInicial){
           if(mesInicialPedido==mesInicial){
               if(diaInicial+i==diaInicialPedido){
-              satisfaccion++
-              
+                if(sacar == "ingreso"){
+                  valor += c.cantidad_ingreso
+
+                }else{
+                  valor += c.cantidad_egreso
+                }
+
             }
           }
         }
       })
-      satisfaccionConstruido.push(satisfaccion);
+      valoresConnstruido.push(valor);
 
        /*  if(mesInicial<12){
           mesInicial++;
@@ -363,26 +372,36 @@ sacarPedidosDias(fechaInicio:Date, cantidadDias:number,pedidosSatisfaccion:Array
           mesInicial = 1;
         } */
 
-        
+
     }
-    return satisfaccionConstruido;
+    return valoresConnstruido;
 }
-sacarPedidosMeses(fechaInicio:Date, cantidadMeses:number,pedidosSatisfaccion:Array<Pedido>){
+sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:string){
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
-  let satisfaccionConstruido:number[] = [];
+  let valoresConnstruido:number[] = [];
     for(let i =0;i<=cantidadMeses;i++){
-      let satisfaccion = 0
-      pedidosSatisfaccion.map(p=>{
-        let mesInicialPedido = new Date(p.horaDeEntrega).getMonth()+1;
-        let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
+      let valor = 0
+      cajas.map(c=>{
+        let mesInicialPedido = new Date(c.createdAt).getMonth()+1;
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
+
           if(mesInicialPedido==mesInicial){
+
             if(anioInicialPedido==anioInicial){
-              satisfaccion++
+
+              if(sacar=="ingreso"){
+
+                valor+= c.cantidad_ingreso
+              }else{
+                console.log(c.cantidad_egreso)
+                valor+= c.cantidad_egreso
+              }
+
             }
           }
       })
-      satisfaccionConstruido.push(satisfaccion);
+      valoresConnstruido.push(valor);
         if(mesInicial<12){
           mesInicial++;
         }else{
@@ -390,28 +409,35 @@ sacarPedidosMeses(fechaInicio:Date, cantidadMeses:number,pedidosSatisfaccion:Arr
           mesInicial = 1;
         }
     }
-    return satisfaccionConstruido;
+
+    return valoresConnstruido;
 }
-sacarPedidosAnios(fechaInicio:Date, cantidadMeses:number,pedidosSatisfaccion:Array<Pedido>){
+sacarDatosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:string){
   let anioInicial = fechaInicio.getFullYear();
-  let satisfaccionConstruido:number[] = [];
+  let valoresConnstruido:number[] = [];
     for(let i =0;i<cantidadMeses;i++){
-      let satisfaccion = 0
-      pedidosSatisfaccion.map(p=>{
-        let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
+      let valor = 0
+      cajas.map(c=>{
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
             if(anioInicialPedido==anioInicial){
-              satisfaccion++
+              if(sacar=="ingreso"){
+                valor+= c.cantidad_ingreso
+              }else{
+                valor+= c.cantidad_egreso
+              }
+
             }
       })
-      satisfaccionConstruido.push(satisfaccion);
+      valoresConnstruido.push(valor);
           anioInicial++;
     }
-    return satisfaccionConstruido;
+    return valoresConnstruido;
 }
 constructor(
   private PedidoService:PedidoService,
   private configuracionService:ConfiguracionService,
   private UsuarioService:UsuarioService,
+  private cajaService:CajaService,
 
 ) {
   this.UsuarioService.getUsersMeseros().subscribe(res=>{
@@ -470,14 +496,14 @@ cambiarTipos(){
       this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
     }
   }
- 
-  
+
+
   this.orgValueChange()
 }
 
 
 orgValueChange(){
-  
+
   this.fechaInicio = moment(this.fechaInicio).toDate()
   this.fechaFin = moment(this.fechaFin).toDate()
   this.configuracionService.getConfiguracionMesero().subscribe(res=>{
@@ -521,94 +547,79 @@ orgValueChange(){
       }
     }else{
       if(this.tipoFiltrado==1){
-        this.fechaFin = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),this.fechaFin.getDate(),0,0,0);
-        this.fechaInicio = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),this.fechaFin.getDate(),23,59,59);
+        this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0);
+        this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),23,59,59);
       }else if(this.tipoFiltrado==2){
-        this.fechaFin = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),1,0,0,0);
-        this.fechaInicio = new Date( this.fechaFin.getFullYear(),this.fechaFin.getMonth(),new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth() +1, 0).getDate(),23,59,59);
+        this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),1,0,0,0);
+        this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth() +1, 0).getDate(),23,59,59);
       }else{
-        this.fechaFin = new Date( this.fechaFin.getFullYear(),0,1,0,0,0);
-        this.fechaInicio = new Date( this.fechaFin.getFullYear(),11,31,23,59,59);
+        this.fechaInicio = new Date( this.fechaInicio.getFullYear(),0,1,0,0,0);
+        this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
       }
     }
-    console.log(this.fechaInicio);
-    console.log(this.fechaFin);
-  this.PedidoService.getPedidosFecha(this.fechaInicio,this.fechaFin,this.tipoSeleccion,this.tipoFiltrado,this.mesero).subscribe(res=>{
 
-    this.pedidos = res as Pedido[]
-    this.pedidosSatisfaccion1 = this.filtrarPorSatisfaccion(this.configuracionMesero.satisfaccionAdecuada,0);
-    this.pedidosSatisfaccion2 = this.filtrarPorSatisfaccion(this.configuracionMesero.satisfaccionMedia,this.configuracionMesero.satisfaccionAdecuada );
-    this.pedidosSatisfaccion3 = this.filtrarPorSatisfaccion(this.configuracionMesero.disatisfaccion,this.configuracionMesero.satisfaccionMedia);
-    this.pedidosSatisfaccion4 = this.filtrarPorSatisfaccion(1000,this.configuracionMesero.disatisfaccion);
-    let pedidos1
-    let pedidos2
-    let pedidos3
-    let pedidos4
-    
 
-    
+  this.cajaService.getCajasFecha(this.fechaInicio,this.fechaFin,this.tipoSeleccion,this.tipoFiltrado,this.mesero).subscribe(res=>{
+
+    let cajas= res as Caja[]
+
+    let ingresos
+    let egresos
+
+
     if(this.tipoFiltrado==1){
       if(this.tipoSeleccion == 1){
         let cantidadDeDias=this.creardorDeDias(this.fechaInicio,this.fechaFin);
         this.arrayConstruidoDeFechas= this.sacarArrayDias(this.fechaInicio,cantidadDeDias)
-        pedidos1= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion1)
-        pedidos2= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion2)
-        pedidos3= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion3)
-        pedidos4= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion4)
+        ingresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias,cajas,"ingreso")
+        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias, cajas,"egreso")
+
       }else{
         this.arrayConstruidoDeFechas= this.sacarArrayHoras(this.fechaInicio)
-        pedidos1= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion1)
-        pedidos2= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion2)
-        pedidos3= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion3)
-        pedidos4= this.sacarPedidosHoras(this.fechaInicio,this.pedidosSatisfaccion4)
+        ingresos= this.sacarDatosHoras(this.fechaInicio,cajas,"ingreso")
+        egresos= this.sacarDatosHoras(this.fechaInicio,cajas,"egreso")
       }
-     
+
     }else if(this.tipoFiltrado==2){
       if(this.tipoSeleccion == 1){
       let cantidadDeMeses=this.creardorDeMeses(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayMeses(this.fechaInicio,cantidadDeMeses)
-      pedidos1= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion1)
-      pedidos2= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion2)
-      pedidos3= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion3)
-      pedidos4= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion4)
+      ingresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"ingreso")
+      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"egreso")
     }else{
       let cantidadDeDias=this.creardorDeDias(this.fechaInicio,this.fechaFin);
         this.arrayConstruidoDeFechas= this.sacarArrayDias(this.fechaInicio,cantidadDeDias)
-        pedidos1= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion1)
-        pedidos2= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion2)
-        pedidos3= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion3)
-        pedidos4= this.sacarPedidosDias(this.fechaInicio, cantidadDeDias,this.pedidosSatisfaccion4)
+        ingresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias,cajas,"ingreso")
+        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias, cajas,"egreso")
+
+
     }
     }else if(this.tipoFiltrado==3){
       if(this.tipoSeleccion == 1){
       let cantidadDeanios=this.creardorDeAnios(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayAnios(this.fechaInicio,cantidadDeanios)
-      pedidos1= this.sacarPedidosAnios(this.fechaInicio, cantidadDeanios,this.pedidosSatisfaccion1)
-      pedidos2= this.sacarPedidosAnios(this.fechaInicio, cantidadDeanios,this.pedidosSatisfaccion2)
-      pedidos3= this.sacarPedidosAnios(this.fechaInicio, cantidadDeanios,this.pedidosSatisfaccion3)
-      pedidos4= this.sacarPedidosAnios(this.fechaInicio, cantidadDeanios,this.pedidosSatisfaccion4)
+      ingresos= this.sacarDatosAnios(this.fechaInicio, cantidadDeanios,cajas,"ingreso")
+      egresos= this.sacarDatosAnios(this.fechaInicio, cantidadDeanios,cajas,"egreso")
     }else{
       let cantidadDeMeses=this.creardorDeMeses(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayMeses(this.fechaInicio,cantidadDeMeses)
-      pedidos1= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion1)
-      pedidos2= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion2)
-      pedidos3= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion3)
-      pedidos4= this.sacarPedidosMeses(this.fechaInicio, cantidadDeMeses,this.pedidosSatisfaccion4)
+      ingresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"ingreso")
+      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"egreso")
     }
     }
-    
+
      this.chartOptions = {
       series: [
         {
           name: "Ingreso",
-          data: [31, 40, 28, 51, 42, 109, 100]
+          data: ingresos
         },
         {
           name: "Egreso",
-          data: [11, 32, 45, 32, 34, 52, 41]
+          data: egresos
         }
       ],
-     
+
       chart: {
         height: 350,
         type: "area"
@@ -621,22 +632,10 @@ orgValueChange(){
         curve: "smooth"
       },
       xaxis: {
-        type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z"
-        ]
+
+        categories: this.arrayConstruidoDeFechas
       },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm"
-        }
-      }
+
     };
 })
   })
