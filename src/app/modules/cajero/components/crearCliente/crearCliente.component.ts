@@ -28,8 +28,13 @@ export class CrearClienteComponent implements OnInit {
       ]),
       correo_cliente: new FormControl(null, [
         Validators.email,
+        Validators.required
       ]),
       direccion_cliente: new FormControl(null, [
+        Validators.required
+      ]),
+      telefono_cliente: new FormControl(null, [
+        Validators.required
       ]),
 
 
@@ -51,6 +56,7 @@ export class CrearClienteComponent implements OnInit {
             cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
             correo_cliente: this.clienteForm.value.correo_cliente,
             direccion_cliente: this.clienteForm.value.direccion_cliente,
+            telefono_cliente: this.clienteForm.value.telefono_cliente,
             createdAt: new Date()
       }
       await this.ClienteService.guardarCliente(cliente).subscribe(res=>{

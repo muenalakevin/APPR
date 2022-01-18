@@ -1,17 +1,21 @@
-<mat-drawer-container class="example-container m-0" autosize>
-  <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
-    <div class="container-fliud row m-0">
-      <div class="col-8 container">
-        <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
-          Cerrar
-        </button><br>
-        <form [formGroup]="searchForm" class="d-inline">
-          <mat-form-field class="example-full-width">
+<mat-drawer-container class="example-container m-0 overflow-hidden contenedor-total" autosize>
+  <mat-drawer #drawer class="example-sidenav p-0 m-0 h-100 overflow-hidden" mode="side">
+    <div class="container-fliud h-100 row m-0">
+      <div class="col-12 col-sm-8 container contenido-maximo">
+        <div class="d-flex justify-content-end">
+          <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
+            Atrás <mat-icon>arrow_right</mat-icon>
+          </button>
+          
+        </div>
+        <br>
+        <form [formGroup]="searchForm" class="d-inline d-flex">
+          <mat-form-field class="example-full-width  w-50">
           <span matPrefix> </span>
-          <input type="tel" (keyup)="applyFilterPlatos($event)"  matInput placeholder="Search" formControlName= "search">
+          <input (keyup)="applyFilterPlatos($event)"  type="text" matInput placeholder="Ingrese plato a buscar" formControlName= "search">
           <button matSuffix mat-button><mat-icon >search</mat-icon></button>
           </mat-form-field>
-          <div class="d-inline-block">
+          <div class="d-inline-block w-50">
           <div class="select">
           <select #select name="" id="inputGroupSelect01"  (change)="filtrarCategoria($event)">
             <option value="all" >todas las categorias</option>
@@ -21,8 +25,8 @@
       </div>
           </form>
           <br/>
-
-        <div class="row">
+        
+        <div class="row  platos-contenedor overflow-auto ">
           <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center">
             <mat-card
               class="my-2 p-0 btn"
@@ -38,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4 bg-secondary contenedor-pedidos">
+      <div class="col-12   col-sm-4 bg-secondary contenedor-pedidos">
         <div class="pedidos h-100">
           <mat-card *ngFor="let pedido of pedidoTotal.pedidos" class="my-2">
             <div class="text-center w-100">
@@ -90,6 +94,32 @@
                 <mat-icon color="warn">delete</mat-icon>
               </button>
             </div>
+            <mat-form-field class="example-chip-list w-100"  appearance="fill">
+              <mat-label>Favorite Fruits</mat-label>
+              <mat-chip-list #chipList aria-label="Fruit selection">
+                <mat-chip
+                  *ngFor="let opcionRapida of pedido.opcionesRapidas"
+                  (removed)="remove(opcionRapida, pedido)">
+                  {{opcionRapida}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input
+                  placeholder="New fruit..."
+                  #fruitInput
+                  [formControl]="fruitCtrl"
+                  [matAutocomplete]="auto"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="add($event)">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,pedido)">
+                <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                  {{fruit}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
             <p>Listos. {{ pedido.cantidad_lista }}</p>
             <p>Precio U. {{ pedido.plato.precio_plato | currency }}</p>
             <p>
@@ -101,7 +131,67 @@
           </mat-card>
 
           <div class="ventaPedido">
-            <mat-card>
+            <div class="accordion d-block d-lg-none" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                   Ver detalles
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+
+                      <form [formGroup]="pedidoForm">
+                        <mat-form-field class="w-100" appearance="fill">
+                          <mat-label>Observación</mat-label>
+                          <textarea
+                            matInput
+                            placeholder="Ingrese aquí las observaciones..."
+                            formControlName="observacion"
+                          ></textarea>
+                        </mat-form-field>
+                      </form>
+                      <div class="d-flex justify-content-between">
+                        <table class="w-50">
+                          <tr>
+                            <td>Sub Total:</td>
+                            <td>{{ getSubtotal() | currency }}</td>
+                          </tr>
+                          <tr>
+                            <div>Iva {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
+                            <td>{{ getSubtotal() * 0.12 | currency }}</td>
+                          </tr>
+                          <tr>
+                            <td>Total</td>
+                            <td>{{ getSubtotal() * 1.12 | currency }}</td>
+                          </tr>
+                        </table>
+                        <div class="d-flex flex-column justify-content-center">
+                          <button
+                          *ngIf="enviado()"
+                            mat-raised-button
+                            (click)="cancelarPedido()"
+                            class="mb-2"
+                            color="warn"
+                          >
+                            Cancelar
+                          </button>
+                          <button
+                            *ngIf="enviado()"
+                            (click)="sendPedido()"
+                            mat-raised-button
+                            class="mb-2 btn-dark"
+                          >
+                            Enviar
+                          </button>
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-card class=" d-none d-lg-block">
               <form [formGroup]="pedidoForm">
                 <mat-form-field class="w-100" appearance="fill">
                   <mat-label>Observación</mat-label>
@@ -153,8 +243,8 @@
       </div>
     </div>
   </mat-drawer>
-  <div class="container-fliud row m-0">
-    <div class="col-8 container mt-3 position-relative">
+  <div class="container-fliud row m-0 h-100">
+    <div class="col-12 col-sm-8 container mt-3 contenedor-mesas position-relative">
       <div class="row">
         <div
           *ngFor="let mesa of mesas; let index = index"
@@ -190,7 +280,7 @@
 
 
 
-        <div class="row p-5">
+        <div class="row p-5 ejemplo_mesas">
           <div class="col-12 ">
             <fa-icon
             [ngStyle]="{'color': this.configuracionMesero.colorSatisfaccion.check ? this.configuracionMesero.colorSatisfaccion.color  : '#28a745'}"
@@ -242,7 +332,7 @@
         </div>
       </div>
     </div>
-    <div class="col-4 bg-secondary contenedor-pedidos">
+    <div class="col-12 col-sm-4 bg-secondary contenedor-pedidos-enviados ">
       <div class="pedidos h-100">
         <div *ngFor="let pedido of pedidos" class="my-2">
           <mat-card style="transition: 1s;"   [ngClass]="getColorPedido(pedido)">

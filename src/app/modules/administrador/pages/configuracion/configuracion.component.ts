@@ -52,7 +52,11 @@ export class ConfiguracionComponent implements OnInit {
 })
 configuracionCaja = this.formBuilder.group({
   iva: new FormControl(""),
+  checkIVA: new FormControl(false),
   metodosPago : this.formBuilder.array([
+
+  ]),
+  descuentosIntereses : this.formBuilder.array([
 
   ]),
 
@@ -81,17 +85,32 @@ configuracionCaja = this.formBuilder.group({
   get metodosPago(){
     return this.configuracionCaja.controls["metodosPago"] as FormArray;
   }
+  get descuentosIntereses(){
+    return this.configuracionCaja.controls["descuentosIntereses"] as FormArray;
+  }
   addMetodoPago(){
     let metodoPago = this.formBuilder.group({
       nombre: new FormControl("", [
         Validators.required,
       ]),
       porcentaje: new FormControl(0),
-      valor: new FormControl(0),
       descuentoIncremento: new FormControl(false),
+      valor: new FormControl(0),
       estado: new FormControl(0),
     })
       this.metodosPago.push(metodoPago);
+  }
+  addDescuentoInteres(){
+    let descuentoInteres = this.formBuilder.group({
+      nombre: new FormControl("", [
+        Validators.required,
+      ]),
+      porcentaje: new FormControl(0),
+      descuentoIncremento: new FormControl(false),  
+      valor: new FormControl(0),
+      estado: new FormControl(0),
+    })
+      this.descuentosIntereses.push(descuentoInteres);
   }
   ngOnInit() {
 
@@ -101,7 +120,11 @@ configuracionCaja = this.formBuilder.group({
         iva: new FormControl(configuracionCaja.iva, [
           Validators.required,
         ]),
+        checkIVA: new FormControl(configuracionCaja.checkIVA, [
+          Validators.required,
+        ]),
         metodosPago:  new FormArray([]),
+        descuentosIntereses:  new FormArray([]),
         cierreCaja: new FormControl(configuracionCaja.cierreCaja, [
           Validators.required,
         ]),
@@ -114,7 +137,7 @@ configuracionCaja = this.formBuilder.group({
         colorFlechas: new FormControl(configuracionCaja.colorFlechas.color),
         colorPagar: new FormControl(configuracionCaja.colorPagar.color),
       })
-      console.log(this.configuracionCaja)
+
       for (let i = 0; i < configuracionCaja.metodosPago.length; i++) {
         let metodoPago = this.formBuilder.group({
           nombre: new FormControl(configuracionCaja.metodosPago[i].nombre, [
@@ -126,6 +149,19 @@ configuracionCaja = this.formBuilder.group({
           estado: new FormControl(configuracionCaja.metodosPago[i].estado),
         })
           this.metodosPago.push(metodoPago);
+
+      }
+      for (let i = 0; i < configuracionCaja.descuentosIntereses.length; i++) {
+        let descuentoInteres = this.formBuilder.group({
+          nombre: new FormControl(configuracionCaja.descuentosIntereses[i].nombre, [
+            Validators.required,
+          ]),
+          porcentaje: new FormControl(configuracionCaja.descuentosIntereses[i].porcentaje),
+          valor: new FormControl(configuracionCaja.descuentosIntereses[i].valor),
+          descuentoIncremento: new FormControl(configuracionCaja.descuentosIntereses[i].descuentoIncremento),
+          estado: new FormControl(configuracionCaja.descuentosIntereses[i].estado),
+        })
+          this.descuentosIntereses.push(descuentoInteres);
 
       }
     });
@@ -229,7 +265,9 @@ configuracionCaja = this.formBuilder.group({
 
     let configuracionCaja:configuracionCaja ={
       iva: this.configuracionCaja.get('iva').value,
+      checkIVA: this.configuracionCaja.get('checkIVA').value,
       metodosPago: this.configuracionCaja.get('metodosPago').value,
+      descuentosIntereses: this.configuracionCaja.get('descuentosIntereses').value,
       cierreCaja: this.configuracionCaja.get('cierreCaja').value,
       colorAgregarCliente: {
         check:this.configuracionCaja.get('checkColorAgregarCliente').value,

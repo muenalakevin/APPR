@@ -17,6 +17,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {MatSelectModule} from '@angular/material/select';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 @NgModule({
   declarations: [
     MeseroComponent,
@@ -39,7 +42,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatDividerModule,
     MatListModule,
     Ng2SearchPipeModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ]
 })
 export class MeseroModule { }

@@ -4,6 +4,7 @@ export class PlatoPedido {
         public cantidad_pedido:number
         public cantidad_lista:number
         public cantidad_servida:number
+        public opcionesRapidas:string[]
     constructor(
         
 
@@ -12,6 +13,7 @@ export class PlatoPedido {
         this.cantidad_lista=0
         this.cantidad_pedido=0
         this.cantidad_servida=0
+        this.opcionesRapidas=[]
     }
 }
 

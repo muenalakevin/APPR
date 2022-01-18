@@ -50,6 +50,7 @@ export class CajaComponent implements OnInit {
   total = 0
   subTotalConDescunto = 0
   metodoSelected:metodoPago = new metodoPago()
+  descuentoInteresSelected:metodoPago = new metodoPago()
   configuracionCaja:configuracionCaja = new configuracionCaja()
   stateCtrl = new FormControl();
  clienteSelected:Cliente = new Cliente();
@@ -57,7 +58,7 @@ export class CajaComponent implements OnInit {
   platosPedidos:PlatoPedido[] = []
   panelOpenState:boolean
   mesaActual:MesaSeleccionada
-
+  puedePagar:boolean = false
   pedidoReal:Pedido  = new Pedido()
   pedidoTotal:Pedido  = new Pedido()
   pedidoTotalPagar:Pedido  = new Pedido()
@@ -65,6 +66,8 @@ export class CajaComponent implements OnInit {
   mesas: MesaSeleccionada[] = [];
   caja:Caja = null
   pagoSelect = new FormControl(0);
+  descuentoInteresSelect = new FormControl(0);
+  descuetoInteresSelect = new FormControl(0);
   cajaForm:FormGroup = this.FormBuilder.group({
     caja_chica: new FormControl(0, [
       Validators.required,
@@ -88,6 +91,10 @@ export class CajaComponent implements OnInit {
 
   changeMetodoSelected(metodo:number){
     this.metodoSelected = this.configuracionCaja.metodosPago[metodo]
+    this.refreshPecios()
+  }
+  changeDescuetoInteresSelected(descuento:number){
+    this.descuentoInteresSelected = this.configuracionCaja.descuentosIntereses[descuento]
     this.refreshPecios()
   }
   async guardarCaja(){
@@ -120,7 +127,7 @@ export class CajaComponent implements OnInit {
   modalCierre(){
 
     if(this.pedidos.length>0){
-      let respuesta = this.AlertService.showConfirm("Aun se encuentran pedidos por atender, desea cerrar la caja?").then((res: boolean) => {
+      let respuesta = this.AlertService.showConfirm("Aún se encuentran pedidos por atender, ¿desea cerrar la caja?").then((res: boolean) => {
         if (res) {
           const dialogRef = this.dialog.open(CerrarCajaComponent, {
             data: { caja:this.caja, permiso: this.configuracionCaja.cierreCaja },
@@ -158,10 +165,11 @@ export class CajaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.ConfiguracionService.getConfiguracionCaja().subscribe(res=>{
       this.configuracionCaja = res as configuracionCaja
       this.metodoSelected = this.configuracionCaja.metodosPago[0]
-
+      this.descuentoInteresSelected = this.configuracionCaja.descuentosIntereses[0]
     });
     this.CajaService.getCaja().subscribe(res=>{
       this.caja=res as Caja;
@@ -525,9 +533,9 @@ if(month < 10){
   }
   canPay(){
     if(this.pedidoTotalAux.pedidos.length != 0 && this.clienteSelected.nombre_cliente!=""){
-          return true;
+          return false;
     }
-    return false
+    return true
   }
 
   async refreshPecios(){
@@ -538,26 +546,36 @@ if(month < 10){
     this.interes = 0
     this.total = 0
     await this.pedidoTotalAux.pedidos.map(ped=>{
-      this.subTotal+= ped.plato.precio_plato* ped.cantidad_servida
+      this.subTotal+= (ped.plato.precio_plato* ped.cantidad_servida)
+     
     })
+    if(this.configuracionCaja.checkIVA){
+      this.subTotal = this.subTotal/1.12
+    }
     this.valor = this.metodoSelected.valor
-
+    if(this.descuentoInteresSelected.descuentoIncremento){
+      this.interes = Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
+    }else{
+      this.descuento += Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
+    }
+    
     if(this.metodoSelected.descuentoIncremento){
-      this.interes = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
+      this.interes += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
       this.descuento = 0
       this.subTotalIva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
       this.total = Math.abs(this.subTotal  + this.subTotalIva )
       this.total = Math.abs(this.total + this.interes)
+      
     }else{
       this.interes = 0
-      this.descuento = Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
+      this.descuento += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
       this.total = Math.abs(this.subTotal - this.descuento)
       this.subTotalConDescunto = this.total
       this.subTotalIva = Math.abs(this.total* (this.configuracionCaja.iva/100))
       this.total = Math.abs(this.total + this.subTotalIva)
     }
 
-
+    
 
   }
   pagar(){

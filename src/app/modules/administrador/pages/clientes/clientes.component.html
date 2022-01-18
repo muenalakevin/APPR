@@ -29,6 +29,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Dirección </th>
         <td mat-cell *matCellDef="let element"> {{element.direccion_cliente}} </td>
       </ng-container>
+      <ng-container matColumnDef="telefono_cliente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
+        <td mat-cell *matCellDef="let element"> {{element.telefono_cliente}} </td>
+      </ng-container>
       <ng-container matColumnDef="Editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let element">

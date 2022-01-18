@@ -1,8 +1,3 @@
-.contenedor-pedidos{
-    height: calc(100vh - 80px);
-    overflow-y: scroll;
-    position: relative;
-}
 select {
   /* Reset Select */
   appearance: none;
@@ -16,34 +11,34 @@ select {
   background-image: none;
   cursor: pointer;
 }
+
 .select {
   position: relative;
   display: flex;
-  width: 20em;
+ 
   height: 3em;
-  border-radius: .25em;
+  border-radius: 0.25em;
   overflow: hidden;
 }
 .select::after {
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
   padding: 1em;
-  background-color: #34495e;
-  transition: .25s all ease;
+  background-color: #2f7ecc;
+  transition: 0.25s all ease;
   pointer-events: none;
 }
 .select:hover::after {
   color: #f39c12;
 }
 
-.mesa{
-    cursor:pointer;
+.mesa {
+  cursor: pointer;
 }
-.pedidos{
-
-    min-height: 100% !important;
+.pedidos {
+  min-height: 100% !important;
 }
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -51,38 +46,40 @@ input::-webkit-inner-spin-button {
 }
 
 .example-container {
-    width: 100vw;
+  width: 100vw;
 
-    border: 1px solid rgba(0, 0, 0, 0.5);
-  }
-  .example-sidenav{
-    width: 100vw;
-  }
-  .example-sidenav-content {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .example-sidenav {
-    padding: 20px;
-  }
-
-  ::ng-deep .z-depth:hover {
-    box-shadow: 0 8px 8px 8px rgba(0,0,0,.2), 0 8px 8px 0 rgba(0,0,0,.14), 0 8px 8px 0 rgba(0,0,0,.12) !important;
-    transform: translate3d(0,0,0);
-    transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.example-sidenav {
+  width: 100vw;
+}
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-.espacioPedidos{
-    height: 200px;
+.example-sidenav {
+  padding: 20px;
 }
 
-.ventaPedido{
-    position: -webkit-sticky;
-    position: sticky;
-    bottom: 0;
+::ng-deep .z-depth:hover {
+  box-shadow: 0 8px 8px 8px rgba(0, 0, 0, 0.2), 0 8px 8px 0 rgba(0, 0, 0, 0.14),
+    0 8px 8px 0 rgba(0, 0, 0, 0.12) !important;
+  transform: translate3d(0, 0, 0);
+  transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.espacioPedidos {
+  height: 200px;
+}
+
+.ventaPedido {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
 }
 
 input[type="number"][disabled] {
@@ -90,5 +87,86 @@ input[type="number"][disabled] {
 }
 
 ::ng-deep mat-drawer-content {
-  margin: 0!important;
+  margin: 0 !important;
+}
+
+@media (min-width: 900px) {
+  .contenedor-pedidos {
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    position: relative;
+  }
+  .contenido-maximo {
+    height: 100vh;
+    overflow: auto;
+  }
+  .contenedor-total{
+    height: calc(100vh - 84px);
+  }
+}
+@media (max-width: 900px) {
+  .ejemplo_mesas{
+    display: none;
+  }
+  .contenido-maximo {
+    height: 50vh;
+    overflow: auto;
+  }
+  .contenedor-total{
+    height: 100vh;
+  }
+  .platos-contenedor{
+    white-space: nowrap;
+    overflow: auto;
+    height: 65vh;
+  }
+}
+
+@media (min-width: 500px) {
+  .contenedor-pedidos{
+    height: 100vh ;
+    overflow-y: scroll;
+    position: relative;
+}
+  .contenido-maximo {
+    height: 100vh;
+    overflow: auto;
+  }
+}
+@media (min-width: 900px) {
+  .contenedor-pedidos{
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    position: relative;
+}
+}
+@media (max-width: 500px) {
+  .contenido-maximo {
+    height: 50vh;
+    overflow: auto;
+  }
+  .contenedor-pedidos{
+    height: 50vh ;
+    overflow-y: scroll;
+    position: relative;
+}
+.platos-contenedor{
+  white-space: nowrap;
+  overflow: auto;
+  height: 30vh;
+}
+.contenedor-pedidos-enviados{
+  overflow: auto;
+  height: 50vh;
+}
+.contenedor-mesas{
+  overflow: auto;
+  height: 50vh;
+}
+}
+::ng-deep .mat-drawer-inner-container {
+  height: auto !important;
+}
+::ng-deep .mat-drawer-content {
+  overflow: hidden !important;
 }

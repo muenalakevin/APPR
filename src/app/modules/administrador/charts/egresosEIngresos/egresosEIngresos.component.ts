@@ -326,7 +326,7 @@ sacarDatosHoras(fechaInicio:Date,cajas:Array<Caja>,sacar:string){
                 }
 
       })
-      valoresConnstruido.push(valor);
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
         if(mesInicial<12){
           mesInicial++;
         }else{
@@ -363,7 +363,7 @@ sacarDatosPorDias(fechaInicio:Date, cantidadDias:number,caja:Array<Caja>,sacar:s
           }
         }
       })
-      valoresConnstruido.push(valor);
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
 
        /*  if(mesInicial<12){
           mesInicial++;
@@ -401,7 +401,7 @@ sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:s
             }
           }
       })
-      valoresConnstruido.push(valor);
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
         if(mesInicial<12){
           mesInicial++;
         }else{
@@ -428,7 +428,7 @@ sacarDatosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:s
 
             }
       })
-      valoresConnstruido.push(valor);
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
           anioInicial++;
     }
     return valoresConnstruido;

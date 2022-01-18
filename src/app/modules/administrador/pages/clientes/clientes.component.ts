@@ -24,7 +24,7 @@ import { EditarUsuarioComponent } from '../../components/editarUsuario/editarUsu
 })
 export class ClientesComponent implements OnInit,AfterViewInit {
   
-  public displayedColumns = ['nombre_cliente', 'apellido_cliente', 'cedRuc_cliente', 'correo_cliente', 'direccion_cliente',  'Editar'];
+  public displayedColumns = ['nombre_cliente', 'apellido_cliente', 'cedRuc_cliente', 'correo_cliente', 'direccion_cliente','telefono_cliente',  'Editar'];
 public dataSource = new MatTableDataSource<Cliente>();
 
 

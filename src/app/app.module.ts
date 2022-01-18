@@ -17,6 +17,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
 import { RouterModule } from '@angular/router';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 /* const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
   query: {
@@ -25,7 +26,7 @@ import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
 }}; */
 
 
-const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
+const config: SocketIoConfig = { url: "http://192.168.1.8:3000" , options: {
   transportOptions: {
     polling: {
       extraHeaders: {
@@ -52,7 +53,13 @@ const config: SocketIoConfig = { url: "http://localhost:3000" , options: {
     }),
     SocketIoModule.forRoot(config),
     NgxBootstrapConfirmModule,
-    RouterModule
+    RouterModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
     
     
   ],

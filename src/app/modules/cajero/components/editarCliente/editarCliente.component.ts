@@ -31,8 +31,13 @@ export class EditarClienteComponent implements OnInit {
       ]),
       correo_cliente: new FormControl(this.data.cliente.correo_cliente, [
         Validators.email,
+        Validators.required
       ]),
       direccion_cliente: new FormControl(this.data.cliente.direccion_cliente, [
+        Validators.required
+      ]),
+      telefono_cliente: new FormControl(this.data.cliente.telefono_cliente, [
+        Validators.required
       ]),
 
 
@@ -147,6 +152,7 @@ export class EditarClienteComponent implements OnInit {
             cedRuc_cliente:  this.clienteForm.value.cedRuc_cliente,
             correo_cliente: this.clienteForm.value.correo_cliente,
             direccion_cliente: this.clienteForm.value.direccion_cliente,
+            telefono_cliente: this.clienteForm.value.telefono_cliente,
             createdAt: new Date()
       }
       await this.ClienteService.editarCliente(cliente).subscribe(res=>{

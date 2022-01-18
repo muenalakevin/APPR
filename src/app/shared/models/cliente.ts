@@ -5,6 +5,7 @@ export class Cliente{
     public cedRuc_cliente:string
     public correo_cliente:string
     public direccion_cliente:string
+    public telefono_cliente:string
     public createdAt:Date
     constructor(){
         this._id = ""
@@ -13,6 +14,7 @@ export class Cliente{
         this.cedRuc_cliente = ""
         this.correo_cliente = ""
         this.direccion_cliente = ""
+        this.telefono_cliente = ""
         this.createdAt = new Date()
     }
 }

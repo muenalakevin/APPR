@@ -51,6 +51,15 @@
           </mat-error>
         </mat-error>
       </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput placeholder="Ingrese teléfono de cliente" formControlName="telefono_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['telefono_cliente'].errors?.['required']">
+            El teléfono es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
 
       <!-- Email -->
 

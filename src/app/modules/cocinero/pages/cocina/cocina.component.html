@@ -1,26 +1,34 @@
-<div class="container-fliud row m-0">
-
-  <div class="col-4 bg-secondary contenedor-pedidos">
+<div class="container-fliud d-flex flex-sm-row flex-column-reverse m-0">
+  <div class="col-12 col-sm-4 bg-secondary contenedor-pedidos">
     <div class="pedidos h-100">
       <form>
-        <div class="bg-white ">
+        <div class="bg-white">
           <div class="selectBox" (click)="showCheckboxes()">
             <select class="form-select">
               <option>Seleccione categorias propias</option>
             </select>
             <div class="overSelect"></div>
           </div>
-          <div  *ngIf="expanded">
-            <label *ngFor="let categoria of categorias" class="d-block" for={{categoria._id}}>
-              <input type="checkbox" id={{categoria._id}} (click)="checkCategoria(categoria._id)" [checked]="ifExistCategoriaSeleccioanda(categoria._id)"/>{{categoria.nombre_categoria}}</label>
-
+          <div *ngIf="expanded">
+            <label
+              *ngFor="let categoria of categorias"
+              class="d-block"
+              for="{{ categoria._id }}"
+            >
+              <input
+                type="checkbox"
+                id="{{ categoria._id }}"
+                (click)="checkCategoria(categoria._id)"
+                [checked]="ifExistCategoriaSeleccioanda(categoria._id)"
+              />{{ categoria.nombre_categoria }}</label
+            >
           </div>
         </div>
       </form>
       <div *ngFor="let pedido of pedidosFiltrados" class="my-2">
         <mat-card [ngClass]="setColor(pedido)">
           <div class="d-flex justify-content-between">
-            <h5 class="m-0">{{getNombreMesa(pedido)}}</h5>
+            <h5 class="m-0">{{ getNombreMesa(pedido) }}</h5>
             <span>tiempo de espera {{ timer(pedido) }}</span>
           </div>
           <div class="d-flex flex-column mb-3">
@@ -32,46 +40,68 @@
               >
                 <mat-expansion-panel-header>
                   <mat-panel-title> Pedidos </mat-panel-title>
-
                 </mat-expansion-panel-header>
                 <mat-list>
                   <div *ngFor="let ped of pedido.pedidos">
+                    <h5>
+                      <b>Nombre: {{ ped.plato.nombre_plato }} </b>
+                    </h5>
+                    <h5>Cantidad pedida: {{ ped.cantidad_pedido }}</h5>
+                    <h5>Listos: {{ ped.cantidad_servida }}</h5>
 
-                   <h5><b>Nombre: {{ped.plato.nombre_plato}} </b></h5>
-                   <h5>Cantidad pedida: {{ped.cantidad_pedido}}</h5>
-                   <h5>Listos: {{ped.cantidad_servida}}</h5>
-
-
-                  <mat-divider></mat-divider>
-                </div>
-
+                    <mat-divider></mat-divider>
+                  </div>
                 </mat-list>
               </mat-expansion-panel>
             </mat-accordion>
-
           </div>
 
           <div class="d-flex justify-content-center">
-            <button (click)="mostrarPlatos(pedido)" class="btn btn-primary px-5">Ver</button>
-         <!--    <button class="btn btn-danger">Cancelado</button> -->
+            <button
+              (click)="mostrarPlatos(pedido)"
+              class="btn btn-primary px-5"
+            >
+              Ver
+            </button>
+            <!--    <button class="btn btn-danger">Cancelado</button> -->
           </div>
         </mat-card>
       </div>
     </div>
   </div>
-  <div class="col-8 container mt-3">
-    <div class="row p-5">
-      <mat-card class="col-3 m-3" *ngFor="let pedido of platosPedidos">
+  <div class="col-12 col-sm-8 container mt-3 contenedor-platos">
+    <div class="row p-sm-5">
+      <mat-card
+        class="col m-3 text-center"
+        *ngFor="let pedido of platosPedidos"
+      >
+        <p>Nombre: {{ pedido.plato.nombre_plato }}</p>
+        <p>Cant. Pedida:{{ pedido.cantidad_pedido }}</p>
+        <p>Listos:{{ pedido.cantidad_lista }}</p>
+        <mat-chip-list
+          class="example-chip"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
 
-
-          <p>Nombre: {{ pedido.plato.nombre_plato }}</p>
-          <p>Cant. Pedida:{{ pedido.cantidad_pedido}}</p>
-          <p>Listos:{{ pedido.cantidad_lista  }}</p>
-          <div class="d-flex justify-content-center">
-            <button *ngIf="pedido.cantidad_lista!=pedido.cantidad_pedido" [disabled]="botonListo" (click)="modificarPedido(pedido)" class="btn btn-success px-5">Listo</button>
-          </div>
-
-
+        >
+          <mat-chip
+            class="example-box"
+            cdkDrag
+            *ngFor="let opcionRapida of pedido.opcionesRapidas"
+          >
+            {{ opcionRapida }}
+          </mat-chip>
+        </mat-chip-list>
+        <div class="d-flex justify-content-center">
+          <button
+            *ngIf="pedido.cantidad_lista != pedido.cantidad_pedido"
+            [disabled]="botonListo"
+            (click)="modificarPedido(pedido)"
+            class="btn btn-success px-5"
+          >
+            Listo
+          </button>
+        </div>
       </mat-card>
     </div>
   </div>

@@ -1,3 +1,8 @@
+import { PlatoPedido } from 'src/app/shared/models/platoPedido';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { startWith, map } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { CambioEstatico } from './../../../../shared/models/cambiosEstatios';
 import { AlertService } from './../../../../core/services/alert.service';
@@ -25,6 +30,61 @@ import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
   styleUrls: ['./mesas.component.css'],
 })
 export class MesasComponent implements OnInit {
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = ['Lemon'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+
+
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(opcionRapida: string, pedido:PlatoPedido): void {
+    this.pedidoTotal.pedidos.map(pedTot=>{
+      if(pedTot.plato._id == pedido.plato._id){
+        const index = pedTot.opcionesRapidas.indexOf(opcionRapida);
+        if (index >= 0) {
+          pedTot.opcionesRapidas.splice(index, 1);
+        }
+      }
+    })
+    this.PedidoService.editarPedido( this.pedidoTotal).subscribe();
+  }
+
+  selected(event: MatAutocompleteSelectedEvent, pedido:PlatoPedido): void {
+    this.pedidoTotal.pedidos.map(pedTot=>{
+      if(pedTot.plato._id == pedido.plato._id){
+        pedTot.opcionesRapidas.push(event.option.viewValue.toString());
+      }
+    })
+    this.PedidoService.editarPedido( this.pedidoTotal).subscribe();
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+  }
+
+
   @ViewChild('drawer') drawer: MatDrawer;
   faSquareIcon = faSquare;
   defaultElevation = 2;
@@ -32,7 +92,7 @@ export class MesasComponent implements OnInit {
   subTotal = 0;
   list: MesaSeleccionada[] = [];
   showFiller = false;
-  configuracionMesero:configuracionMesero
+  configuracionMesero:configuracionMesero = new configuracionMesero()
   panelOpenState:boolean
   private mesasSubscription: Subscription;
   mesas: MesaSeleccionada[] = [];
@@ -53,7 +113,7 @@ export class MesasComponent implements OnInit {
   searchForm: FormGroup = new FormGroup({
     search: new FormControl(null),
   });
-  configuracionCaja:configuracionCaja
+  configuracionCaja:configuracionCaja = new configuracionCaja()
 
   constructor(
     private MesaService: MesaService,
@@ -64,7 +124,13 @@ export class MesasComponent implements OnInit {
     private cdRef:ChangeDetectorRef,
     private AlertService:AlertService,
     private configuracionService:ConfiguracionService,
-  ) {}
+  ) {
+
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    );
+  }
   @ViewChild('select') input:ElementRef;
   ngAfterViewChecked()
 {
@@ -86,6 +152,8 @@ export class MesasComponent implements OnInit {
     return minutes+":"+seconds
   }
   async ngOnInit() {
+    
+
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
       this.configuracionMesero = res as configuracionMesero
     })
@@ -332,7 +400,7 @@ export class MesasComponent implements OnInit {
         horaDeEnvio:null,
         horaDeEntrega:null,
         estado:1,
-        pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0 }],
+        pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] }],
       };
 
       this.PedidoService.guardarPedido(pedido).subscribe(res=>{
@@ -347,7 +415,7 @@ export class MesasComponent implements OnInit {
         (pedido) => pedido.plato._id == plato._id
       );
       if (existPedido == undefined) {
-        pedidos.push({ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0 });
+        pedidos.push({ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] });
       } else {
         pedidos.map((pedido) => {
           if (pedido.plato._id == plato._id) {

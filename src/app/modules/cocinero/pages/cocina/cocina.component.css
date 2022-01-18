@@ -1,8 +1,4 @@
-.contenedor-pedidos{
-  height: calc(100vh - 80px);
-  overflow-y: scroll;
-  position: relative;
-}
+
 .multiselect {
   width: 200px;
 }
@@ -35,4 +31,68 @@
 
 #checkboxes label:hover {
   background-color: #1e90ff;
+}
+
+
+
+
+@media (min-width: 900px) {
+  .contenedor-pedidos {
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    position: relative;
+  }
+  .contenido-maximo {
+    height: 100vh;
+    overflow: auto;
+  }
+  .contenedor-total{
+    height: calc(100vh - 84px);
+  }
+}
+@media (max-width: 900px) {
+  .ejemplo_mesas{
+    display: none;
+  }
+  .contenido-maximo {
+    height: 50vh;
+    overflow: auto;
+  }
+  .contenedor-total{
+    height: 100vh;
+  }
+  .platos-contenedor{
+    white-space: nowrap;
+    overflow: auto;
+    height: 65vh;
+  }
+}
+
+@media (min-width: 575px) {
+  .contenedor-pedidos{
+    height: 100vh ;
+    overflow-y: scroll;
+    position: relative;
+}
+  .contenido-maximo {
+    height: 100vh;
+    overflow: auto;
+  }
+}
+@media (max-width: 575px) {
+  .contenido-maximo {
+    height: 50vh;
+    overflow: auto;
+  }
+  .contenedor-pedidos{
+    height: 50vh ;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.contenedor-platos{
+  overflow: auto;
+  height: 50vh;
+}
+
 }
