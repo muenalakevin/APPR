@@ -27,6 +27,7 @@ export class CocinaComponent implements OnInit {
   private pedidosSubscription: Subscription;
   dateNow:Date
   pedidoSeleccionado:Pedido
+  pedidoSeleccionadoReal:Pedido
   categoriasSeleccionadas:CategoriaCocinero = new CategoriaCocinero()
   platosPedidos:PlatoPedido[]=[]
   pedidosFiltrados:Pedido[]
@@ -145,7 +146,7 @@ actualizarFiltroCategorias(){
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
         this.actualizarFiltroCategorias()
-        const pedidoFind = this.pedidos.find(ped=> ped.id_mesa == this.pedidoSeleccionado.id_mesa)
+        const pedidoFind = this.pedidosFiltrados.find(ped=> ped.id_mesa == this.pedidoSeleccionado.id_mesa)
 
         if(pedidoFind!=null){
           this.platosPedidos = pedidoFind.pedidos;
@@ -179,7 +180,11 @@ actualizarFiltroCategorias(){
     this.botonListo = true;
     let pedidos = 0
     let listos = 0
-    this.pedidoSeleccionado.pedidos=this.pedidoSeleccionado.pedidos.map(ped=>{
+
+
+    this.pedidoSeleccionadoReal = this.pedidos.find(ped=>ped._id == this.pedidoSeleccionado._id);
+
+    this.pedidoSeleccionadoReal.pedidos=this.pedidoSeleccionadoReal.pedidos.map(ped=>{
       if(ped.plato._id==pedido.plato._id){
         ped.cantidad_lista+=1
         ped.cantidad_servida+=1
@@ -193,18 +198,18 @@ actualizarFiltroCategorias(){
     if(pedidos == listos){
 
       let mesa:MesaSeleccionada
-      this.MesaService.getMesa(this.pedidoSeleccionado.id_mesa).subscribe(res=>{
+      this.MesaService.getMesa(this.pedidoSeleccionadoReal.id_mesa).subscribe(res=>{
         mesa=(res as MesaSeleccionada)
         if(mesa.estado!=4){
           mesa.estado = 4
           this.MesaService.editarMesa(mesa).subscribe()
-          this.pedidoSeleccionado.horaDeEntrega = new Date(Date.now());
-          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+          this.pedidoSeleccionadoReal.horaDeEntrega = new Date(Date.now());
+          this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
             this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
             this.botonListo = false;
           })
         }else{
-          this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+          this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
             this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
             this.botonListo = false;
 
@@ -214,7 +219,7 @@ actualizarFiltroCategorias(){
       })
 
     }else{
-      this.PedidoService.editarPedido(this.pedidoSeleccionado).subscribe(()=>{
+      this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
         this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
         this.botonListo = false;
       })

@@ -114,6 +114,47 @@
   </div>
   </div>
 </mat-tab>
+<mat-tab label="Opciones Rápidas">
+  <div class="col-md-10 container">
+    <h2 style="margin: auto"> Opciones rápidas</h2>
+
+  <div class="table-responsive">
+    <button mat-raised-button color="primary" (click)="openDialogAgregarOpcionRapida()">Agregar opción rápida</button>
+    <br> <mat-form-field appearance="standard">
+      <mat-label>Buscador</mat-label>
+      <input matInput (keyup)="applyFilterOpcionRapida($event)" placeholder="Escribe..." #input>
+    </mat-form-field>
+    <table #sortOpcionRapida="matSort"  mat-table [dataSource]="dataOpcionesRapidas" matSort>
+      <ng-container matColumnDef="frase_opcionRapida">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> frase </th>
+        <td mat-cell *matCellDef="let element"> {{element.frase_opcionRapida}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Editar">
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="openDialogEditarOpcionRapida(element)" >
+            <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Eliminar">
+          <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="eliminarCategoria(element._id)">
+              <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsOpcionesRapidas"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnsOpcionesRapidas;"></tr>
+    </table>
+    <mat-paginator  #paginatorOpcionRapida [pageSize]="4" [pageSizeOptions]="[2, 4, 6, 10, 20]">
+    </mat-paginator>
+
+</div>
+</div>
+</mat-tab>
 </mat-tab-group>
 
 

@@ -6,7 +6,7 @@
           <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
             Atrás <mat-icon>arrow_right</mat-icon>
           </button>
-          
+
         </div>
         <br>
         <form [formGroup]="searchForm" class="d-inline d-flex">
@@ -25,7 +25,7 @@
       </div>
           </form>
           <br/>
-        
+
         <div class="row  platos-contenedor overflow-auto ">
           <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center">
             <mat-card
@@ -112,7 +112,7 @@
                   [matAutocomplete]="auto"
                   [matChipInputFor]="chipList"
                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  (matChipInputTokenEnd)="add($event)">
+                  (matChipInputTokenEnd)="add($event, pedido)">
               </mat-chip-list>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,pedido)">
                 <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">

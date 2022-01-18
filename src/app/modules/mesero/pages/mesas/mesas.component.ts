@@ -14,7 +14,7 @@ import { CategoriaService } from './../../../../core/services/categoria.service'
 import { CategoriaPlato } from 'src/app/shared/models/categoriaPlato';
 import { MesaService } from './../../../../core/services/mesa.service';
 import { Subscription, Observable, interval } from 'rxjs';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild,Pipe, ViewContainerRef } from '@angular/core';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { Plato } from 'src/app/shared/models/plato';
@@ -24,6 +24,8 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
+import { OpcionRapidaService } from 'src/app/core/services/opcion-rapida.service';
+import { OpcionRapida } from 'src/app/shared/models/opcionRapida';
 @Component({
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
@@ -40,12 +42,17 @@ export class MesasComponent implements OnInit {
 
 
 
-  add(event: MatChipInputEvent): void {
+  add(event: MatChipInputEvent, pedido:PlatoPedido): void {
     const value = (event.value || '').trim();
-
+    console.log(value)
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.pedidoTotal.pedidos.map(pedTot=>{
+        if(pedTot.plato._id == pedido.plato._id){
+          pedTot.opcionesRapidas.push(value);
+        }
+      })
+      this.PedidoService.editarPedido( this.pedidoTotal).subscribe();
     }
 
     // Clear the input value
@@ -67,6 +74,7 @@ export class MesasComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent, pedido:PlatoPedido): void {
+
     this.pedidoTotal.pedidos.map(pedTot=>{
       if(pedTot.plato._id == pedido.plato._id){
         pedTot.opcionesRapidas.push(event.option.viewValue.toString());
@@ -124,7 +132,14 @@ export class MesasComponent implements OnInit {
     private cdRef:ChangeDetectorRef,
     private AlertService:AlertService,
     private configuracionService:ConfiguracionService,
+    private opcionRapidaService:OpcionRapidaService,
   ) {
+    this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
+      let allOpcions = <OpcionRapida[]>opcionesRapidas
+      this.allFruits =  allOpcions.map(a => a.frase_opcionRapida);
+      console.log(this.fruits)
+    });
+
 
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
@@ -152,7 +167,7 @@ export class MesasComponent implements OnInit {
     return minutes+":"+seconds
   }
   async ngOnInit() {
-    
+
 
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
       this.configuracionMesero = res as configuracionMesero

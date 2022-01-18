@@ -1,0 +1,31 @@
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <h1 class="mdc-typography--headline1">Editar categoría</h1>
+    <form autocomplete="off" [formGroup]="opcionRapidaForm" (ngSubmit)="submitForm()" novalidate>
+
+      <!-- Name -->
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Frase</mat-label>
+        <input matInput placeholder="Ingrese frase de opción rápida" formControlName="frase_opcionRapida">
+      </mat-form-field>
+      <mat-error>
+
+        <mat-error *ngIf="opcionRapidaForm.controls['frase_opcionRapida'].errors?.['required']">
+          La frase es requerido.
+        </mat-error>
+    </mat-error>
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper d-flex justify-content-between">
+        <button mat-flat-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+      </div>
+    </form>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

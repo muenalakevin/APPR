@@ -56,6 +56,9 @@ import { ClientesDiaComponent } from './charts/clientesDia/clientesDia.component
 import { MinutosEntregasClientesComponent, CustomDateFormat2, CustomDateFormat1, CustomDateFormat3 } from './charts/minutosEntregasClientes/minutosEntregasClientes.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { PlatosDiaComponent } from './charts/platosDia/platosDia.component';
+import { AgregarOpcionRapidaComponent } from './components/AgregarOpcionRapida/AgregarOpcionRapida.component';
+import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/editarOpcionRapida.component';
 
 
 @NgModule({
@@ -83,7 +86,10 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     EgresosEIngresosComponent,
     CustomDateFormat2,
     CustomDateFormat1,
-    CustomDateFormat3
+    CustomDateFormat3,
+    PlatosDiaComponent,
+    AgregarOpcionRapidaComponent,
+    EditarOpcionRapidaComponent
   ],
   imports: [
     CommonModule,

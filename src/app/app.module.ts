@@ -26,15 +26,15 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 }}; */
 
 
-const config: SocketIoConfig = { url: "http://192.168.1.8:3000" , options: {
+const config: SocketIoConfig = { url: "http://192.168.1.201:3000" , options: {
   transportOptions: {
     polling: {
       extraHeaders: {
         'authorization':localStorage.getItem("token")
       }
-     
+
     }
-  
+
   }
 }};
 @NgModule({
@@ -60,8 +60,8 @@ const config: SocketIoConfig = { url: "http://192.168.1.8:3000" , options: {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     })
-    
-    
+
+
   ],
   providers: [ { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }],
   bootstrap: [AppComponent]

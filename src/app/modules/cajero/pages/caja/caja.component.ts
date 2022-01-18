@@ -547,35 +547,45 @@ if(month < 10){
     this.total = 0
     await this.pedidoTotalAux.pedidos.map(ped=>{
       this.subTotal+= (ped.plato.precio_plato* ped.cantidad_servida)
-     
+
     })
     if(this.configuracionCaja.checkIVA){
       this.subTotal = this.subTotal/1.12
     }
     this.valor = this.metodoSelected.valor
     if(this.descuentoInteresSelected.descuentoIncremento){
-      this.interes = Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
+      this.interes += Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
     }else{
       this.descuento += Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
     }
-    
+
+
     if(this.metodoSelected.descuentoIncremento){
       this.interes += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
-      this.descuento = 0
+    }else{
+      this.descuento += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
+    }
+
+    this.total = Math.abs(this.subTotal - this.descuento)
+    console.log(this.total)
+    this.subTotalIva = Math.abs(this.total* (this.configuracionCaja.iva/100))
+    this.total = Math.abs(this.total  + this.subTotalIva )
+    this.total = Math.abs(this.total + this.interes)
+/*     if(this.metodoSelected.descuentoIncremento){
+      this.total = Math.abs(this.subTotal - this.descuento)
       this.subTotalIva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
       this.total = Math.abs(this.subTotal  + this.subTotalIva )
       this.total = Math.abs(this.total + this.interes)
-      
+
     }else{
-      this.interes = 0
-      this.descuento += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
-      this.total = Math.abs(this.subTotal - this.descuento)
+
       this.subTotalConDescunto = this.total
       this.subTotalIva = Math.abs(this.total* (this.configuracionCaja.iva/100))
       this.total = Math.abs(this.total + this.subTotalIva)
+      this.total = Math.abs(this.total + this.interes)
     }
+ */
 
-    
 
   }
   pagar(){
