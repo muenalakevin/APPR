@@ -27,9 +27,9 @@
           <br/>
 
         <div class="row  platos-contenedor overflow-auto ">
-          <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center">
+          <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center p-0">
             <mat-card
-              class="my-2 p-0 btn"
+              class=" btn"
               (mouseenter)="mouseenter($event)"
               (mouseleave)="mouseleave($event)"
               (click)="addPlato(plato)"
@@ -98,6 +98,7 @@
               <mat-label>Favorite Fruits</mat-label>
               <mat-chip-list #chipList aria-label="Fruit selection">
                 <mat-chip
+                  class="mat-chip"
                   *ngFor="let opcionRapida of pedido.opcionesRapidas"
                   (removed)="remove(opcionRapida, pedido)">
                   {{opcionRapida}}
@@ -334,9 +335,9 @@
     </div>
     <div #domContenedor2 class="col-12 col-sm-4 background-pedidos contenedor-pedidos-enviados ">
       <div #domContenedor3 class="pedidos">
-    
+
           <mat-accordion
-        
+
           *ngFor="let pedido of pedidos" class="my-2">
             <mat-expansion-panel
             (click)="cambiarValorCambio(pedido)"
@@ -345,7 +346,7 @@
               class="my-2"
             >
               <mat-expansion-panel-header
-              style="transition: 1s;"   
+              style="transition: 1s;"
               [ngClass]="getColorPedido(pedido)"
               >
                 <mat-panel-title>
@@ -353,8 +354,8 @@
                     <div class="col-6 w-50">  {{getNombreMesa(pedido)}}</div>
                     <div  class="col-6 w-50">     Tiempo: {{ timer(pedido) }} </div>
                   </div>
-                
-                  
+
+
                   </mat-panel-title>
 
               </mat-expansion-panel-header>

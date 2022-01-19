@@ -216,11 +216,13 @@ export class PlatosComponent implements OnInit, AfterViewInit {
 
       }
     );
+    
     this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
       this.opcionesRapidas = <OpcionRapida[]>opcionesRapidas;
 
       this.dataOpcionesRapidas.data = opcionesRapidas as OpcionRapida[];
     });
+
     this.opcionesRapidasSubscription = this.opcionRapidaService.opcionesRapidas.subscribe(
       (opcionesRapidas) => {
         const Data: OpcionRapida[] = <OpcionRapida[]>opcionesRapidas;
