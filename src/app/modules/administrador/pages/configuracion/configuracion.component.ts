@@ -1,3 +1,4 @@
+import { configuracionEstilo } from './../../../../shared/models/configuracion.estilo';
 import { FormGroup, Validators, FormControl, FormArray, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
@@ -48,6 +49,37 @@ export class ConfiguracionComponent implements OnInit {
     colorOcupada: new FormControl(""),
     colorDisponible: new FormControl(""),
     meseroEdit: new FormControl(""),
+
+})
+  estiloConfig:FormGroup = this.formBuilder.group({
+    checkColorAplicacion: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorSatisfaccion: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorSatisfaccionMedia: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorDisatisfaccion: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorFueraTiempo: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorOcupada: new FormControl(false, [
+      Validators.required,
+    ]),
+    checkColorDisponible: new FormControl(false, [
+      Validators.required,
+    ]),
+    colorAplicacion: new FormControl(""),
+    colorSatisfaccion: new FormControl(""),
+    colorSatisfaccionMedia: new FormControl(""),
+    colorDisatisfaccion: new FormControl(""),
+    colorFueraTiempo: new FormControl(""),
+    colorOcupada: new FormControl(""),
+    colorDisponible: new FormControl(""),
 
 })
 configuracionCaja = this.formBuilder.group({
@@ -196,7 +228,27 @@ configuracionCaja = this.formBuilder.group({
           validator: this.mayoresMenores
         })
       })
+      this.ConfiguracionService.getConfiguracionEstilo().subscribe(res=>{
+        let configuracionEstilo = res as configuracionEstilo
+        this.estiloConfig =  this.formBuilder.group({
 
+          checkColorAplicacion: new FormControl(configuracionEstilo.colorAplicacion.check),
+          checkColorSatisfaccion: new FormControl(configuracionEstilo.colorSatisfaccion.check),
+          checkColorSatisfaccionMedia: new FormControl(configuracionEstilo.colorSatisfaccionMedia.check),
+          checkColorDisatisfaccion: new FormControl(configuracionEstilo.colorDisatisfaccion.check),
+          checkColorFueraTiempo: new FormControl(configuracionEstilo.colorFueraTiempo.check),
+          checkColorOcupada: new FormControl(configuracionEstilo.colorOcupada.check),
+          checkColorDisponible: new FormControl(configuracionEstilo.colorDisponible.check),
+          colorAplicacion: new FormControl(configuracionEstilo.colorAplicacion.color),
+          colorSatisfaccion: new FormControl(configuracionEstilo.colorSatisfaccion.color),
+          colorSatisfaccionMedia: new FormControl(configuracionEstilo.colorSatisfaccionMedia.color),
+          colorDisatisfaccion: new FormControl(configuracionEstilo.colorDisatisfaccion.color),
+          colorFueraTiempo: new FormControl(configuracionEstilo.colorFueraTiempo.color),
+          colorOcupada: new FormControl(configuracionEstilo.colorOcupada.color),
+          colorDisponible: new FormControl(configuracionEstilo.colorDisponible.color),
+      })
+      })
+console.log(this.estiloConfig);
   }
  mayoresMenores(meseroConfig: AbstractControl):ValidationErrors | null {3
 
@@ -217,6 +269,47 @@ configuracionCaja = this.formBuilder.group({
     meseroConfig.get('disatisfaccion').setErrors( {mayoresMenores: true} )
    }
   return null
+  }
+  guardarConfiguracionEstilo(){
+    if(this.estiloConfig.valid){
+
+    let configuracionEstilo:configuracionEstilo ={
+      colorAplicacion: {
+        check:this.estiloConfig.get('checkColorAplicacion').value,
+        color:this.estiloConfig.get('colorAplicacion').value,
+      },
+      colorSatisfaccion: {
+        check:this.estiloConfig.get('checkColorSatisfaccion').value,
+        color:this.estiloConfig.get('colorSatisfaccion').value,
+      },
+      colorSatisfaccionMedia: {
+        check:this.estiloConfig.get('checkColorSatisfaccionMedia').value,
+        color:this.estiloConfig.get('colorSatisfaccionMedia').value,
+      },
+      colorDisatisfaccion: {
+        check:this.estiloConfig.get('checkColorDisatisfaccion').value,
+        color:this.estiloConfig.get('colorDisatisfaccion').value,
+      },
+      colorFueraTiempo: {
+        check:this.estiloConfig.get('checkColorFueraTiempo').value,
+        color:this.estiloConfig.get('colorFueraTiempo').value,
+      },
+      colorOcupada: {
+        check:this.estiloConfig.get('checkColorOcupada').value,
+        color:this.estiloConfig.get('colorOcupada').value,
+      },
+      colorDisponible: {
+        check:this.estiloConfig.get('checkColorDisponible').value,
+        color:this.estiloConfig.get('colorDisponible').value,
+      },
+      }
+    
+    this.ConfiguracionService.updateConfiguracionEstilo(configuracionEstilo).subscribe(res=>{
+      this.AlertService.showSuccess('Configuración de estilo guardado con éxito.')
+    })
+  }else{
+    this.AlertService.showWarning('Ingrese todos los datos.')
+  }
   }
   guardarConfiguracionMesero(){
     if(this.meseroConfig.valid){

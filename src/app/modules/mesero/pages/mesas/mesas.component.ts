@@ -14,7 +14,7 @@ import { CategoriaService } from './../../../../core/services/categoria.service'
 import { CategoriaPlato } from 'src/app/shared/models/categoriaPlato';
 import { MesaService } from './../../../../core/services/mesa.service';
 import { Subscription, Observable, interval } from 'rxjs';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild,Pipe, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild, Pipe, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { Plato } from 'src/app/shared/models/plato';
@@ -31,7 +31,7 @@ import { OpcionRapida } from 'src/app/shared/models/opcionRapida';
   templateUrl: './mesas.component.html',
   styleUrls: ['./mesas.component.css'],
 })
-export class MesasComponent implements OnInit {
+export class MesasComponent implements OnInit, AfterViewInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
@@ -94,6 +94,7 @@ export class MesasComponent implements OnInit {
 
 
   @ViewChild('drawer') drawer: MatDrawer;
+  
   faSquareIcon = faSquare;
   defaultElevation = 2;
   raisedElevation = 8;
@@ -146,6 +147,20 @@ export class MesasComponent implements OnInit {
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     );
   }
+  @ViewChild('domContenedor1') domContenedor1: ElementRef;
+  @ViewChild('domContenedor2') domContenedor2: ElementRef;
+  @ViewChild('domContenedor3') domContenedor3: ElementRef;
+  ngAfterViewInit(): void {
+   
+    setInterval(this.checkOrientation, 1000);
+
+
+ 
+  }
+  checkOrientation=()=>{
+
+  }
+ 
   @ViewChild('select') input:ElementRef;
   ngAfterViewChecked()
 {

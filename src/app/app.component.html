@@ -32,17 +32,17 @@
               <li class="menu-item"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
             </ol>
             <ol class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'mesero'">
-                <li class="menu-item">   <app-iconNavbar class="px-sm-5 px-1" text='mesas' [icon]="squareIcon" href='/mesero/mesas'></app-iconNavbar></li>
+                <li class="menu-item">   <app-iconNavbar class="px-sm-5 px-1" text='Mesas' [icon]="squareIcon" href='/mesero/mesas'></app-iconNavbar></li>
                 <li class="menu-item">  <a class="dropdown-item" >Editar perfil</a></li>
                 <li class="menu-item"> <a class="dropdown-item"  (click)="logout()">Cerrar sesión</a></li>
               </ol>
             <ol class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cocinero'">
-                <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='cocina' [icon]="fish" href='/cocina/cocina'></app-iconNavbar></li>
+                <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='Cocina' [icon]="fish" href='/cocina/cocina'></app-iconNavbar></li>
                 <li class="menu-item">  <a class="dropdown-item">Editar perfil</a></li>
                 <li class="menu-item"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
               </ol>
             <ol class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cajerp'">
-                <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='caja' [icon]="cashRegisterIcon" href='/cajero/caja'></app-iconNavbar></li>
+                <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='Caja' [icon]="cashRegisterIcon" href='/cajero/caja'></app-iconNavbar></li>
                 <li class="menu-item">  <a class="dropdown-item" href="#">Editar perfil</a></li>
                 <li class="menu-item"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
               </ol>

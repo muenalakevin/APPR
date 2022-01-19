@@ -1,3 +1,4 @@
+import { configuracionEstilo } from './../../shared/models/configuracion.estilo';
 import { environment } from './../../../environments/environment.prod';
 import { Socket } from 'ngx-socket-io';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -32,10 +33,16 @@ export class ConfiguracionService {
     getConfiguracionCaja(){
       return this.http.get(environment.API_URL + '/configuracion/caja',this.httpOptions);
     }
+    getConfiguracionEstilo(){
+      return this.http.get(environment.API_URL + '/configuracion/estilo',this.httpOptions);
+    }
     updateConfiguracionMesero(configuracionMesero:configuracionMesero){
       return this.http.patch(environment.API_URL + '/configuracion/mesero',configuracionMesero,this.httpOptions);
     }
     updateConfiguracionCaja(configuracionCaja:configuracionCaja){
       return this.http.patch(environment.API_URL + '/configuracion/caja',configuracionCaja,this.httpOptions);
+    }
+    updateConfiguracionEstilo(configuracionEstilo:configuracionEstilo){
+      return this.http.patch(environment.API_URL + '/configuracion/estilo',configuracionEstilo,this.httpOptions);
     }
 }

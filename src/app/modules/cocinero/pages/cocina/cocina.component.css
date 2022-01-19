@@ -68,7 +68,7 @@
   }
 }
 
-@media (min-width: 575px) {
+@media (min-width: 575px) and (max-width: 900px)  {
   .contenedor-pedidos{
     height: 100vh ;
     overflow-y: scroll;

@@ -11,11 +11,32 @@ select {
   background-image: none;
   cursor: pointer;
 }
+.contenedor-mesas{
+z-index: 100;
+box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
+}
+.contenido-maximo{
+z-index: 100;
+box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.platos-contenedor{
+  margin: 10px 3px;
+z-index: 100;
+padding: 15px 0;
+box-shadow: 0 3px 6px rgba(0, 0, 0, 0.212), 0 3px 6px rgba(0, 0, 0, 0.151);
+
+}
+::ng-deep .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: #ffffff;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}
 .select {
   position: relative;
   display: flex;
- 
+  height: 55.56px!important;
   height: 3em;
   border-radius: 0.25em;
   overflow: hidden;
@@ -25,8 +46,9 @@ select {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 1em;
-  background-color: #2f7ecc;
+  border: 1px solid;
+  padding: 17px;
+  background-color: #ffffff;
   transition: 0.25s all ease;
   pointer-events: none;
 }
@@ -48,7 +70,6 @@ input::-webkit-inner-spin-button {
 .example-container {
   width: 100vw;
 
-  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 .example-sidenav {
   width: 100vw;
@@ -89,8 +110,18 @@ input[type="number"][disabled] {
 ::ng-deep mat-drawer-content {
   margin: 0 !important;
 }
-
+@media (min-width: 500px) and  (max-width: 900px)  {
+  .contenedor-pedidos-enviados{
+    overflow: auto;
+    height: calc(100vh);
+  }
+}
 @media (min-width: 900px) {
+  .contenedor-pedidos-enviados{
+
+    overflow: auto;
+    height: calc(100vh - 80px);
+  }
   .contenedor-pedidos {
     height: calc(100vh - 80px);
     overflow-y: scroll;
@@ -122,7 +153,9 @@ input[type="number"][disabled] {
   }
 }
 
-@media (min-width: 500px) {
+
+@media (min-width: 500px)  {
+
   .contenedor-pedidos{
     height: 100vh ;
     overflow-y: scroll;
@@ -141,6 +174,9 @@ input[type="number"][disabled] {
 }
 }
 @media (max-width: 500px) {
+  .contenedor-mesas-pedidos{
+    display: grid;
+  }
   .contenido-maximo {
     height: 50vh;
     overflow: auto;
@@ -153,15 +189,16 @@ input[type="number"][disabled] {
 .platos-contenedor{
   white-space: nowrap;
   overflow: auto;
-  height: 30vh;
+  height: 22vh;
 }
 .contenedor-pedidos-enviados{
+
   overflow: auto;
-  height: 50vh;
+  min-height: 50vh;
 }
 .contenedor-mesas{
-  overflow: auto;
-  height: 50vh;
+
+  height: auto;
 }
 }
 ::ng-deep .mat-drawer-inner-container {

@@ -9,13 +9,13 @@
 
         </div>
         <br>
-        <form [formGroup]="searchForm" class="d-inline d-flex">
-          <mat-form-field class="example-full-width  w-50">
+        <form [formGroup]="searchForm">
+          <mat-form-field class="example-full-width  w-100" appearance="outline">
           <span matPrefix> </span>
           <input (keyup)="applyFilterPlatos($event)"  type="text" matInput placeholder="Ingrese plato a buscar" formControlName= "search">
           <button matSuffix mat-button><mat-icon >search</mat-icon></button>
           </mat-form-field>
-          <div class="d-inline-block w-50">
+          <div class="d-inline-block w-100">
           <div class="select">
           <select #select name="" id="inputGroupSelect01"  (change)="filtrarCategoria($event)">
             <option value="all" >todas las categorias</option>
@@ -35,14 +35,14 @@
               (click)="addPlato(plato)"
             >
               <button class="w-100" mat-button>
-                <p>{{ plato.nombre_plato }}</p>
-                <p>{{ plato.precio_plato | currency }}</p>
+                <p class="m-0">{{ plato.nombre_plato }}</p>
+                <p class="m-0">{{ plato.precio_plato | currency }}</p>
               </button>
             </mat-card>
           </div>
         </div>
       </div>
-      <div class="col-12   col-sm-4 bg-secondary contenedor-pedidos">
+      <div class="col-12   col-sm-4   background-pedidos contenedor-pedidos">
         <div class="pedidos h-100">
           <mat-card *ngFor="let pedido of pedidoTotal.pedidos" class="my-2">
             <div class="text-center w-100">
@@ -134,11 +134,11 @@
             <div class="accordion d-block d-lg-none" id="accordionExample">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                    Ver detalles
                   </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
 
                       <form [formGroup]="pedidoForm">
@@ -158,7 +158,7 @@
                             <td>{{ getSubtotal() | currency }}</td>
                           </tr>
                           <tr>
-                            <div>Iva {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
+                            <div>IVA {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
                             <td>{{ getSubtotal() * 0.12 | currency }}</td>
                           </tr>
                           <tr>
@@ -209,7 +209,7 @@
                     <td>{{ getSubtotal() | currency }}</td>
                   </tr>
                   <tr>
-                    <div>Iva {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
+                    <div>IVA {{configuracionCaja.iva}}% de {{getSubtotal()|currency}}:</div>
                     <td>{{ getSubtotal() * 0.12 | currency }}</td>
                   </tr>
                   <tr>
@@ -243,8 +243,8 @@
       </div>
     </div>
   </mat-drawer>
-  <div class="container-fliud row m-0 h-100">
-    <div class="col-12 col-sm-8 container mt-3 contenedor-mesas position-relative">
+  <div class="container-fliud row m-0 h-100 contenedor-mesas-pedidos">
+    <div #domContenedor1 class="col-12 col-sm-8 container pt-4 contenedor-mesas position-relative">
       <div class="row">
         <div
           *ngFor="let mesa of mesas; let index = index"
@@ -287,7 +287,7 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa con tiempos tempranos
+          Tiempos tempranos
           </div>
           <div class="col-12">
             <fa-icon
@@ -295,7 +295,7 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa con tiempos aceptables
+          Tiempos aceptables
         </div>
         <div class="col-12">
             <fa-icon
@@ -303,7 +303,7 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa con tiempos de retraso
+          Tiempos de retraso
         </div>
         <div class="col-12">
             <fa-icon
@@ -311,7 +311,7 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa con tiempos inaceptables
+          Tiempos inaceptables
         </div>
         <div class="col-12">
             <fa-icon
@@ -319,7 +319,7 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa ocupada
+         Ocupada
         </div>
         <div class="col-12">
             <fa-icon
@@ -327,20 +327,38 @@
             class="display-6 mesa mesa-preview-mesero"
             [icon]="faSquareIcon"
           ></fa-icon>
-          Mesa disponible
+          Disponible
           </div>
         </div>
       </div>
     </div>
-    <div class="col-12 col-sm-4 bg-secondary contenedor-pedidos-enviados ">
-      <div class="pedidos h-100">
-        <div *ngFor="let pedido of pedidos" class="my-2">
-          <mat-card style="transition: 1s;"   [ngClass]="getColorPedido(pedido)">
-            <div class="d-flex justify-content-between">
-              <h5 class="m-0">{{getNombreMesa(pedido)}}</h5>
-              <span>tiempo de espera {{ timer(pedido) }}</span>
-            </div>
-            <div class="d-flex flex-column mb-3">
+    <div #domContenedor2 class="col-12 col-sm-4 background-pedidos contenedor-pedidos-enviados ">
+      <div #domContenedor3 class="pedidos">
+    
+          <mat-accordion
+        
+          *ngFor="let pedido of pedidos" class="my-2">
+            <mat-expansion-panel
+            (click)="cambiarValorCambio(pedido)"
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
+              class="my-2"
+            >
+              <mat-expansion-panel-header
+              style="transition: 1s;"   
+              [ngClass]="getColorPedido(pedido)"
+              >
+                <mat-panel-title>
+                  <div class="row w-100">
+                    <div class="col-6 w-50">  {{getNombreMesa(pedido)}}</div>
+                    <div  class="col-6 w-50">     Tiempo: {{ timer(pedido) }} </div>
+                  </div>
+                
+                  
+                  </mat-panel-title>
+
+              </mat-expansion-panel-header>
+
               <span>Descripción del pedido</span>
               <mat-accordion>
                 <mat-expansion-panel
@@ -367,14 +385,10 @@
                 </mat-expansion-panel>
               </mat-accordion>
 
-            </div>
 
-            <div class="d-flex justify-content-center">
-              <!-- <button *ngIf="listo(pedido)"  class="btn btn-success">Servido</button> -->
-           <!--    <button class="btn btn-danger">Cancelado</button> -->
-            </div>
-          </mat-card>
-        </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
       </div>
     </div>
   </div>

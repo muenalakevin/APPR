@@ -1,5 +1,5 @@
 <div class="container-fliud d-flex flex-sm-row flex-column-reverse m-0">
-  <div class="col-12 col-sm-4 bg-secondary contenedor-pedidos">
+  <div class="col-12 col-sm-4 background-pedidos contenedor-pedidos">
     <div class="pedidos h-100">
       <form>
         <div class="bg-white">
@@ -10,23 +10,42 @@
             <div class="overSelect"></div>
           </div>
           <div *ngIf="expanded">
-            <label
-              *ngFor="let categoria of categorias"
-              class="d-block"
+            <div class="form-check mx-3" *ngFor="let categoria of categorias"   for="{{ categoria._id }}">
+              <input class="form-check-input" 
+              type="checkbox" 
+              id="{{ categoria._id }}"
+              (click)="checkCategoria(categoria._id)"
+              [checked]="ifExistCategoriaSeleccioanda(categoria._id)"
+              >
+              <label 
               for="{{ categoria._id }}"
-            >
-              <input
-                type="checkbox"
-                id="{{ categoria._id }}"
-                (click)="checkCategoria(categoria._id)"
-                [checked]="ifExistCategoriaSeleccioanda(categoria._id)"
-              />{{ categoria.nombre_categoria }}</label
-            >
+              class="form-check-label"  for="{{ categoria._id }}">
+              {{ categoria.nombre_categoria }}
+              </label>
+            </div>
+         
+
           </div>
         </div>
       </form>
-      <div *ngFor="let pedido of pedidosFiltrados" class="my-2">
-        <mat-card [ngClass]="setColor(pedido)">
+
+
+        <mat-accordion  *ngFor="let pedido of pedidosFiltrados" class="my-2">
+          <mat-expansion-panel class="my-2" [ngClass]="setColor(pedido)"
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header class="my-2" >
+              <mat-panel-title> <div class="row w-100">
+                <div class="col-6 w-50">  {{getNombreMesa(pedido)}}</div>
+                <div  class="col-6 w-50">     Tiempo: {{ timer(pedido) }} </div>
+              </div>
+             </mat-panel-title>
+            </mat-expansion-panel-header>
+
+
+
+
           <div class="d-flex justify-content-between">
             <h5 class="m-0">{{ getNombreMesa(pedido) }}</h5>
             <span>tiempo de espera {{ timer(pedido) }}</span>
@@ -65,9 +84,11 @@
             </button>
             <!--    <button class="btn btn-danger">Cancelado</button> -->
           </div>
-        </mat-card>
+
+      </mat-expansion-panel>
+    </mat-accordion>
       </div>
-    </div>
+
   </div>
   <div class="col-12 col-sm-8 container mt-3 contenedor-platos">
     <div class="row p-sm-5">
@@ -105,4 +126,4 @@
       </mat-card>
     </div>
   </div>
-</div>
+
