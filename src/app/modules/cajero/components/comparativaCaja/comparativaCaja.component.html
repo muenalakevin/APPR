@@ -7,32 +7,40 @@
   </thead>
   <tbody>
     <tr>
-      <th scope="row">caja chica</th>
-      <td>Mark</td>
+      <th scope="row">Caja de apertura</th>
+      <td>{{caja.caja_chica|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_egreso</th>
-      <td>Jacob</td>
+      <th scope="row">Total de egreso</th>
+      <td>{{caja.cantidad_egreso|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_ingreso</th>
-      <td>Jacob</td>
+      <th scope="row">Total de ingreso</th>
+      <td>{{caja.cantidad_ingreso|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_intereses</th>
-      <td>Jacob</td>
+      <th scope="row">Total de recargos</th>
+      <td>{{caja.cantidad_intereses|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_descuentos</th>
-      <td>Jacob</td>
+      <th scope="row">Total de descuentos</th>
+      <td>{{caja.cantidad_descuentos|currency}}</td>
+    </tr>
+    <tr *ngIf="permiso>=2" >
+      <th scope="row" >Total de efectivo</th>
+      <td>{{caja.caja_chica +  caja.cantidad_efectivo|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_efectivo</th>
-      <td>Jacob</td>
+      <th scope="row">Total de transferencias</th>
+      <td>{{caja.cantidad_transferencia|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">cantidad_transferencia</th>
-      <td>Jacob</td>
+      <th scope="row">Cierre de caja</th>
+      <td>{{caja.cierre_caja|currency}}</td>
+    </tr>
+    <tr *ngIf="permiso>=2" >
+      <th scope="row">Sobrante o faltante de caja</th>
+      <td>{{caja.cierre_caja -(caja.caja_chica +  caja.cantidad_efectivo)  |currency}}</td>
     </tr>
   </tbody>
 </table>

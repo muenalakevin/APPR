@@ -44,11 +44,9 @@ input:-webkit-autofill {
   .card_model{
     position: absolute;
 
-    top: 50%;
+    height: 100vh;
 
-    transform: translateY(-50%);
-   
-    padding: 25px;
+    padding: 50px 25px;
   }
   .contenedor{
     background-color: antiquewhite;

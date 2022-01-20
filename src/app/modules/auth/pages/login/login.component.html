@@ -1,6 +1,16 @@
-<div class="contenedor">
+<div class="contenedor"
+[ngStyle]="{
+  background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+    : '#ffb13c'+40
+}"
+>
 
-<div class="card_model row">
+<div class="card_model row" [ngStyle]="{
+  background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+    : '#ffb13c'+40
+}">
   <div class="d-none d-sm-block col-sm-6">
 
     <img class="img-fluid" src="https://lh3.googleusercontent.com/proxy/63mOuVQvFK99mMH5tSScyYK1NUI23hiCBWw4dNUuA-V-nJXfswFEfy_mAkmC5VLn4Y6EYbTdy2CX-bJ7mYC--DybjSKzd69FxwhDf2M7Hz4rqp5GYQoXOBzYTbq3PxRwWCQ" alt="">
@@ -46,7 +56,17 @@
   </p>
   <div class="d-flex flex-column-reverse flex-sm-row justify-content-between">
   <button mat-button color="primary">Olvide mi contraseña</button>
-  <button type="submit" class="btn ">Iniciar sesión</button>
+  <button
+
+  [ngStyle]="{
+    background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+      : '#ffb13c'+40,
+      'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+      : '#ffb13c'
+  }"
+  type="submit" class="btn ">Iniciar sesión</button>
 </div>
   <div class="button">
 

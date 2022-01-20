@@ -1,6 +1,25 @@
 <mat-tab-group>
     <mat-tab label="Ingresos e Egresos">
         <ng-template matTabContent>
+          <div class="d-flex justify-content-end py-3 px-5">
+            <div  class="px-5">
+              <button
+
+              [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                        : '#ffb13c'+80
+                      }"
+                type="button"
+                mat-raised-button
+                color="primary"
+                (click)="addEgreso()"
+              >
+              Agregar egreso <mat-icon>money_off</mat-icon>
+              </button>
+            </div>
+
+          </div>
+
           <app-egresosEIngresos></app-egresosEIngresos>
           <hr>
           <app-platosDia></app-platosDia>

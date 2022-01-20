@@ -80,7 +80,6 @@ export class ClientesDiaComponent {
    sacarArrayMeses(fechaInicio:Date, cantidadMeses:number){
      let mesInicial = fechaInicio.getMonth()+1;
      let anioInicial = fechaInicio.getFullYear();
-     console.log()
      let stringConstruido:string[] = [];
        for(let i =0;i<=cantidadMeses;i++){
          let constructorString = ""

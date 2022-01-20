@@ -59,6 +59,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { PlatosDiaComponent } from './charts/platosDia/platosDia.component';
 import { AgregarOpcionRapidaComponent } from './components/AgregarOpcionRapida/AgregarOpcionRapida.component';
 import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/editarOpcionRapida.component';
+import { AddEgresoComponent } from './components/egreso/addEgreso.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/edi
     CustomDateFormat3,
     PlatosDiaComponent,
     AgregarOpcionRapidaComponent,
-    EditarOpcionRapidaComponent
+    EditarOpcionRapidaComponent,
+    AddEgresoComponent
   ],
   imports: [
     CommonModule,

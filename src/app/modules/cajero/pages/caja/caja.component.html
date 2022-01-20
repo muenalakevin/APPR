@@ -4,7 +4,12 @@
   <mat-drawer #drawer class="example-sidenav p-0 m-0" mode="side">
     <div class="container-fliud row m-0 pl-0">
       <div cdkDropListGroup class="container-fliud row m-0 contenedor-maximo cont">
-        <div class="col-4 background-pedidos contenedor-pedidos">
+        <div class="col-4 background-pedidos contenedor-pedidos"
+        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+                      : '#ffb13c'+40
+                    }"
+        >
           <div class="pedidos h-100">
             <div
               cdkDropList
@@ -30,7 +35,7 @@
                       </h5>
                       <input
                         type="text"
-                        class="background-pedidos text-white text-center"
+                        class="bg-secondary text-white text-center"
                         disabled
                         value="{{ pedido.cantidad_servida }}"
                       />
@@ -39,7 +44,10 @@
                       <button
                         (click)="movePedidoPago(pedido)"
                         class="h-100 btn btn-dark text-center"
-                        [ngStyle]="{'background-color': this.configuracionCaja.colorFlechas.check ? this.configuracionCaja.colorFlechas.color : '#343a40'}"
+                        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                        : '#ffb13c'+80
+                      }"
                       >
                         >
                       </button>
@@ -54,6 +62,10 @@
         <div class="col-8 container my-3 contenedor-pago">
           <div class="d-flex justify-content-end">
             <button
+            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                      : '#ffb13c'+80
+                    }"
               type="button"
               mat-raised-button
               color="primary"
@@ -63,10 +75,14 @@
             </button>
           </div>
 
-         
+
           <div class="d-flex justify-content-between  my-3">
             <div class="dropdown">
               <button
+              [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                      : '#ffb13c'+80
+                    }"
                 class="btn btn-dark dropdown-toggle"
                 type="button"
                 id="dropdownMenuButton1"
@@ -101,14 +117,20 @@
                   >
                 </li>
                 <button
-                [ngStyle]="{'background-color': this.configuracionCaja.colorAgregarCliente.check ? this.configuracionCaja.colorAgregarCliente.color : '#343a40'}"
+                [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                : '#ffb13c'+80
+              }"
                 class="btn color-white w-100" (click)="openDialogCrear()">
                   Crear cliente
                 </button>
               </ul>
             </div>
             <button
-            [ngStyle]="{'background-color': this.configuracionCaja.colorEditarCliente.check ? this.configuracionCaja.colorEditarCliente.color : '#343a40'}"
+            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+            : '#ffb13c'+80
+          }"
               class="btn text-white"
               *ngIf="clienteSelected.nombre_cliente != ''"
               (click)="openDialogEditar()"
@@ -144,18 +166,18 @@
             </div>
           </div>
           <div>
-            <p><b>Forma de pago</b></p>
+            <p><b>Forma de pago: </b></p>
             <select  [formControl]="pagoSelect"   (change)="changeMetodoSelected($event.target.value)"   class="form-select" aria-label="Default select example" >
               <option [value]="i" *ngFor="let metodoPago of configuracionCaja.metodosPago;let i = index" >{{metodoPago.nombre}} {{
-                (metodoPago.valor !=0 )?(metodoPago.descuentoIncremento)?'+'+(metodoPago.valor | currency):'-'+(metodoPago.valor | currency) :'' }} 
+                (metodoPago.valor !=0 )?(metodoPago.descuentoIncremento)?'+'+(metodoPago.valor | currency):'-'+(metodoPago.valor | currency) :'' }}
                 {{(metodoPago.porcentaje !=0 )?(metodoPago.descuentoIncremento)?'+'+metodoPago.porcentaje+'%':'-'+metodoPago.porcentaje+'%' :''}}</option>
             </select>
           </div>
           <div>
-            <p><b>Descuento/Interés</b></p>
+            <p><b>Descuento/Recargo: </b></p>
             <select  [formControl]="descuetoInteresSelect"   (change)="changeDescuetoInteresSelected($event.target.value)"   class="form-select" aria-label="Default select example" >
               <option [value]="i" *ngFor="let descuentoInteres of configuracionCaja.descuentosIntereses;let i = index" >{{descuentoInteres.nombre}} {{
-                (descuentoInteres.valor !=0 )?(descuentoInteres.descuentoIncremento)?'+'+(descuentoInteres.valor | currency):'-'+(descuentoInteres.valor | currency) :'' }} 
+                (descuentoInteres.valor !=0 )?(descuentoInteres.descuentoIncremento)?'+'+(descuentoInteres.valor | currency):'-'+(descuentoInteres.valor | currency) :'' }}
                 {{(descuentoInteres.porcentaje !=0 )?(descuentoInteres.descuentoIncremento)?'+'+descuentoInteres.porcentaje+'%':'-'+descuentoInteres.porcentaje+'%' :''}}
               </option>
             </select>
@@ -187,7 +209,10 @@
                     <button
                       (click)="movePedidoTotal(pedido)"
                       class="h-100 btn text-white text-center"
-                      [ngStyle]="{'background-color': this.configuracionCaja.colorFlechas.check ? this.configuracionCaja.colorFlechas.color : '#343a40'}"
+                      [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                      : '#ffb13c'+80
+                    }"
                     >
                       <
                     </button>
@@ -232,7 +257,7 @@
               <td  class="col">&nbsp;</td>
               <td  class="col">&nbsp;</td>
               <td  class="col">&nbsp;</td>
-              <td  class="col">Interés:</td>
+              <td  class="col">Recargo:</td>
               <td  class="col">{{  interes | currency }}</td>
             </tr>
             <tr class="row">
@@ -246,12 +271,15 @@
 
           <div class="d-flex justify-content-end ">
             <button
-            [ngStyle]="{'background-color': this.configuracionCaja.colorPagar.check ? this.configuracionCaja.colorPagar.color : '#343a40'}"
+            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+            : '#ffb13c'+80
+          }"
               class="btn text-white  px-5"
                [disabled]="canPay()"
               (click)=" pagar()"
             >
-              Pagar
+              Pagar <mat-icon> attach_money</mat-icon>
             </button>
           </div>
         </div>
@@ -290,8 +318,18 @@
         </div>
       </div>
       <div class="position-absolute bottom-0  d-flex justify-content-between w-100">
-        <button class="btn btn-dark" (click)="modalCierre()">Realizar cierre de caja</button>
-        <button class="btn btn-primary" (click)="modalGasto()">Realizar gasto</button>
+        <button class="btn btn-dark" (click)="modalCierre()"
+        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                    : '#ffb13c'+80
+                  }"
+        >Realizar cierre de caja 	<mat-icon> monetization_on</mat-icon></button>
+        <button class="btn btn-primary" (click)="modalGasto()"
+        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                    : '#ffb13c'+80
+                  }"
+        >Agregar egreso <mat-icon>money_off</mat-icon></button>
       </div>
     </div>
   </div>
@@ -315,7 +353,13 @@
 
   </form>
   <div class="d-flex justify-content-center w-100">
-    <button (click)="guardarCaja()" class="btn btn-primary">Abrir caja</button>
+    <button
+
+    [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                    : '#ffb13c'+80
+                  }"
+    (click)="guardarCaja()" class="btn btn-primary">Abrir caja	<mat-icon> monetization_on</mat-icon></button>
   </div>
 
   </div>

@@ -1,5 +1,11 @@
 <div class="container-fliud d-flex flex-sm-row flex-column-reverse m-0">
-  <div class="col-12 col-sm-4 background-pedidos contenedor-pedidos">
+  <div class="col-12 col-sm-4 background-pedidos contenedor-pedidos"
+  [ngStyle]="{
+    background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+      : '#ffb13c'+40
+  }"
+  >
     <div class="pedidos h-100">
       <form>
         <div class="bg-white">
@@ -11,19 +17,19 @@
           </div>
           <div *ngIf="expanded">
             <div class="form-check mx-3" *ngFor="let categoria of categorias"   for="{{ categoria._id }}">
-              <input class="form-check-input" 
-              type="checkbox" 
+              <input class="form-check-input"
+              type="checkbox"
               id="{{ categoria._id }}"
               (click)="checkCategoria(categoria._id)"
               [checked]="ifExistCategoriaSeleccioanda(categoria._id)"
               >
-              <label 
+              <label
               for="{{ categoria._id }}"
               class="form-check-label"  for="{{ categoria._id }}">
               {{ categoria.nombre_categoria }}
               </label>
             </div>
-         
+
 
           </div>
         </div>
@@ -32,6 +38,7 @@
 
         <mat-accordion  *ngFor="let pedido of pedidosFiltrados" class="my-2">
           <mat-expansion-panel class="my-2" [ngClass]="setColor(pedido)"
+          [ngStyle]="{'background-color': setColor(pedido)}"
             (opened)="panelOpenState = true"
             (closed)="panelOpenState = false"
           >
@@ -43,37 +50,19 @@
              </mat-panel-title>
             </mat-expansion-panel-header>
 
-
-
-
-          <div class="d-flex justify-content-between">
-            <h5 class="m-0">{{ getNombreMesa(pedido) }}</h5>
-            <span>tiempo de espera {{ timer(pedido) }}</span>
-          </div>
-          <div class="d-flex flex-column mb-3">
-            <span>Descripción del pedido</span>
-            <mat-accordion>
-              <mat-expansion-panel
-                (opened)="panelOpenState = true"
-                (closed)="panelOpenState = false"
-              >
-                <mat-expansion-panel-header>
-                  <mat-panel-title> Pedidos </mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-list>
-                  <div *ngFor="let ped of pedido.pedidos">
-                    <h5>
-                      <b>Nombre: {{ ped.plato.nombre_plato }} </b>
-                    </h5>
-                    <h5>Cantidad pedida: {{ ped.cantidad_pedido }}</h5>
-                    <h5>Listos: {{ ped.cantidad_servida }}</h5>
-
-                    <mat-divider></mat-divider>
-                  </div>
-                </mat-list>
-              </mat-expansion-panel>
-            </mat-accordion>
-          </div>
+            <span>Pedidos</span>
+            <table class="table table-borderless text-center">
+              <tr>
+                <th>Descripción</th>
+                <th>Cant. Pedidos</th>
+                <th>Cant. Listos</th>
+              </tr>
+              <tr [ngClass]="{'strikeout':ped.cantidad_pedido== ped.cantidad_lista}" *ngFor="let ped of pedido.pedidos">
+                <td>{{ped.plato.nombre_plato}}</td>
+                <td>{{ped.cantidad_pedido}}</td>
+                <td>{{ped.cantidad_lista}}</td>
+              </tr>
+            </table>
 
           <div class="d-flex justify-content-center">
             <button

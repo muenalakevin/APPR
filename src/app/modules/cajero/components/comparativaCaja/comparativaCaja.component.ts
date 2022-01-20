@@ -9,12 +9,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ComparativaCajaComponent implements OnInit {
   caja:Caja
+  permiso:number = 0
   constructor(
     public dialogRef: MatDialogRef<ComparativaCajaComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { caja:Caja}
+    public data: { caja:Caja,permiso:number}
   ) {
     this.caja = data.caja
+    this.permiso = data.permiso
   }
 
   aceptar(){

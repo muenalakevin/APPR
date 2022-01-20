@@ -24,30 +24,6 @@ export class ConfiguracionComponent implements OnInit {
     disatisfaccion: new FormControl(0, [
       Validators.required,
     ]),
-    checkColorSatisfaccion: new FormControl(false, [
-      Validators.required,
-    ]),
-    checkColorSatisfaccionMedia: new FormControl(false, [
-      Validators.required,
-    ]),
-    checkColorDisatisfaccion: new FormControl(false, [
-      Validators.required,
-    ]),
-    checkColorFueraTiempo: new FormControl(false, [
-      Validators.required,
-    ]),
-    checkColorOcupada: new FormControl(false, [
-      Validators.required,
-    ]),
-    checkColorDisponible: new FormControl(false, [
-      Validators.required,
-    ]),
-    colorSatisfaccion: new FormControl(""),
-    colorSatisfaccionMedia: new FormControl(""),
-    colorDisatisfaccion: new FormControl(""),
-    colorFueraTiempo: new FormControl(""),
-    colorOcupada: new FormControl(""),
-    colorDisponible: new FormControl(""),
     meseroEdit: new FormControl(""),
 
 })
@@ -95,14 +71,6 @@ configuracionCaja = this.formBuilder.group({
   colorFlechas: new FormControl(1),
   checkColorFlechas: new FormControl(1),
   cierreCaja: new FormControl(""),
-  colorAgregarCliente: new FormControl(""),
-  checkColorAgregarCliente: new FormControl(""),
-  colorEditarCliente: new FormControl(""),
-  checkColorEditarCliente: new FormControl(""),
-  colorFueraTiempo: new FormControl(""),
-  checkColorFueraTiempo: new FormControl(""),
-  colorPagar: new FormControl(""),
-  checkColorPagar: new FormControl(""),
 })
   constructor(
     private AlertService:AlertService,
@@ -128,7 +96,7 @@ configuracionCaja = this.formBuilder.group({
       porcentaje: new FormControl(0),
       descuentoIncremento: new FormControl(false),
       valor: new FormControl(0),
-      estado: new FormControl(0),
+      estado: new FormControl(1),
     })
       this.metodosPago.push(metodoPago);
   }
@@ -138,9 +106,9 @@ configuracionCaja = this.formBuilder.group({
         Validators.required,
       ]),
       porcentaje: new FormControl(0),
-      descuentoIncremento: new FormControl(false),  
+      descuentoIncremento: new FormControl(false),
       valor: new FormControl(0),
-      estado: new FormControl(0),
+      estado: new FormControl(1),
     })
       this.descuentosIntereses.push(descuentoInteres);
   }
@@ -160,14 +128,6 @@ configuracionCaja = this.formBuilder.group({
         cierreCaja: new FormControl(configuracionCaja.cierreCaja, [
           Validators.required,
         ]),
-        checkColorAgregarCliente: new FormControl(configuracionCaja.colorAgregarCliente.check),
-        checkColorEditarCliente: new FormControl(configuracionCaja.colorEditarCliente.check),
-        checkColorFlechas: new FormControl(configuracionCaja.colorFlechas.check),
-        checkColorPagar: new FormControl(configuracionCaja.colorPagar.check),
-        colorAgregarCliente: new FormControl(configuracionCaja.colorAgregarCliente.color),
-        colorEditarCliente: new FormControl(configuracionCaja.colorEditarCliente.color),
-        colorFlechas: new FormControl(configuracionCaja.colorFlechas.color),
-        colorPagar: new FormControl(configuracionCaja.colorPagar.color),
       })
 
       for (let i = 0; i < configuracionCaja.metodosPago.length; i++) {
@@ -210,18 +170,7 @@ configuracionCaja = this.formBuilder.group({
           disatisfaccion: new FormControl(configuracionMesero.disatisfaccion, [
             Validators.required,
           ]),
-          checkColorSatisfaccion: new FormControl(configuracionMesero.colorSatisfaccion.check),
-          checkColorSatisfaccionMedia: new FormControl(configuracionMesero.colorSatisfaccionMedia.check),
-          checkColorDisatisfaccion: new FormControl(configuracionMesero.colorDisatisfaccion.check),
-          checkColorFueraTiempo: new FormControl(configuracionMesero.colorFueraTiempo.check),
-          checkColorOcupada: new FormControl(configuracionMesero.colorOcupada.check),
-          checkColorDisponible: new FormControl(configuracionMesero.colorDisponible.check),
-          colorSatisfaccion: new FormControl(configuracionMesero.colorSatisfaccion.color),
-          colorSatisfaccionMedia: new FormControl(configuracionMesero.colorSatisfaccionMedia.color),
-          colorDisatisfaccion: new FormControl(configuracionMesero.colorDisatisfaccion.color),
-          colorFueraTiempo: new FormControl(configuracionMesero.colorFueraTiempo.color),
-          colorOcupada: new FormControl(configuracionMesero.colorOcupada.color),
-          colorDisponible: new FormControl(configuracionMesero.colorDisponible.color),
+
           meseroEdit: new FormControl(configuracionMesero.meseroEdit),
       },
       {
@@ -303,7 +252,7 @@ console.log(this.estiloConfig);
         color:this.estiloConfig.get('colorDisponible').value,
       },
       }
-    
+
     this.ConfiguracionService.updateConfiguracionEstilo(configuracionEstilo).subscribe(res=>{
       this.AlertService.showSuccess('Configuración de estilo guardado con éxito.')
     })
@@ -318,30 +267,6 @@ console.log(this.estiloConfig);
       satisfaccionAdecuada: this.meseroConfig.get('satisfaccionAdecuada').value,
       satisfaccionMedia: this.meseroConfig.get('satisfaccionMedia').value,
       disatisfaccion: this.meseroConfig.get('disatisfaccion').value,
-      colorSatisfaccion: {
-        check:this.meseroConfig.get('checkColorSatisfaccion').value,
-        color:this.meseroConfig.get('colorSatisfaccion').value,
-      },
-      colorSatisfaccionMedia: {
-        check:this.meseroConfig.get('checkColorSatisfaccionMedia').value,
-        color:this.meseroConfig.get('colorSatisfaccionMedia').value,
-      },
-      colorDisatisfaccion: {
-        check:this.meseroConfig.get('checkColorDisatisfaccion').value,
-        color:this.meseroConfig.get('colorDisatisfaccion').value,
-      },
-      colorFueraTiempo: {
-        check:this.meseroConfig.get('checkColorFueraTiempo').value,
-        color:this.meseroConfig.get('colorFueraTiempo').value,
-      },
-      colorOcupada: {
-        check:this.meseroConfig.get('checkColorOcupada').value,
-        color:this.meseroConfig.get('colorOcupada').value,
-      },
-      colorDisponible: {
-        check:this.meseroConfig.get('checkColorDisponible').value,
-        color:this.meseroConfig.get('colorDisponible').value,
-      },
       meseroEdit: this.meseroConfig.get('meseroEdit').value,
     }
     console.log(configuracionMesero)
@@ -351,6 +276,12 @@ console.log(this.estiloConfig);
   }else{
     this.AlertService.showWarning('Ingrese todos los datos.')
   }
+  }
+  EliminarDescuentoIncremento(position:number){
+console.log('delete '+position)
+  }
+  EliminarMetodoPago(position:number){
+console.log('delete '+position)
   }
   guardarConfiguracioCaja(){
     console.log(this.configuracionCaja.value)
@@ -362,22 +293,7 @@ console.log(this.estiloConfig);
       metodosPago: this.configuracionCaja.get('metodosPago').value,
       descuentosIntereses: this.configuracionCaja.get('descuentosIntereses').value,
       cierreCaja: this.configuracionCaja.get('cierreCaja').value,
-      colorAgregarCliente: {
-        check:this.configuracionCaja.get('checkColorAgregarCliente').value,
-        color:this.configuracionCaja.get('colorAgregarCliente').value,
-      },
-      colorEditarCliente: {
-        check:this.configuracionCaja.get('checkColorEditarCliente').value,
-        color:this.configuracionCaja.get('colorEditarCliente').value,
-      },
-      colorFlechas: {
-        check:this.configuracionCaja.get('checkColorFlechas').value,
-        color:this.configuracionCaja.get('colorFlechas').value,
-      },
-      colorPagar: {
-        check:this.configuracionCaja.get('checkColorPagar').value,
-        color:this.configuracionCaja.get('colorPagar').value,
-      },
+
     }
     this.ConfiguracionService.updateConfiguracionCaja(configuracionCaja).subscribe(res=>{
       this.AlertService.showSuccess('Configuración de cajero guardado con éxito.')

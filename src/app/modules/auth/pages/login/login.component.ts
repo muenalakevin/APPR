@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit{
   constructor(
     private router:Router,
     private AuthenticationService: AuthenticationService,
-    private StorageService: StorageService,
-    private AlertService:AlertService
+    public StorageService: StorageService,
+    private AlertService:AlertService,
   ) {}
   mensaje='';
   mensaje2='';
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
     usuario_usuario: new FormControl('', Validators.required),
     contrasenia_usuario: new FormControl('', [Validators.required]),
   });
-  
+
 
 ngOnInit(){
   this.loginForm = new FormGroup({
@@ -39,15 +39,15 @@ ngOnInit(){
     contrasenia_usuario: new FormControl('', [Validators.required,  Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]),
   });
   this.onValueChanges();
-  
+
 }
 onValueChanges(): void {
- 
+
   this.loginForm.valueChanges.subscribe((val:UsuarioAuth)=>{
     if(val['usuario_usuario']!=''){
       this.mensaje2=''
     }
-    
+
     if(val['contrasenia_usuario']!=''){
       this.mensaje3=''
     }
@@ -78,14 +78,14 @@ onValueChanges(): void {
         }else{
           this.AlertService.showErrorServidor()
         }
-        
+
       }
     );
   }
-    
+
   }
   private correctLogin(token: Session) {
-    
+
     this.StorageService.setCurrentSession(token.token);
     window.location.reload();
   }

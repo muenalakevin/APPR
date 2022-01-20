@@ -24,12 +24,14 @@ export class PedidoService {
   constructor(private http: HttpClient,private StorageService:StorageService,
     private socket:Socket) {}
 
-
+    getAllPedidos(){
+      return this.http.get(environment.API_URL + '/pedido/all',this.httpOptions);
+    }
   getPedidos(){
     return this.http.get(environment.API_URL + '/pedido',this.httpOptions);
   }
 
- 
+
   getPedidosFecha(fechaInicio:Date,fechaFin:Date,tipoSeleccion:number,tipoFiltrado:number,mesero:string){
     return this.http.post(environment.API_URL + '/pedido/fecha',{fechaInicio,fechaFin,tipoSeleccion,tipoFiltrado,mesero},this.httpOptions);
   }

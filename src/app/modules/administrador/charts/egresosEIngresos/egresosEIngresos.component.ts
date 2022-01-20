@@ -23,6 +23,9 @@ import { MatDatepicker, MatDateRangePicker } from '@angular/material/datepicker'
 import { CajaService } from 'src/app/core/services/caja.service';
 import { Caja } from 'src/app/shared/models/caja';
 import { C } from '@angular/cdk/keycodes';
+import { configuracionEstilo } from 'src/app/shared/models/configuracion.estilo';
+import { Egreso } from 'src/app/shared/models/egreso';
+import { EgresoService } from 'src/app/core/services/egreso.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -96,11 +99,9 @@ export class EgresosEIngresosComponent  {
 fechaInicio:Date
 fechaFin:Date = new Date(Date.now())
 pedidos:Pedido[]=[]
-pedidosSatisfaccion1:Pedido[]=[]
-pedidosSatisfaccion2:Pedido[]=[]
-pedidosSatisfaccion3:Pedido[]=[]
-pedidosSatisfaccion4:Pedido[]=[]
+egresos:Egreso[] = []
 configuracionMesero:configuracionMesero
+configuracionEstilo:configuracionEstilo = new configuracionEstilo()
 meses:string[] = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 @ViewChild('picker') picker: MatDateRangePicker<Moment>;
 arrayConstruidoDeFechas:string[]=[]
@@ -305,7 +306,7 @@ sacarArrayAnios(fechaInicio:Date, cantidadAnios:number){
     return stringConstruido;
 }
 
-sacarDatosHoras(fechaInicio:Date,cajas:Array<Caja>,sacar:string){
+sacarDatosHoras(fechaInicio:Date,cajas:Array<any>,sacar:string){
 
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
@@ -317,9 +318,11 @@ sacarDatosHoras(fechaInicio:Date,cajas:Array<Caja>,sacar:string){
 
         let horaInicialPedido = new Date(c.createdAt).getHours();
 
-                if(horaInicialPedido>=i &&  horaInicialPedido<=i+1){
+                if(horaInicialPedido==i ){
+
                   if(sacar == "ingreso"){
-                    valor += c.cantidad_egreso
+                    console.log( c)
+                    valor += c.cantidad_ingreso
                   }else{
                     valor += c.cantidad_egreso
                   }
@@ -336,7 +339,7 @@ sacarDatosHoras(fechaInicio:Date,cajas:Array<Caja>,sacar:string){
     }
     return valoresConnstruido;
 }
-sacarDatosPorDias(fechaInicio:Date, cantidadDias:number,caja:Array<Caja>,sacar:string){
+sacarDatosPorDias(fechaInicio:Date, cantidadDias:number,caja:Array<any>,sacar:string){
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
   let diaInicial = fechaInicio.getDate();
@@ -364,19 +367,36 @@ sacarDatosPorDias(fechaInicio:Date, cantidadDias:number,caja:Array<Caja>,sacar:s
         }
       })
       valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
-
-       /*  if(mesInicial<12){
-          mesInicial++;
-        }else{
-          anioInicial++;
-          mesInicial = 1;
-        } */
-
-
     }
     return valoresConnstruido;
 }
-sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:string){
+sacarEgresosPorDias(fechaInicio:Date, cantidadDias:number,egresos:Array<Egreso>){
+  let mesInicial = fechaInicio.getMonth()+1;
+  let anioInicial = fechaInicio.getFullYear();
+  let diaInicial = fechaInicio.getDate();
+
+  let valoresConnstruido:number[] = [];
+    for(let i =0;i<cantidadDias;i++){
+      let valor = 0
+      egresos.map(c=>{
+
+        let mesInicialPedido = new Date(c.createdAt).getMonth()+1;
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
+        let diaInicialPedido = new Date(c.createdAt).getDate();
+        if(anioInicialPedido==anioInicial){
+          if(mesInicialPedido==mesInicial){
+              if(diaInicial+i==diaInicialPedido){
+                valor += c.cantidad_egreso
+
+            }
+          }
+        }
+      })
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
+    }
+    return valoresConnstruido;
+}
+sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<any>,sacar:string){
   let mesInicial = fechaInicio.getMonth()+1;
   let anioInicial = fechaInicio.getFullYear();
   let valoresConnstruido:number[] = [];
@@ -394,7 +414,6 @@ sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:s
 
                 valor+= c.cantidad_ingreso
               }else{
-                console.log(c.cantidad_egreso)
                 valor+= c.cantidad_egreso
               }
 
@@ -412,7 +431,37 @@ sacarDatosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:s
 
     return valoresConnstruido;
 }
-sacarDatosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:string){
+sacarEgresosMeses(fechaInicio:Date, cantidadMeses:number,cajas:Array<Egreso>){
+  let mesInicial = fechaInicio.getMonth()+1;
+  let anioInicial = fechaInicio.getFullYear();
+  let valoresConnstruido:number[] = [];
+    for(let i =0;i<=cantidadMeses;i++){
+      let valor = 0
+      cajas.map(c=>{
+        let mesInicialPedido = new Date(c.createdAt).getMonth()+1;
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
+
+          if(mesInicialPedido==mesInicial){
+
+            if(anioInicialPedido==anioInicial){
+
+              valor+= c.cantidad_egreso
+
+            }
+          }
+      })
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
+        if(mesInicial<12){
+          mesInicial++;
+        }else{
+          anioInicial++;
+          mesInicial = 1;
+        }
+    }
+
+    return valoresConnstruido;
+}
+sacarDatosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<any>,sacar:string){
   let anioInicial = fechaInicio.getFullYear();
   let valoresConnstruido:number[] = [];
     for(let i =0;i<cantidadMeses;i++){
@@ -433,11 +482,29 @@ sacarDatosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<Caja>,sacar:s
     }
     return valoresConnstruido;
 }
+sacarEgresosAnios(fechaInicio:Date, cantidadMeses:number,cajas:Array<Egreso>){
+  let anioInicial = fechaInicio.getFullYear();
+  let valoresConnstruido:number[] = [];
+    for(let i =0;i<cantidadMeses;i++){
+      let valor = 0
+      cajas.map(c=>{
+        let anioInicialPedido = new Date(c.createdAt).getFullYear();
+            if(anioInicialPedido==anioInicial){
+              valor+= c.cantidad_egreso
+
+            }
+      })
+      valoresConnstruido.push(Number((Math.round(valor * 100) / 100).toFixed(2)));
+          anioInicial++;
+    }
+    return valoresConnstruido;
+}
 constructor(
   private PedidoService:PedidoService,
   private configuracionService:ConfiguracionService,
   private UsuarioService:UsuarioService,
   private cajaService:CajaService,
+  private EgresoService:EgresoService,
 
 ) {
   this.UsuarioService.getUsersMeseros().subscribe(res=>{
@@ -453,8 +520,6 @@ constructor(
       }else{
         this.fechaInicio = new Date(this.fechaFin.getFullYear(),month,1,0,0,0)
       }
-      console.log(this.fechaInicio);
-      console.log(this.fechaFin);
     this.orgValueChange()
   })
 
@@ -506,53 +571,65 @@ orgValueChange(){
 
   this.fechaInicio = moment(this.fechaInicio).toDate()
   this.fechaFin = moment(this.fechaFin).toDate()
-  this.configuracionService.getConfiguracionMesero().subscribe(res=>{
-    this.configuracionMesero = res as configuracionMesero
+  this.configuracionService.getConfiguracionEstilo().subscribe(res=>{
+
+    this.configuracionEstilo = res as configuracionEstilo
     let colorSatisfaccion:string
     let colorSatisfaccionMedia:string
     let colorInsatisfaccion:string
     let colorFueraTiempo:string
-    if(this.configuracionMesero.colorSatisfaccion.check){
-      colorSatisfaccion=  this.configuracionMesero.colorSatisfaccion.color
+    if(this.configuracionEstilo.colorSatisfaccion.check){
+      colorSatisfaccion=  this.configuracionEstilo.colorSatisfaccion.color
     }else{
       colorSatisfaccion = "#28a745"
     }
-    if(this.configuracionMesero.colorSatisfaccionMedia.check){
-      colorSatisfaccionMedia = this.configuracionMesero.colorSatisfaccionMedia.color
+    if(this.configuracionEstilo.colorSatisfaccionMedia.check){
+      colorSatisfaccionMedia = this.configuracionEstilo.colorSatisfaccionMedia.color
     }else{
       colorSatisfaccionMedia = "#ffc107"
     }
-    if(this.configuracionMesero.colorDisatisfaccion.check){
-      colorInsatisfaccion = this.configuracionMesero.colorDisatisfaccion.color
+    if(this.configuracionEstilo.colorDisatisfaccion.check){
+      colorInsatisfaccion = this.configuracionEstilo.colorDisatisfaccion.color
     }else{
       colorInsatisfaccion = "#dc3545"
     }
 
-    if(this.configuracionMesero.colorFueraTiempo.check){
-      colorFueraTiempo = this.configuracionMesero.colorFueraTiempo.color
+    if(this.configuracionEstilo.colorFueraTiempo.check){
+      colorFueraTiempo = this.configuracionEstilo.colorFueraTiempo.color
     }else{
       colorFueraTiempo = "#343a40"
     }
 
     if(this.tipoSeleccion == 1){
       if(this.tipoFiltrado==1){
-        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0)
-        this.fechaFin = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),this.fechaFin.getDate(),23,59,59)
+        this.fechaFin = new Date(Date.now());
+        this.fechaInicio = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),1,0,0,0)
       }else if(this.tipoFiltrado==2){
-        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth(),1,0,0,0)
-        this.fechaFin = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth() +1, 0).getDate(),23,59,59)
+        this.fechaFin = new Date(Date.now());
+        let month = this.fechaFin.getMonth()-4
+        if(month<=0 ){
+          month = 12 + month;
+          this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,month,1,0,0,0)
+        }else{
+          this.fechaInicio = new Date(this.fechaFin.getFullYear(),month,1,0,0,0)
+        }
       }else{
-        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), 0,1,0,0,0)
-        this.fechaFin = new Date(this.fechaFin.getFullYear(), 11,31,23,59,59)
+        this.fechaFin = new Date(Date.now());
+        this.fechaFin = new Date( this.fechaFin.getFullYear(),11,31,23,59,59);
+        this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,0,0,0,0,0);
+
       }
     }else{
       if(this.tipoFiltrado==1){
+        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),23,59,59);
       }else if(this.tipoFiltrado==2){
+        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),1,0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth() +1, 0).getDate(),23,59,59);
       }else{
+        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),0,1,0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
       }
@@ -560,6 +637,8 @@ orgValueChange(){
 
 
   this.cajaService.getCajasFecha(this.fechaInicio,this.fechaFin,this.tipoSeleccion,this.tipoFiltrado,this.mesero).subscribe(res=>{
+    this.EgresoService.getEgresosFecha(this.fechaInicio,this.fechaFin).subscribe((egresosRes)=>{
+      let egresosArr=egresosRes as Egreso[]
 
     let cajas= res as Caja[]
 
@@ -572,12 +651,12 @@ orgValueChange(){
         let cantidadDeDias=this.creardorDeDias(this.fechaInicio,this.fechaFin);
         this.arrayConstruidoDeFechas= this.sacarArrayDias(this.fechaInicio,cantidadDeDias)
         ingresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias,cajas,"ingreso")
-        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias, cajas,"egreso")
+        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias, egresosArr,"egreso")
 
       }else{
         this.arrayConstruidoDeFechas= this.sacarArrayHoras(this.fechaInicio)
         ingresos= this.sacarDatosHoras(this.fechaInicio,cajas,"ingreso")
-        egresos= this.sacarDatosHoras(this.fechaInicio,cajas,"egreso")
+        egresos= this.sacarDatosHoras(this.fechaInicio,egresosArr,"egreso")
       }
 
     }else if(this.tipoFiltrado==2){
@@ -585,12 +664,12 @@ orgValueChange(){
       let cantidadDeMeses=this.creardorDeMeses(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayMeses(this.fechaInicio,cantidadDeMeses)
       ingresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"ingreso")
-      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"egreso")
+      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,egresosArr,"egreso")
     }else{
       let cantidadDeDias=this.creardorDeDias(this.fechaInicio,this.fechaFin);
         this.arrayConstruidoDeFechas= this.sacarArrayDias(this.fechaInicio,cantidadDeDias)
         ingresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias,cajas,"ingreso")
-        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias, cajas,"egreso")
+        egresos= this.sacarDatosPorDias(this.fechaInicio, cantidadDeDias,egresosArr,"egreso")
 
 
     }
@@ -599,12 +678,12 @@ orgValueChange(){
       let cantidadDeanios=this.creardorDeAnios(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayAnios(this.fechaInicio,cantidadDeanios)
       ingresos= this.sacarDatosAnios(this.fechaInicio, cantidadDeanios,cajas,"ingreso")
-      egresos= this.sacarDatosAnios(this.fechaInicio, cantidadDeanios,cajas,"egreso")
+      egresos= this.sacarDatosAnios(this.fechaInicio, cantidadDeanios,egresosArr,"egreso")
     }else{
       let cantidadDeMeses=this.creardorDeMeses(this.fechaInicio,this.fechaFin);
       this.arrayConstruidoDeFechas= this.sacarArrayMeses(this.fechaInicio,cantidadDeMeses)
       ingresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"ingreso")
-      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,cajas,"egreso")
+      egresos= this.sacarDatosMeses(this.fechaInicio, cantidadDeMeses,egresosArr,"egreso")
     }
     }
 
@@ -638,6 +717,7 @@ orgValueChange(){
 
     };
 })
+    })
   })
 }
 

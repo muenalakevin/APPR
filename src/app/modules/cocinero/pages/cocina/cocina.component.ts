@@ -15,6 +15,7 @@ import { Mesa } from 'src/app/shared/models/mesa';
 import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-cocina',
@@ -40,6 +41,7 @@ export class CocinaComponent implements OnInit {
     private CocineroService:CocineroService,
     private MesaService:MesaService,
     private AlertService:AlertService,
+    public StorageService:StorageService,
   ) { }
   ngAfterViewChecked()
 {
@@ -246,7 +248,10 @@ actualizarFiltroCategorias(){
         }
     })
     if (completo) {
-      return "bg-info"
+
+      return this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+64
+      : '#ffb13c'+64
     }else{
       return ''
     }

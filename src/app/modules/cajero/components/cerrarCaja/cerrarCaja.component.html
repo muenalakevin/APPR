@@ -1,9 +1,9 @@
 <div class="container">
   <h1 class="text-center">Cuadre de caja</h1>
-
-    <div style="max-height: 60vh;overflow: auto;">
+  <h2 >Ingresos</h2>
+    <div style="max-height: 50vh;overflow: auto;">
       <div *ngFor="let metodoPago of configuracionCaja.metodosPago">
-      <h2>  {{metodoPago.nombre}}</h2>
+      <h3 class="text-center">  {{metodoPago.nombre}}</h3>
       <table class="table">
         <thead>
           <tr>
@@ -13,14 +13,14 @@
             <th scope="col">Descuento</th>
             <th scope="col">Recargo</th>
             <th scope="col">IVA</th>
-            <th scope="col">interés/recargó</th>
+            <th scope="col">Descuento/Recargó</th>
             <th scope="col">Total</th>
           </tr>
         </thead>
         <tbody>
           <ng-container *ngFor="let comprobante of comprobantes; let i = index"  >
           <ng-container  *ngIf="comprobante.metodoPago_comprobante.nombre == metodoPago.nombre">
-           
+
                   <tr>
                    <td>{{i+1}}</td>
                    <td>
@@ -30,8 +30,8 @@
                    <td>{{comprobante.subTotal_comprobante | currency}}</td>
                    <td>{{comprobante.descuento_comprobante | currency}}</td>
                    <td>{{comprobante.interes_comprobante | currency}}</td>
-                   <td>{{comprobante.descuentoInteres_comprobante.nombre }}</td>
                    <td>{{comprobante.subTotalIva_comprobante | currency}}</td>
+                   <td>{{comprobante.descuentoInteres_comprobante.nombre }}</td>
                    <td>{{comprobante.total_comprobante | currency}}</td>
                   </tr>
 
@@ -41,7 +41,7 @@
         </tbody>
       </table>
       </div>
-
+      <h2 >Egresos</h2>
       <table class="table">
         <thead>
           <tr>

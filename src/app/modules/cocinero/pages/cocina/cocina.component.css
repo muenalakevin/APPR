@@ -2,6 +2,16 @@
 .multiselect {
   width: 200px;
 }
+td { position: relative; }
+
+tr.strikeout td:before {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border-bottom: 1px solid #111;
+  width: 100%;
+}
 
 .selectBox {
   position: relative;

@@ -25,6 +25,7 @@ import {default as _rollupMoment, Moment} from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker, MatDateRangePicker } from '@angular/material/datepicker';
+import { configuracionEstilo } from 'src/app/shared/models/configuracion.estilo';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
@@ -148,7 +149,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
       offsetX: -5
     }
   };
-
+  configuracionEstilo:configuracionEstilo = new configuracionEstilo()
   fechaInicio:Date
   fechaFin:Date = new Date(Date.now())
   pedidos:Pedido[]=[]
@@ -537,30 +538,30 @@ export class MinutosEntregasClientesComponent implements OnInit{
 
     this.fechaInicio = moment(this.fechaInicio).toDate()
     this.fechaFin = moment(this.fechaFin).toDate()
-    this.configuracionService.getConfiguracionMesero().subscribe(res=>{
-      this.configuracionMesero = res as configuracionMesero
+    this.configuracionService.getConfiguracionEstilo().subscribe(res=>{
+      this.configuracionEstilo = res as configuracionEstilo
       let colorSatisfaccion:string
       let colorSatisfaccionMedia:string
       let colorInsatisfaccion:string
       let colorFueraTiempo:string
-      if(this.configuracionMesero.colorSatisfaccion.check){
-        colorSatisfaccion=  this.configuracionMesero.colorSatisfaccion.color
+      if(this.configuracionEstilo.colorSatisfaccion.check){
+        colorSatisfaccion=  this.configuracionEstilo.colorSatisfaccion.color
       }else{
         colorSatisfaccion = "#28a745"
       }
-      if(this.configuracionMesero.colorSatisfaccionMedia.check){
-        colorSatisfaccionMedia = this.configuracionMesero.colorSatisfaccionMedia.color
+      if(this.configuracionEstilo.colorSatisfaccionMedia.check){
+        colorSatisfaccionMedia = this.configuracionEstilo.colorSatisfaccionMedia.color
       }else{
         colorSatisfaccionMedia = "#ffc107"
       }
-      if(this.configuracionMesero.colorDisatisfaccion.check){
-        colorInsatisfaccion = this.configuracionMesero.colorDisatisfaccion.color
+      if(this.configuracionEstilo.colorDisatisfaccion.check){
+        colorInsatisfaccion = this.configuracionEstilo.colorDisatisfaccion.color
       }else{
         colorInsatisfaccion = "#dc3545"
       }
 
-      if(this.configuracionMesero.colorFueraTiempo.check){
-        colorFueraTiempo = this.configuracionMesero.colorFueraTiempo.color
+      if(this.configuracionEstilo.colorFueraTiempo.check){
+        colorFueraTiempo = this.configuracionEstilo.colorFueraTiempo.color
       }else{
         colorFueraTiempo = "#343a40"
       }

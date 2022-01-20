@@ -39,7 +39,7 @@ export class CerrarCajaComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { caja:Caja,permiso:number}
   ) {
-   
+
     this.caja = data.caja
     this.permiso = data.permiso
     this.ComprobanteService.geComprobantesCaja(this.caja._id).subscribe((comprobantes)=>{
@@ -56,12 +56,12 @@ export class CerrarCajaComponent implements OnInit {
     if(this.cajaForm.valid){
       this.caja.cierre_caja = this.cajaForm.get('cierre_caja').value
       this.caja.estado = 2
-      /* this.CajaService.actualizarCaja(this.caja).subscribe(res=>{
+      this.CajaService.actualizarCaja(this.caja).subscribe(res=>{
         this.caja = res as Caja;
           this.AlertService.showSuccess("Caja cerrada con éxito.")
-          this.dialogRef.close({caja:null,caja1: this.caja.caja_chica + this.caja.cantidad_ingreso  - this.caja.cantidad_egreso, caja2:  this.cajaForm.get('cierre_caja').value})
-        }) */
-        this.dialogRef.close({caja:null,caja1: this.caja.caja_chica + this.caja.cantidad_ingreso  - this.caja.cantidad_egreso, caja2:  this.cajaForm.get('cierre_caja').value})
+          this.dialogRef.close({caja:res as Caja})
+        })
+
     }
 
   }

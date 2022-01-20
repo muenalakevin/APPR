@@ -3,6 +3,7 @@ import { Cliente } from './../../../../shared/models/cliente';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-crearCliente',
@@ -10,38 +11,39 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crearCliente.component.css']
 })
 export class CrearClienteComponent implements OnInit {
-  clienteForm: FormGroup
+  clienteForm: FormGroup= this.formBuilder.group({
+    nombre_cliente: new FormControl(null, [
+      Validators.required,
+    ]),
+    apellido_cliente: new FormControl(null, [
+      Validators.required
+    ]),
+    cedRuc_cliente: new FormControl("", [
+      Validators.required
+    ]),
+    correo_cliente: new FormControl(null, [
+      Validators.email,
+      Validators.required
+    ]),
+    direccion_cliente: new FormControl(null, [
+      Validators.required
+    ]),
+    telefono_cliente: new FormControl(null, [
+      Validators.required
+    ]),
+
+
+  },
+  {
+      validator: this.MatchCedula
+    });
   constructor(
     private ClienteService:ClienteService,
     private formBuilder:FormBuilder,
+    private alertService:AlertService,
     public dialogRef: MatDialogRef<CrearClienteComponent>,
   ) {
-    this.clienteForm = this.formBuilder.group({
-      nombre_cliente: new FormControl(null, [
-        Validators.required,
-      ]),
-      apellido_cliente: new FormControl(null, [
-        Validators.required
-      ]),
-      cedRuc_cliente: new FormControl("", [
-        Validators.required
-      ]),
-      correo_cliente: new FormControl(null, [
-        Validators.email,
-        Validators.required
-      ]),
-      direccion_cliente: new FormControl(null, [
-        Validators.required
-      ]),
-      telefono_cliente: new FormControl(null, [
-        Validators.required
-      ]),
 
-
-    },
-		{
-      	validator: this.MatchCedula
-    	});
 
   }
 
@@ -60,6 +62,7 @@ export class CrearClienteComponent implements OnInit {
             createdAt: new Date()
       }
       await this.ClienteService.guardarCliente(cliente).subscribe(res=>{
+        this.alertService.showSuccess('Cliente creado con éxito.')
         this.dialogRef.close({cliente:res})
       })
 

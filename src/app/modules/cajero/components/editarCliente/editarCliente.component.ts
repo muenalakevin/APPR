@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { ClienteService } from 'src/app/core/services/cliente.service';
 import { Cliente } from 'src/app/shared/models/cliente';
 
@@ -15,6 +16,7 @@ export class EditarClienteComponent implements OnInit {
   constructor(
     private ClienteService:ClienteService,
     private formBuilder:FormBuilder,
+    private alertService:AlertService,
     public dialogRef: MatDialogRef<EditarClienteComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { cliente:Cliente}
@@ -156,7 +158,7 @@ export class EditarClienteComponent implements OnInit {
             createdAt: new Date()
       }
       await this.ClienteService.editarCliente(cliente).subscribe(res=>{
-
+        this.alertService.showSuccess('Cliente editado con éxito.')
         this.dialogRef.close({cliente:cliente})
       })
 

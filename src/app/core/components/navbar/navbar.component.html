@@ -42,8 +42,8 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
         </li>
       </div>
       <div class="d-flex  justify-content-sm-between" *ngIf="usuario.rol.nombre_rol == 'mesero'">
-        <app-iconNavbar class="px-sm-5 px-1" text='mesas' [icon]="squareIcon" href='/mesero/mesas'></app-iconNavbar>
-        <!-- <app-iconNavbar class="px-sm-5 px-1" text='menu' [icon]="hamburgerIcon" href='/mesero/menu'></app-iconNavbar> -->
+        <app-iconNavbar class="px-sm-5 px-1" text='Mesas' [icon]="squareIcon" href='/mesero/mesas'></app-iconNavbar>
+        <!-- <app-iconNavbar class="px-sm-5 px-1" text='Menu' [icon]="hamburgerIcon" href='/mesero/menu'></app-iconNavbar> -->
         <li class="nav-item dropdown px-5 d-sm-none">
           <a
             class="dropdown-toggle link-light display-6"
@@ -68,7 +68,7 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
         </li>
       </div>
       <div class="d-flex  justify-content-sm-between" *ngIf="usuario.rol.nombre_rol == 'cocinero'">
-        <app-iconNavbar class="px-sm-5 px-1" text='cocina' [icon]="fish" href='/cocina/cocina'></app-iconNavbar>
+        <app-iconNavbar class="px-sm-5 px-1" text='Cocina' [icon]="fish" href='/cocina/cocina'></app-iconNavbar>
         <li class="nav-item dropdown px-5 d-sm-none">
           <a
             class="dropdown-toggle link-light display-6"
@@ -93,7 +93,7 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
         </li>
       </div>
       <div class="d-flex  justify-content-sm-between" *ngIf="usuario.rol.nombre_rol == 'cajero'">
-        <app-iconNavbar class="px-sm-5 px-1" text='caja' [icon]="cashRegisterIcon" href='/cajero/caja'></app-iconNavbar>
+        <app-iconNavbar class="px-sm-5 px-1" text='Caja' [icon]="cashRegisterIcon" href='/cajero/caja'></app-iconNavbar>
         <li class="nav-item dropdown px-5 d-sm-none">
           <a
             class="dropdown-toggle link-light display-6"

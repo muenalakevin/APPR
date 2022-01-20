@@ -27,6 +27,8 @@ import { ConfiguracionService } from 'src/app/core/services/configuracion.servic
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 import { OpcionRapidaService } from 'src/app/core/services/opcion-rapida.service';
 import { OpcionRapida } from 'src/app/shared/models/opcionRapida';
+import { configuracionEstilo } from 'src/app/shared/models/configuracion.estilo';
+import { now } from 'moment';
 @Component({
   selector: 'app-mesas',
   templateUrl: './mesas.component.html',
@@ -95,7 +97,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('drawer') drawer: MatDrawer;
-  
+
   faSquareIcon = faSquare;
   defaultElevation = 2;
   raisedElevation = 8;
@@ -103,6 +105,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   list: MesaSeleccionada[] = [];
   showFiller = false;
   configuracionMesero:configuracionMesero = new configuracionMesero()
+  configuracionEstilo:configuracionEstilo = new configuracionEstilo()
   panelOpenState:boolean
   private mesasSubscription: Subscription;
   mesas: MesaSeleccionada[] = [];
@@ -112,6 +115,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   private platosSubscription: Subscription;
   private categoriasubscription: Subscription;
   mesaActual: MesaSeleccionada;
+
   platos: Plato[] = [];
   allPlatos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
@@ -143,8 +147,8 @@ export class MesasComponent implements OnInit, AfterViewInit {
     // Attach the listeners to `document`
     document.addEventListener('mouseup',this.mouseUpHandler.bind(this), false)
     document.addEventListener('mousemove',this.mouseMoveHandler, false)
-  
-   
+
+
 };
 TouchDownHandler(e:any){
     this.x = e.clientX;
@@ -154,8 +158,8 @@ TouchDownHandler(e:any){
     // Attach the listeners to `document`
     document.addEventListener('touchend',this.touchUpHandler.bind(this), false)
     document.addEventListener('touchmove',this.touchMoveHandler, false)
-  
-   
+
+
 };
 touchMoveHandler(e:any){
 
@@ -220,20 +224,20 @@ ngAfterViewInit(): void {
     document.addEventListener('mousemove',(e)=>{
       const dx = e.clientX - this.x;
       const dy = e.clientY - this.y;
-  
+
       const newLeftWidth = ((this.leftWidth + dy ) * 100) / this.dragMe.nativeElement.parentNode.getBoundingClientRect().height;
       this.nextElementSibling.nativeElement.style.height = `${newLeftWidth}vh`;
     });
     document.addEventListener('mouseup',() =>{
       this.dragMe.nativeElement.style.removeProperty('cursor');
       document.body.style.removeProperty('cursor');
-  
+
       this.nextElementSibling.nativeElement.style.removeProperty('user-select');
       this.nextElementSibling.nativeElement.style.removeProperty('pointer-events');
-  
+
       this.previousElementSibling.nativeElement.style.removeProperty('user-select');
       this.previousElementSibling.nativeElement.style.removeProperty('pointer-events');
-  
+
       // Remove the handlers of `mousemove` and `mouseup`
       document.removeEventListener('mousemove', ()=>{
 
@@ -245,7 +249,7 @@ ngAfterViewInit(): void {
   }); */
 
 
-  
+
   setInterval(this.checkOrientation, 1000);
 
 
@@ -264,7 +268,7 @@ ngAfterViewInit(): void {
     private opcionRapidaService:OpcionRapidaService,
     public StorageService:StorageService,
   ) {
-    
+
     this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
       let allOpcions = <OpcionRapida[]>opcionesRapidas
       this.allFruits =  allOpcions.map(a => a.frase_opcionRapida);
@@ -284,7 +288,7 @@ ngAfterViewInit(): void {
   checkOrientation=()=>{
 
   }
- 
+
   @ViewChild('select') input:ElementRef;
   ngAfterViewChecked()
 {
@@ -305,14 +309,17 @@ ngAfterViewInit(): void {
     }
     return minutes+":"+seconds
   }
-  
+
 
    ngOnInit() {
-    
+
 
 
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
       this.configuracionMesero = res as configuracionMesero
+    })
+    this.configuracionService.getConfiguracionEstilo().subscribe(res=>{
+      this.configuracionEstilo = res as configuracionEstilo
     })
     this.configuracionService.getConfiguracionCaja().subscribe(res=>{
       this.configuracionCaja = res as configuracionCaja
@@ -467,35 +474,35 @@ ngAfterViewInit(): void {
       const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
       if(mesa.estado!=4){
         if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
-          if(this.configuracionMesero.colorSatisfaccion.check){
-            return this.configuracionMesero.colorSatisfaccion.color
+          if(this.configuracionEstilo.colorSatisfaccion.check){
+            return this.configuracionEstilo.colorSatisfaccion.color
           }else{
             return "#28a745"
           }
 
        }else if(minutes<=this.configuracionMesero.satisfaccionMedia){
-        if(this.configuracionMesero.colorSatisfaccionMedia.check){
-          return this.configuracionMesero.colorSatisfaccionMedia.color
+        if(this.configuracionEstilo.colorSatisfaccionMedia.check){
+          return this.configuracionEstilo.colorSatisfaccionMedia.color
         }else{
           return "#ffc107"
         }
        }else if(minutes<=this.configuracionMesero.disatisfaccion){
-        if(this.configuracionMesero.colorDisatisfaccion.check){
-          return this.configuracionMesero.colorDisatisfaccion.color
+        if(this.configuracionEstilo.colorDisatisfaccion.check){
+          return this.configuracionEstilo.colorDisatisfaccion.color
         }else{
           return "#dc3545"
         }
        }else{
-        if(this.configuracionMesero.colorFueraTiempo.check){
-          return this.configuracionMesero.colorFueraTiempo.color
+        if(this.configuracionEstilo.colorFueraTiempo.check){
+          return this.configuracionEstilo.colorFueraTiempo.color
         }else{
           return "#343a40"
         }
 
        }
       }else{
-        if(this.configuracionMesero.colorOcupada.check){
-          return this.configuracionMesero.colorOcupada.color
+        if(this.configuracionEstilo.colorOcupada.check){
+          return this.configuracionEstilo.colorOcupada.color
         }else{
           return "#6c757d"
         }
@@ -503,8 +510,8 @@ ngAfterViewInit(): void {
       }
 
     }else{
-      if(this.configuracionMesero.colorDisponible.check){
-        return this.configuracionMesero.colorDisponible.color
+      if(this.configuracionEstilo.colorDisponible.check){
+        return this.configuracionEstilo.colorDisponible.color
       }else{
         return "#0d6efd"
       }
@@ -558,6 +565,7 @@ ngAfterViewInit(): void {
         horaDeEntrega:null,
         estado:1,
         pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] }],
+        createdAt: new Date(Date.now())
       };
 
       this.PedidoService.guardarPedido(pedido).subscribe(res=>{
@@ -709,7 +717,9 @@ ngAfterViewInit(): void {
     let cambio = this.cambiosEstaticos.find(cE=>cE._id==pedido.id_mesa)
 
     if(cambio.cambio){
-      return "bg-info"
+      return this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+64
+      : '#ffb13c'+64
     }else{
       return ""
     }

@@ -90,7 +90,7 @@ tr.strikeout td:before {
 .resizer{
   background-color: #b1b1b1;
   cursor: ew-resize;
-  height: 15px;
+  height: 0px;
   width: 100%;
   position: relative;
 }
@@ -99,10 +99,11 @@ tr.strikeout td:before {
 
   position: absolute;
     left: 50%;
-    height: 90px;
+    height: 60px;
     z-index: 100;
     bottom: 50%;
     transform: translate(-50%, +50%);
+    border-radius: 50%;
 }
 
 .mesa {

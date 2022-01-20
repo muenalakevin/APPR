@@ -1,0 +1,59 @@
+
+    <h1 class="mdc-typography--headline1">Agregar egreso</h1>
+    <form autocomplete="off" [formGroup]="egresoForm" (ngSubmit)="submitForm()" novalidate>
+
+      <!-- Name -->
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre de egreso" formControlName="nombre_egreso">
+        <mat-error >
+          <mat-error *ngIf="egresoForm.controls['nombre_egreso'].errors?.['required']">
+            El nombre es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Detalle</mat-label>
+        <input matInput placeholder="Ingrese detalle de egreso" formControlName="detalle_egreso">
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Observación</mat-label>
+        <input matInput placeholder="Ingrese observación de egreso" formControlName="observacion_egreso">
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" placeholder="Ingrese cantidad de egreso" formControlName="cantidad_egreso">
+        <mat-error >
+          <mat-error *ngIf="egresoForm.controls['cantidad_egreso'].errors?.['required']">
+            La cantidad es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+
+
+      <!-- Email -->
+
+
+
+
+
+
+
+
+
+
+      <!-- Class -->
+
+      <!-- Add Subjects -->
+
+
+      <!-- Submit -->
+      <div class="button-wrapper d-flex justify-content-between">
+        <button mat-flat-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+      </div>
+
+    </form>
+
+
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
