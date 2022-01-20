@@ -185,11 +185,19 @@
         </div>
         <div class="col-6">
           <div class="p-5 w-100">
-            <div class="header-preview-mesero w-100"></div>
+            <div class="header-preview-mesero w-100"
+            [ngStyle]="{
+              background: this.estiloConfig.get(
+                'checkColorAplicacion'
+              ).value
+                ? this.estiloConfig.get('colorAplicacion').value
+                : '#ffb13c'
+            }"
+            ></div>
             <div
               class="container-preview-mesero w-100 border border-secondary"
             >
-              <div class="row h-100">
+              <div class="row m-0 h-100">
                 <div class="col-9 px-3">
                   <div class="row text-center">
                     <div class="col-3">
@@ -272,7 +280,32 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-3 pedidos-preview-mesero"></div>
+                <div class="col-3 pedidos-preview-mesero p-0" [ngStyle]="{
+                  background: this.estiloConfig.get(
+                    'checkColorAplicacion'
+                  ).value
+                    ? this.estiloConfig.get('colorAplicacion').value+24
+                    : '#ffb13c'+24
+                }">
+                <div>
+                  
+                </div>
+                <div class="d-flex justify-content-center align-items-center w-100 flex-column">
+                  <div class="preview-pedido-mesero"></div>
+                  <div 
+                  [ngStyle]="{
+                    background: this.estiloConfig.get(
+                      'checkColorAplicacion'
+                    ).value
+                      ? this.estiloConfig.get('colorAplicacion').value+40
+                      : '#ffb13c'+40
+                  }"
+                  class="preview-pedido-mesero"></div>
+                  <div class="preview-pedido-mesero"></div>
+                </div>
+               
+              </div>
+
               </div>
             </div>
           </div>

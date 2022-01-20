@@ -1,3 +1,4 @@
+import { Caja } from 'src/app/shared/models/caja';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -7,15 +8,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./comparativaCaja.component.css']
 })
 export class ComparativaCajaComponent implements OnInit {
-  caja1:number
-  caja2:number
+  caja:Caja
   constructor(
     public dialogRef: MatDialogRef<ComparativaCajaComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { caja1:number,caja2:number}
+    public data: { caja:Caja}
   ) {
-    this.caja1 = data.caja1
-    this.caja2 = data.caja2
+    this.caja = data.caja
   }
 
   aceptar(){

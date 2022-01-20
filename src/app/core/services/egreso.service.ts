@@ -33,13 +33,13 @@ export class EgresoService {
     return this.http.post(environment.API_URL + '/pedido/fecha',{fechaInicio,fechaFin,tipoSeleccion,tipoFiltrado,mesero},this.httpOptions);
   }
 
-  getPedido(idMesa:string){
+  getrEgreso(idMesa:string){
     return this.http.get(environment.API_URL + '/pedido/'+idMesa,this.httpOptions);
   }
-  getPedido2(idMesa:string){
-    return this.http.get(environment.API_URL + '/pedido/2/'+idMesa,this.httpOptions);
-  }
 
+  getEgresosCaja(id:string){
+    return this.http.get(environment.API_URL + '/egreso/caja/'+id,this.httpOptions);
+  }
   guardarEgreso(egreso:Egreso){
     return this.http.post(environment.API_URL + '/egreso',{egreso},this.httpOptions);
   }

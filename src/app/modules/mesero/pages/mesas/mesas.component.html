@@ -1,14 +1,16 @@
 <mat-drawer-container class="example-container m-0 overflow-hidden contenedor-total" autosize>
   <mat-drawer #drawer class="example-sidenav p-0 m-0 h-100 overflow-hidden" mode="side">
     <div class="container-fliud h-100 row m-0">
-      <div class="col-12 col-sm-8 container contenido-maximo">
+      <div  id="previousElementSibling" #previousElementSibling
+      class="col-12 col-sm-8 container contenido-maximo">
+      <div class="contenedor-acciones">
         <div class="d-flex justify-content-end">
           <button type="button" mat-raised-button color="primary" (click)="drawer.toggle()">
             Atrás <mat-icon>arrow_right</mat-icon>
           </button>
 
         </div>
-        <br>
+
         <form [formGroup]="searchForm">
           <mat-form-field class="example-full-width  w-100" appearance="outline">
           <span matPrefix> </span>
@@ -24,7 +26,9 @@
         </div>
       </div>
           </form>
-          <br/>
+      </div>
+       
+    
 
         <div class="row  platos-contenedor overflow-auto ">
           <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center p-0">
@@ -42,9 +46,29 @@
           </div>
         </div>
       </div>
-      <div class="col-12   col-sm-4   background-pedidos contenedor-pedidos">
+      <div class="resizer col-12" #dragMe > 
+        <img src="../../../../../assets/imgs/resize.png" id="dragMe" alt="">
+      </div>
+      <div
+      id="nextElementSibling" #nextElementSibling
+      [ngStyle]="{
+        background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+          : '#ffb13c'+40
+      }"
+      
+      class="col-12   col-sm-4   background-pedidos contenedor-pedidos">
         <div class="pedidos h-100">
           <mat-card *ngFor="let pedido of pedidoTotal.pedidos" class="my-2">
+            <button
+            class="position-absolute top-0 end-0"
+            *ngIf="pedido.cantidad_lista<=0"
+            (click)="removePlato(pedido.plato._id)"
+            mat-icon-button
+          >
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+
             <div class="text-center w-100">
               <h3>
                 <b> {{ pedido.plato.nombre_plato }}</b>
@@ -52,7 +76,7 @@
             </div>
             <div class="w-100">
               <mat-form-field
-                class="w-75"
+                class="w-100"
                 appearance="standard"
                 floatLabel="always"
               >
@@ -64,6 +88,7 @@
                   placeholder="0"
                   disabled
                 />
+                <mat-hint>Platos listos: {{ pedido.cantidad_lista}}</mat-hint>
                 <div
                   matPrefix
                   class="wrapper-indicator bg-black text-white"
@@ -85,18 +110,11 @@
                   </button>
                 </div>
               </mat-form-field>
-              <button
-                class="w-25"
-                *ngIf="pedido.cantidad_lista<=0"
-                (click)="removePlato(pedido.plato._id)"
-                mat-icon-button
-              >
-                <mat-icon color="warn">delete</mat-icon>
-              </button>
+             
             </div>
             <mat-form-field class="example-chip-list w-100"  appearance="fill">
-              <mat-label>Favorite Fruits</mat-label>
-              <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-label>Opciones rápidas</mat-label>
+              <mat-chip-list #chipList aria-label="Escriba opción rápida">
                 <mat-chip
                   class="mat-chip"
                   *ngFor="let opcionRapida of pedido.opcionesRapidas"
@@ -107,7 +125,7 @@
                   </button>
                 </mat-chip>
                 <input
-                  placeholder="New fruit..."
+                  placeholder="Nueva opción rápida..."
                   #fruitInput
                   [formControl]="fruitCtrl"
                   [matAutocomplete]="auto"
@@ -121,14 +139,9 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <p>Listos. {{ pedido.cantidad_lista }}</p>
-            <p>Precio U. {{ pedido.plato.precio_plato | currency }}</p>
-            <p>
-              Precio T.
-              {{
-                pedido.plato.precio_plato * pedido.cantidad_pedido | currency
-              }}
-            </p>
+            <p>Precio uni.: <b>{{ pedido.plato.precio_plato | currency }}</b> | Precio tot.: 
+              <b>{{pedido.plato.precio_plato * pedido.cantidad_pedido | currency}}</b></p>
+
           </mat-card>
 
           <div class="ventaPedido">
@@ -333,7 +346,13 @@
         </div>
       </div>
     </div>
-    <div #domContenedor2 class="col-12 col-sm-4 background-pedidos contenedor-pedidos-enviados ">
+    <div #domContenedor2 
+    [ngStyle]="{
+      background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
+        : '#ffb13c'+40
+    }"
+    class="col-12 col-sm-4 background-pedidos contenedor-pedidos-enviados ">
       <div #domContenedor3 class="pedidos">
 
           <mat-accordion
@@ -351,8 +370,8 @@
               >
                 <mat-panel-title>
                   <div class="row w-100">
-                    <div class="col-6 w-50">  {{getNombreMesa(pedido)}}</div>
-                    <div  class="col-6 w-50">     Tiempo: {{ timer(pedido) }} </div>
+                    <div class="col">  {{getNombreMesa(pedido)}}</div>
+                    <div  class="col " style="    white-space: pre;">     Tiempo: {{ timer(pedido) }} </div>
                   </div>
 
 
@@ -360,8 +379,20 @@
 
               </mat-expansion-panel-header>
 
-              <span>Descripción del pedido</span>
-              <mat-accordion>
+              <span>Pedidos</span>
+              <table class="table table-borderless text-center">
+                <tr>
+                  <th>Descripción</th>
+                  <th>Cant. Pedidos</th>
+                  <th>Cant. Listos</th>
+                </tr>
+                <tr [ngClass]="{'strikeout':ped.cantidad_pedido== ped.cantidad_servida}" *ngFor="let ped of pedido.pedidos">
+                  <td>{{ped.plato.nombre_plato}}</td>
+                  <td>{{ped.cantidad_pedido}}</td>
+                  <td>{{ped.cantidad_servida}}</td>
+                </tr>
+              </table>
+             <!--  <mat-accordion>
                 <mat-expansion-panel
                 (click)="cambiarValorCambio(pedido)"
                   (opened)="panelOpenState = true"
@@ -371,6 +402,7 @@
                     <mat-panel-title> Pedidos </mat-panel-title>
 
                   </mat-expansion-panel-header>
+                  
                   <mat-list>
                     <div *ngFor="let ped of pedido.pedidos">
 
@@ -384,7 +416,7 @@
 
                   </mat-list>
                 </mat-expansion-panel>
-              </mat-accordion>
+              </mat-accordion> -->
 
 
         </mat-expansion-panel>

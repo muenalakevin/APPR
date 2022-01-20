@@ -1,3 +1,4 @@
+import { configuracionEstilo } from './../../shared/models/configuracion.estilo';
 import { Token } from '../../shared/models/token';
 import { Session } from '../../shared/models/session';
 import { Injectable } from '@angular/core';
@@ -17,6 +18,12 @@ export class StorageService {
   setCurrentSession(token: string): void {
     this.currentSession = token;
     this.localStorageService.setItem('token', JSON.stringify(token));
+  }
+  setConfiguracionEstilo(estilo: configuracionEstilo): void {
+    this.localStorageService.setItem('estilo', JSON.stringify(estilo));
+  }
+  getConfiguracionEstilo(): configuracionEstilo {
+   return <configuracionEstilo> JSON.parse(this.localStorageService.getItem('estilo'));
   }
 
   loadSessionData(): string{

@@ -1,3 +1,9 @@
+::ng-deep body{
+  overscroll-behavior: none ;
+}
+.contenedor-acciones{
+  height: 160px;
+}
 select {
   /* Reset Select */
   appearance: none;
@@ -17,6 +23,7 @@ box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
 }
 .contenido-maximo{
+
 z-index: 100;
 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 display: grid;
@@ -33,6 +40,7 @@ display: grid;
 }
 
 .platos-contenedor{
+
   margin: 10px 3px;
 z-index: 100;
 padding: 15px 0;
@@ -65,6 +73,36 @@ border: 1px solid #cbcbcb;
 }
 .select:hover::after {
   color: #f39c12;
+}
+
+
+td { position: relative; }
+
+tr.strikeout td:before {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border-bottom: 1px solid #111;
+  width: 100%;
+}
+
+.resizer{
+  background-color: #b1b1b1;
+  cursor: ew-resize;
+  height: 15px;
+  width: 100%;
+  position: relative;
+}
+.resizer img{
+
+
+  position: absolute;
+    left: 50%;
+    height: 90px;
+    z-index: 100;
+    bottom: 50%;
+    transform: translate(-50%, +50%);
 }
 
 .mesa {
@@ -181,7 +219,15 @@ input[type="number"][disabled] {
     position: relative;
 }
 }
+@media (min-width: 500px) {
+  .resizer{
+    display: none;
+  }
+}
 @media (max-width: 500px) {
+  .resizer{
+    display: block;
+  }
   .contenedor-mesas-pedidos{
     display: grid;
   }
@@ -197,7 +243,7 @@ input[type="number"][disabled] {
 .platos-contenedor{
   white-space: nowrap;
   overflow: auto;
-  height: 22vh;
+  height: auto;
 }
 .contenedor-pedidos-enviados{
 

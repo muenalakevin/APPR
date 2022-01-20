@@ -25,7 +25,7 @@ export class ConfiguracionService {
   };
   constructor(private http: HttpClient,private StorageService:StorageService,
     private socket:Socket) {}
-
+    configuracionEstilo = this.socket.fromEvent<configuracionEstilo>('configuracionEstilo');
     /* configuracionMesero */
     getConfiguracionMesero(){
       return this.http.get(environment.API_URL + '/configuracion/mesero',this.httpOptions);

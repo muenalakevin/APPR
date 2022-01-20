@@ -6,7 +6,7 @@ import { ComprobanteService } from './../../../../core/services/comprobante.serv
 import { Comprobante } from './../../../../shared/models/comprobante';
 import { ClienteService } from './../../../../core/services/cliente.service';
 import { CrearClienteComponent } from './../../components/crearCliente/crearCliente.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cliente } from './../../../../shared/models/cliente';
 import { Plato } from './../../../../shared/models/plato';
 import { MesaService } from './../../../../core/services/mesa.service';
@@ -14,7 +14,7 @@ import { MesaSeleccionada } from './../../../../shared/models/mesaSeleccionada';
 import { PedidoService } from './../../../../core/services/pedido.service';
 import { Pedido } from './../../../../shared/models/pedido';
 import { Subscription } from 'rxjs';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { PlatoPedido } from 'src/app/shared/models/platoPedido';
 import { Mesa } from 'src/app/shared/models/mesa';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -125,8 +125,10 @@ export class CajaComponent implements OnInit {
 
   }
   modalCierre(){
-
-    if(this.pedidos.length>0){
+    this.dialog.open(ComparativaCajaComponent,{
+      data: { caja:this.caja},
+    })
+/*     if(this.pedidos.length>0){
       let respuesta = this.AlertService.showConfirm("Aún se encuentran pedidos por atender, ¿desea cerrar la caja?").then((res: boolean) => {
         if (res) {
           const dialogRef = this.dialog.open(CerrarCajaComponent, {
@@ -157,7 +159,7 @@ export class CajaComponent implements OnInit {
         }
 
       })
-    }
+    } */
 
 
 
@@ -566,11 +568,10 @@ if(month < 10){
       this.descuento += Math.abs(this.subTotal * (this.metodoSelected.porcentaje/100)) + this.metodoSelected.valor
     }
 
-    this.total = Math.abs(this.subTotal - this.descuento)
-    console.log(this.total)
+    this.total = Number( Math.abs(this.subTotal - this.descuento).toFixed(2));
     this.subTotalIva = Math.abs(this.total* (this.configuracionCaja.iva/100))
     this.total = Math.abs(this.total  + this.subTotalIva )
-    this.total = Math.abs(this.total + this.interes)
+    this.total = Number(Math.abs(this.total + this.interes).toFixed(2));
 /*     if(this.metodoSelected.descuentoIncremento){
       this.total = Math.abs(this.subTotal - this.descuento)
       this.subTotalIva = Math.abs(this.subTotal* (this.configuracionCaja.iva/100))
@@ -589,10 +590,10 @@ if(month < 10){
 
   }
   pagar(){
-
+  
     let comprobante:Comprobante = new Comprobante();
-    comprobante.cliente_comprobante=this.clienteSelected
-    comprobante.caja_comprobante=this.caja
+    comprobante.cliente_comprobante=this.clienteSelected._id
+    comprobante.caja_comprobante=this.caja._id
     comprobante.detalle_comprobante = this.pedidoTotalAux.pedidos
     comprobante.subTotal_comprobante = this.subTotal
     comprobante.subTotalConDescunto_comprobante = this.subTotalConDescunto
@@ -600,19 +601,32 @@ if(month < 10){
     comprobante.descuento_comprobante = this.descuento
     comprobante.interes_comprobante = this.interes
     comprobante.total_comprobante = this.total
-    comprobante.metodoPago_comprobante = this.metodoSelected
+    comprobante.descuentoInteres_comprobante = this.descuentoInteresSelected
     comprobante.iva_comprobante = this.configuracionCaja.iva
-    comprobante.pedido_comprobante = this.pedidoSeleccionado
+    comprobante.pedido_comprobante = this.pedidoSeleccionado._id
     comprobante.total_comprobante = this.total
     comprobante.metodoPago_comprobante = this.metodoSelected
 
-    this.caja.cantidad_descuentos = this.caja.cantidad_descuentos + this.descuento
+
+    const dialogRef = this.dialog.open(DialogPagar, {
+
+      data: {total: this.total},
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      let transferencia = data.transferencia
+      let efectivo = data.efectivo
+      let vuelto = data.vuelto
+      this.caja.cantidad_descuentos = this.caja.cantidad_descuentos + this.descuento
     this.caja.cantidad_intereses = this.caja.cantidad_intereses + this.interes
     this.caja.cantidad_impuestos = this.caja.cantidad_impuestos + this.subTotalIva
     this.caja.cantidad_ingreso = this.caja.cantidad_ingreso + this.total
+    this.caja.cantidad_efectivo = this.caja.cantidad_efectivo + (efectivo - vuelto)
+    this.caja.cantidad_transferencia = this.caja.cantidad_transferencia + transferencia
 
+     
 
-    this.ComprobanteService.guardarComprobante(comprobante).subscribe(res=>{
+        this.ComprobanteService.guardarComprobante(comprobante).subscribe(res=>{
       this.CajaService.actualizarCaja(this.caja).subscribe(res=>{
 
         this.AlertService.showSuccess("Comprobante guardado con éxito.")
@@ -655,12 +669,15 @@ if(month < 10){
         this.clean()
         this.clear()
       }
-      )
+      ) 
     }else{
       this.PedidoService.editarPedido(this.pedidoReal).subscribe(()=>{})
 
       this.clear()
     }
+
+    });
+  
 
 
   }
@@ -668,5 +685,69 @@ if(month < 10){
     this.clienteSelected = new Cliente()
     this.pedidoTotalAux.pedidos  = []
     this.refreshPecios()
+  }
+}
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'pagar.html',
+  styleUrls: ['pagar.css'],
+})
+export class DialogPagar {
+  constructor(
+    private formBuilder:FormBuilder,
+    public dialogRef: MatDialogRef<DialogPagar>,
+    public AlertService: AlertService,
+    @Inject(MAT_DIALOG_DATA) public data: {total: number},
+  ) {
+    this.total = data.total;
+    
+  }
+  PagarForm: FormGroup = this.formBuilder.group({
+    efectivo: new FormControl(0, [
+      Validators.required,
+    ]),
+    transferencia: new FormControl(0, [
+      Validators.required
+    ]),
+  })
+  total:number
+  submitForm(){
+ 
+    let efectivo = this.PagarForm.value.efectivo
+    let transferencia = this.PagarForm.value.transferencia
+    if(Number(efectivo)>=0 && Number(transferencia)>=0){
+
+    let vuelto = (Number(efectivo)+Number(transferencia)) - this.total;
+
+    if(efectivo+transferencia >= this.total ){
+  
+      if(vuelto != 0){
+        this.AlertService.showConfirm('Debe devolverse '+((vuelto ).toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        })) ).then(()=>{
+          this.dialogRef.close({efectivo,transferencia,vuelto});
+        })
+      }else{
+         this.dialogRef.close({efectivo,transferencia,vuelto});
+      }
+    }else{
+      this.AlertService.showWarning('La cantidad debe ser de '+(this.total.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }))+" y el total ingresado fue de "+( Number(efectivo) + Number(transferencia)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }) )
+    }
+
+  }else{
+    this.AlertService.showWarning('No puede ingresar cantidades negativas.' )
+  }
+  
+}
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

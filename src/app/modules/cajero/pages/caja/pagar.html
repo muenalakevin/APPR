@@ -1,0 +1,38 @@
+
+
+<h1 class="mdc-typography--headline1">Realizar pago</h1>
+
+
+    <h2>total a pagar {{total | currency}}</h2>
+
+<form autocomplete="off" [formGroup]="PagarForm" (ngSubmit)="submitForm()" novalidate>
+
+  <!-- Name -->
+  <mat-form-field  appearance="outline" class="example-full-width">
+    <mat-label>Cantidad en efectivo: </mat-label>
+    <input type="number" matInput placeholder="Ingrese cantidad de efectivo." formControlName="efectivo">
+    <mat-error >
+      <mat-error *ngIf="PagarForm.controls['efectivo'].errors?.['required']">
+        La cantidad de efectivo mínima es 0.
+      </mat-error>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field  appearance="outline" class="example-full-width">
+    <mat-label>Transferencia</mat-label>
+    <input type="number" matInput placeholder="Ingrese cantidad transferida." formControlName="transferencia">
+    <mat-error >
+      <mat-error *ngIf="PagarForm.controls['transferencia'].errors?.['required']">
+        La cantidad de transferencia mínima es 0.
+      </mat-error>
+    </mat-error>
+  </mat-form-field>
+  <!-- Submit -->
+  <div class="button-wrapper d-flex justify-content-between">
+      <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary">Finalizar pago</button>
+  </div>
+
+</form>
+
+
+<!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->

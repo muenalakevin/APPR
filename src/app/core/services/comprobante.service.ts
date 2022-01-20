@@ -26,4 +26,8 @@ guardarComprobante(comprobante:Comprobante){
 geComprobantes(){
   return this.http.get(environment.API_URL + '/comprobante',this.httpOptions);
 }
+
+geComprobantesCaja(id:string){
+  return this.http.get(environment.API_URL + '/comprobante/caja/'+id,this.httpOptions);
+}
 }

@@ -50,7 +50,7 @@ export class EgresoComponent implements OnInit  {
     if(this.egresoForm.valid){
       const egreso:Egreso = {
             _id: "",
-            caja: this.caja,
+            caja: this.caja._id,
             nombre_egreso:  this.egresoForm.value.nombre_egreso,
             id_cajero: "",
             detalle_egreso:  this.egresoForm.value.detalle_egreso,
@@ -61,6 +61,7 @@ export class EgresoComponent implements OnInit  {
       }
       await this.EgresoService.guardarEgreso(egreso).subscribe(res=>{
         this.caja.cantidad_egreso =this.caja.cantidad_egreso + egreso.cantidad_egreso
+        this.caja.cantidad_efectivo =this.caja.cantidad_efectivo - egreso.cantidad_egreso
         this.cajaService.actualizarCaja( this.caja).subscribe()
         this.AlertService.showSuccess("Egreso guardado con éxito.")
         this.dialogRef.close({caja:this.caja})

@@ -1,7 +1,73 @@
 <div class="container">
   <h1 class="text-center">Cuadre de caja</h1>
 
+    <div style="max-height: 60vh;overflow: auto;">
+      <div *ngFor="let metodoPago of configuracionCaja.metodosPago">
+      <h2>  {{metodoPago.nombre}}</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Detalle</th>
+            <th scope="col">SubTotal</th>
+            <th scope="col">Descuento</th>
+            <th scope="col">Recargo</th>
+            <th scope="col">IVA</th>
+            <th scope="col">interés/recargó</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let comprobante of comprobantes; let i = index"  >
+          <ng-container  *ngIf="comprobante.metodoPago_comprobante.nombre == metodoPago.nombre">
+           
+                  <tr>
+                   <td>{{i+1}}</td>
+                   <td>
+                      <p  *ngFor="let detalle_comprobante of comprobante.detalle_comprobante" >
+                        {{detalle_comprobante.cantidad_pedido}} |  {{detalle_comprobante.plato.nombre_plato}} </p>
+                   </td>
+                   <td>{{comprobante.subTotal_comprobante | currency}}</td>
+                   <td>{{comprobante.descuento_comprobante | currency}}</td>
+                   <td>{{comprobante.interes_comprobante | currency}}</td>
+                   <td>{{comprobante.descuentoInteres_comprobante.nombre }}</td>
+                   <td>{{comprobante.subTotalIva_comprobante | currency}}</td>
+                   <td>{{comprobante.total_comprobante | currency}}</td>
+                  </tr>
 
+          </ng-container>
+         </ng-container>
+
+        </tbody>
+      </table>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Detalle</th>
+            <th scope="col">Observación</th>
+            <th scope="col">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let egreso of egresos; let i = index">
+
+
+            <th scope="row">{{i+1}}</th>
+            <td>{{egreso.nombre_egreso}}</td>
+            <td>{{egreso.detalle_egreso}}</td>
+            <td>{{egreso.observacion_egreso}}</td>
+            <td>{{egreso.cantidad_egreso |currency}}</td>
+
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
   <h2 class="text-center">Cuenta el dinero de caja, luego, ingresa el valor.</h2>
   <div *ngIf="this.permiso == 3">
     <h3>El cierre de caja debe ser de {{(caja.caja_chica +caja.cantidad_ingreso  - caja.cantidad_egreso) | currency}}</h3>

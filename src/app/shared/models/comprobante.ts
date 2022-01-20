@@ -5,9 +5,9 @@ import { Caja } from './caja';
 import { metodoPago } from './metodoPago';
 export class Comprobante{
     public _id:string
-    public caja_comprobante:Caja
-    public pedido_comprobante:Pedido
-    public cliente_comprobante:Cliente
+    public caja_comprobante:string
+    public pedido_comprobante:string
+    public cliente_comprobante:string
     public fecha_comprobante:Date
     public iva_comprobante:number
     public subTotal_comprobante:number
@@ -17,12 +17,13 @@ export class Comprobante{
     public interes_comprobante:number
     public total_comprobante:number
     public metodoPago_comprobante:metodoPago
+    public descuentoInteres_comprobante:metodoPago
     public detalle_comprobante:PlatoPedido[]
     constructor(){
         this._id = ""
-        this.caja_comprobante = null
-        this.pedido_comprobante= new Pedido()
-        this.cliente_comprobante = new Cliente()
+        this.caja_comprobante = ""
+        this.pedido_comprobante= ""
+        this.cliente_comprobante = ""
         this.fecha_comprobante = new Date()
         this.total_comprobante = 0
         this.iva_comprobante = 0
@@ -34,5 +35,6 @@ export class Comprobante{
         this.interes_comprobante = 0
         this.total_comprobante = 0
         this.metodoPago_comprobante = null
+        this.descuentoInteres_comprobante = null
     }
 }

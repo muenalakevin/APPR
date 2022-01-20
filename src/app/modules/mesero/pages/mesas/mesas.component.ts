@@ -1,5 +1,6 @@
+import { StorageService } from './../../../../core/services/storage.service';
 import { PlatoPedido } from 'src/app/shared/models/platoPedido';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, T } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { startWith, map } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -124,7 +125,134 @@ export class MesasComponent implements OnInit, AfterViewInit {
   });
   configuracionCaja:configuracionCaja = new configuracionCaja()
 
+
+  @ViewChild('dragMe') dragMe: ElementRef
+  @ViewChild('nextElementSibling', { read: ElementRef, static:false }) private nextElementSibling: ElementRef
+  @ViewChild('previousElementSibling', { read: ElementRef, static:false }) private previousElementSibling: ElementRef
+  resizer:any
+  leftSide:any
+  rightSide:any
+  x:any
+  y:any=0
+  leftWidth:any =0
+  mouseDownHandler(e:any){
+    this.x = e.clientX;
+    this.y = e.clientY;
+
+    this.leftWidth =  document.getElementById('nextElementSibling').getBoundingClientRect().height;
+    // Attach the listeners to `document`
+    document.addEventListener('mouseup',this.mouseUpHandler.bind(this), false)
+    document.addEventListener('mousemove',this.mouseMoveHandler, false)
+  
+   
+};
+TouchDownHandler(e:any){
+    this.x = e.clientX;
+    this.y = e.clientY;
+
+    this.leftWidth =  document.getElementById('nextElementSibling').getBoundingClientRect().height;
+    // Attach the listeners to `document`
+    document.addEventListener('touchend',this.touchUpHandler.bind(this), false)
+    document.addEventListener('touchmove',this.touchMoveHandler, false)
+  
+   
+};
+touchMoveHandler(e:any){
+
+  let vh = (window.screen.height - e.touches[0].clientY)/window.screen.height *100
+console.log(vh);
+  document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
+  document.getElementById('nextElementSibling').style.height = `${vh}vh`;
+}
+touchUpHandler(){
+  this.dragMe.nativeElement.style.removeProperty('cursor');
+  document.body.style.removeProperty('cursor');
+  this.nextElementSibling.nativeElement.style.removeProperty('user-select');
+  this.nextElementSibling.nativeElement.style.removeProperty('pointer-events');
+
+  this.previousElementSibling.nativeElement.style.removeProperty('user-select');
+  this.previousElementSibling.nativeElement.style.removeProperty('pointer-events');
+
+  // Remove the handlers of `mousemove` and `mouseup`
+  document.removeEventListener('touchmove', this.touchMoveHandler);
+  document.removeEventListener('touchend', this.touchUpHandler, false);
+}
+mouseMoveHandler(e:any){
+  const dx = e.clientX - this.x;
+  const dy = e.clientY - this.y;
+  let vh = (window.screen.height - e.clientY)/window.screen.height *100
+console.log(vh);
+  const newLeftWidth = ((this.leftWidth + dy ) * 100) /  document.getElementById('dragMe').getBoundingClientRect().height;
+  document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
+  document.getElementById('nextElementSibling').style.height = `${vh}vh`;
+  console.log("funciona");
+}
+mouseUpHandler(){
+  console.log("funciona2");
+
+  this.dragMe.nativeElement.style.removeProperty('cursor');
+  document.body.style.removeProperty('cursor');
+
+  this.nextElementSibling.nativeElement.style.removeProperty('user-select');
+  this.nextElementSibling.nativeElement.style.removeProperty('pointer-events');
+
+  this.previousElementSibling.nativeElement.style.removeProperty('user-select');
+  this.previousElementSibling.nativeElement.style.removeProperty('pointer-events');
+
+  // Remove the handlers of `mousemove` and `mouseup`
+  document.removeEventListener('mousemove', this.mouseMoveHandler, false);
+  document.removeEventListener('mouseup', this.mouseUpHandler, false);
+}
+
+ngAfterViewInit(): void {
+
+  this.x = 0;
+  this.y = 0;
+  this.leftWidth = 0;
+  document.getElementById('dragMe').addEventListener('mousedown', this.mouseDownHandler.bind(this));
+  document.getElementById('dragMe').addEventListener('touchstart', this.TouchDownHandler.bind(this),{passive: true});
+ /*  this.dragMe.nativeElement.addEventListener('mousedown' ,  (e:any)=>{
+    this.x = e.clientX;
+    this.y = e.clientY;
+
+    this.leftWidth = this.nextElementSibling.nativeElement.getBoundingClientRect().height;
+    // Attach the listeners to `document`
+    document.addEventListener('mousemove',(e)=>{
+      const dx = e.clientX - this.x;
+      const dy = e.clientY - this.y;
+  
+      const newLeftWidth = ((this.leftWidth + dy ) * 100) / this.dragMe.nativeElement.parentNode.getBoundingClientRect().height;
+      this.nextElementSibling.nativeElement.style.height = `${newLeftWidth}vh`;
+    });
+    document.addEventListener('mouseup',() =>{
+      this.dragMe.nativeElement.style.removeProperty('cursor');
+      document.body.style.removeProperty('cursor');
+  
+      this.nextElementSibling.nativeElement.style.removeProperty('user-select');
+      this.nextElementSibling.nativeElement.style.removeProperty('pointer-events');
+  
+      this.previousElementSibling.nativeElement.style.removeProperty('user-select');
+      this.previousElementSibling.nativeElement.style.removeProperty('pointer-events');
+  
+      // Remove the handlers of `mousemove` and `mouseup`
+      document.removeEventListener('mousemove', ()=>{
+
+      });
+      document.removeEventListener('mouseup', ()=>{
+
+      });
+  });
+  }); */
+
+
+  
+  setInterval(this.checkOrientation, 1000);
+
+
+
+}
   constructor(
+    private elementRef:ElementRef,
     private MesaService: MesaService,
     private CategoriaService: CategoriaService,
     private PlatoService: PlatoService,
@@ -134,7 +262,9 @@ export class MesasComponent implements OnInit, AfterViewInit {
     private AlertService:AlertService,
     private configuracionService:ConfiguracionService,
     private opcionRapidaService:OpcionRapidaService,
+    public StorageService:StorageService,
   ) {
+    
     this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
       let allOpcions = <OpcionRapida[]>opcionesRapidas
       this.allFruits =  allOpcions.map(a => a.frase_opcionRapida);
@@ -150,13 +280,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   @ViewChild('domContenedor1') domContenedor1: ElementRef;
   @ViewChild('domContenedor2') domContenedor2: ElementRef;
   @ViewChild('domContenedor3') domContenedor3: ElementRef;
-  ngAfterViewInit(): void {
-   
-    setInterval(this.checkOrientation, 1000);
 
-
- 
-  }
   checkOrientation=()=>{
 
   }
@@ -181,7 +305,10 @@ export class MesasComponent implements OnInit, AfterViewInit {
     }
     return minutes+":"+seconds
   }
-  async ngOnInit() {
+  
+
+   ngOnInit() {
+    
 
 
     this.configuracionService.getConfiguracionMesero().subscribe(res=>{
@@ -615,4 +742,8 @@ export class MesasComponent implements OnInit, AfterViewInit {
       return false
     }
   }
+
+  /* background */
+
+
 }

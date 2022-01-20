@@ -2,7 +2,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
 import { Caja } from './caja';
 export class Egreso{
     public _id:string
-    public caja:Caja
+    public caja:string
     public id_cajero:string
     public nombre_egreso:string
     public detalle_egreso:string
@@ -12,7 +12,7 @@ export class Egreso{
     public createdAt:Date
     constructor(){
         this._id = ""
-        this.caja = null
+        this.caja = ""
         this.nombre_egreso = ""
         this.detalle_egreso = ""
         this.observacion_egreso = ""

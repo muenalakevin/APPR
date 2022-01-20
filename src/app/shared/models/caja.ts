@@ -9,6 +9,8 @@ export class Caja{
     public cantidad_descuentos:number
     public cantidad_intereses:number
     public cantidad_impuestos:number
+    public cantidad_efectivo:number
+    public cantidad_transferencia:number
     public estado:number
     public createdAt:Date
     constructor(){
@@ -21,6 +23,8 @@ export class Caja{
         this.cantidad_descuentos = 0
         this.cantidad_intereses = 0
         this.cantidad_impuestos = 0
+        this.cantidad_efectivo = 0
+        this.cantidad_transferencia = 0
         this.estado = 1
         this.createdAt = new Date()
     }

@@ -1,3 +1,6 @@
+import { Subscription } from 'rxjs';
+import { configuracionEstilo } from './shared/models/configuracion.estilo';
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 import jwt_decode  from 'jwt-decode';
 import { Token } from './shared/models/token';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -11,12 +14,28 @@ import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faS
 })
 export class AppComponent implements OnInit {
   usuario
+  estiloSuscribe:Subscription 
   state:boolean=false;
   constructor(
-    private StorageService:StorageService
+    private StorageService:StorageService,
+    private configuracionService:ConfiguracionService
   ){
-    const token:string = this.StorageService.getCurrentSession();
+    this.configuracionService.getConfiguracionEstilo().subscribe(configuracionEstilo=>{
+      let conf =  configuracionEstilo as configuracionEstilo;
+      this.StorageService.setConfiguracionEstilo(conf);
+    })
+    this.estiloSuscribe = this.configuracionService.configuracionEstilo.subscribe(
+      (configuracionEstilo) => {
+        console.log(configuracionEstilo);
+        let conf =  configuracionEstilo as configuracionEstilo;
+        this.StorageService.setConfiguracionEstilo(conf);
 
+      }
+    );
+    
+    this. estiloSuscribe 
+    const token:string = this.StorageService.getCurrentSession();
+      
     if(token != ''){
       const tokenDecode:Token = jwt_decode(token);
       this.usuario= <Token>tokenDecode;

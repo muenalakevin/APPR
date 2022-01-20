@@ -1,3 +1,5 @@
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
+import { configuracionEstilo } from './../../../shared/models/configuracion.estilo';
 import { Usuario } from 'src/app/shared/models/usuario';
 import jwt_decode  from 'jwt-decode';
 import { Token } from './../../../shared/models/token';
@@ -29,10 +31,15 @@ export class NavbarComponent implements OnInit {
   fish= faFish
   squareIcon=faSquare
   usuario:Token
-
+configuracionEstilo:configuracionEstilo = new configuracionEstilo();
 
   constructor(private AuthenticationService:AuthenticationService,
-    private StorageService:StorageService) {
+    private StorageService:StorageService,
+    private configuracionService:ConfiguracionService) {
+
+      this.configuracionService.getConfiguracionEstilo().subscribe((configuracionEstilo:any)=>{
+        this.configuracionEstilo = configuracionEstilo
+      });
       const token:string = this.StorageService.getCurrentSession();
 
     if(token != ''){

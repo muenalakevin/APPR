@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 
 import { CajeroRoutingModule } from './cajero-routing.module';
 import { CajeroComponent } from './cajero.component';
-import { CajaComponent } from './pages/caja/caja.component';
+import { CajaComponent, DialogPagar } from './pages/caja/caja.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -33,7 +33,8 @@ import { ComparativaCajaComponent } from './components/comparativaCaja/comparati
     EditarClienteComponent,
     EgresoComponent,
     CerrarCajaComponent,
-    ComparativaCajaComponent
+    ComparativaCajaComponent,
+    DialogPagar
   ],
   imports: [
     CommonModule,

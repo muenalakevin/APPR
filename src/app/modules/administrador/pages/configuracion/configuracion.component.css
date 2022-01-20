@@ -13,6 +13,16 @@
 .mesa-preview-mesero{
   
 }
+
+.preview-pedido-mesero{
+    margin: 5px 0;
+    position: relative;
+    height: 25px;
+    width: calc(100% - 8px) ;
+    background-color: rgb(255, 255, 255);
+}
 .pedidos-preview-mesero{
+  
+    padding: 0 4px;
     background-color: rgb(131, 131, 131); 
 }
