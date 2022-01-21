@@ -43,6 +43,42 @@ export class ConfiguracionService {
       return this.http.patch(environment.API_URL + '/configuracion/caja',configuracionCaja,this.httpOptions);
     }
     updateConfiguracionEstilo(configuracionEstilo:configuracionEstilo){
+
       return this.http.patch(environment.API_URL + '/configuracion/estilo',configuracionEstilo,this.httpOptions);
+    }
+    uploadImageEstilo(image:any){
+      let formData = new FormData();
+      for (var i = 0; i < image.length; i++) {
+        formData.append("image", image[i], "logo");
+      }
+
+      this.httpOptions ={
+        headers:new HttpHeaders({
+          'Authorization': "Bearer "+this.StorageService.getCurrentSession()
+        })
+      }
+
+      return this.http.patch(environment.API_URL + '/configuracion/estilo/image',formData,this.httpOptions);
+    }
+    uploadImageEstiloBanner(image:any){
+      let formData = new FormData();
+      for (var i = 0; i < image.length; i++) {
+        formData.append("image", image[i], "logo");
+      }
+
+      this.httpOptions ={
+        headers:new HttpHeaders({
+          'Authorization': "Bearer "+this.StorageService.getCurrentSession()
+        })
+      }
+
+      return this.http.patch(environment.API_URL + '/configuracion/estilo/image',formData,this.httpOptions);
+    }
+
+    getLogo(){
+      return this.http.get(environment.API_URL + '/configuracion//estilo/image', { responseType: 'text' });
+    }
+    getBanner(){
+      return this.http.get(environment.API_URL + '/configuracion//estilo/image2', { responseType: 'text' });
     }
 }

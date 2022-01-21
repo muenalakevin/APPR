@@ -8,6 +8,7 @@ import { Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { Router } from '@angular/router';
+import { ConfiguracionService } from 'src/app/core/services/configuracion.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,11 +22,14 @@ export class LoginComponent implements OnInit{
     private AuthenticationService: AuthenticationService,
     public StorageService: StorageService,
     private AlertService:AlertService,
+    private configuracionService:ConfiguracionService
   ) {}
   mensaje='';
   mensaje2='';
   mensaje3='';
   enviar=false;
+  img:string='';
+  banner:string='';
   hide=true;
   loginForm = new FormGroup({
     usuario_usuario: new FormControl('', Validators.required),
@@ -34,6 +38,12 @@ export class LoginComponent implements OnInit{
 
 
 ngOnInit(){
+  this.configuracionService.getBanner().subscribe(res=>{
+    this.banner=res as string;
+  })
+  this.configuracionService.getLogo().subscribe(res=>{
+    this.img=res as string;
+  })
   this.loginForm = new FormGroup({
     usuario_usuario: new FormControl('', Validators.required),
     contrasenia_usuario: new FormControl('', [Validators.required,  Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]),
@@ -41,6 +51,18 @@ ngOnInit(){
   this.onValueChanges();
 
 }
+
+getLogo(){
+
+  return 'data:image/jpeg;base64,'+this.img
+
+}
+getBanner(){
+
+  return 'data:image/jpeg;base64,'+this.banner
+
+}
+
 onValueChanges(): void {
 
   this.loginForm.valueChanges.subscribe((val:UsuarioAuth)=>{

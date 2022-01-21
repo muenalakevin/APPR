@@ -60,6 +60,7 @@ import { PlatosDiaComponent } from './charts/platosDia/platosDia.component';
 import { AgregarOpcionRapidaComponent } from './components/AgregarOpcionRapida/AgregarOpcionRapida.component';
 import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/editarOpcionRapida.component';
 import { AddEgresoComponent } from './components/egreso/addEgreso.component';
+import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRealizados.component';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { AddEgresoComponent } from './components/egreso/addEgreso.component';
     PlatosDiaComponent,
     AgregarOpcionRapidaComponent,
     EditarOpcionRapidaComponent,
-    AddEgresoComponent
+    AddEgresoComponent,
+    PedidosRealizadosComponent
   ],
   imports: [
     CommonModule,
@@ -124,7 +126,8 @@ import { AddEgresoComponent } from './components/egreso/addEgreso.component';
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,
     MatSidenavModule,MatSelectModule,MatCheckboxModule,
     ClientesDiaComponent,
-    MinutosEntregasClientesComponent,
+    MinutosEntregasClientesComponent,PedidosRealizadosComponent,
+
   ],
   providers: [ MatDatepickerModule,  AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
 })

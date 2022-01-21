@@ -46,7 +46,7 @@ export type ChartOptions = {
 export class EgresosEIngresosComponent  {
   public unique_key: number;
   tipoSeleccion = 1;
-  tipoFiltrado = 2;
+  tipoFiltrado = 1;
   paso = 1
   mesero = "";
   meseros:Usuario[]=[]
@@ -513,13 +513,7 @@ constructor(
   this.configuracionService.getConfiguracionMesero().subscribe(res=>{
     this.configuracionMesero = res as configuracionMesero
     this.fechaFin = new Date(Date.now());
-      let month = this.fechaFin.getMonth()-4
-      if(month<=0 ){
-        month = 12 + month;
-        this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,month,1,0,0,0)
-      }else{
-        this.fechaInicio = new Date(this.fechaFin.getFullYear(),month,1,0,0,0)
-      }
+      this.fechaInicio = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),1,0,0,0)
     this.orgValueChange()
   })
 
@@ -563,6 +557,7 @@ cambiarTipos(){
   }
 
 
+
   this.orgValueChange()
 }
 
@@ -571,6 +566,7 @@ orgValueChange(){
 
   this.fechaInicio = moment(this.fechaInicio).toDate()
   this.fechaFin = moment(this.fechaFin).toDate()
+
   this.configuracionService.getConfiguracionEstilo().subscribe(res=>{
 
     this.configuracionEstilo = res as configuracionEstilo
@@ -602,34 +598,23 @@ orgValueChange(){
 
     if(this.tipoSeleccion == 1){
       if(this.tipoFiltrado==1){
-        this.fechaFin = new Date(Date.now());
-        this.fechaInicio = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),1,0,0,0)
+        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0)
+        this.fechaFin = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),this.fechaFin.getDate(),23,59,59)
       }else if(this.tipoFiltrado==2){
-        this.fechaFin = new Date(Date.now());
-        let month = this.fechaFin.getMonth()-4
-        if(month<=0 ){
-          month = 12 + month;
-          this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,month,1,0,0,0)
-        }else{
-          this.fechaInicio = new Date(this.fechaFin.getFullYear(),month,1,0,0,0)
-        }
+        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth(),1,0,0,0)
+        this.fechaFin = new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth(),new Date(this.fechaFin.getFullYear(), this.fechaFin.getMonth() +1, 0).getDate(),23,59,59)
       }else{
-        this.fechaFin = new Date(Date.now());
-        this.fechaFin = new Date( this.fechaFin.getFullYear(),11,31,23,59,59);
-        this.fechaInicio = new Date(this.fechaFin.getFullYear()-1,0,0,0,0,0);
-
+        this.fechaInicio = new Date(this.fechaInicio.getFullYear(), 0,1,0,0,0)
+        this.fechaFin = new Date(this.fechaFin.getFullYear(), 11,31,23,59,59)
       }
     }else{
       if(this.tipoFiltrado==1){
-        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),this.fechaInicio.getDate(),23,59,59);
       }else if(this.tipoFiltrado==2){
-        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),1,0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),this.fechaInicio.getMonth(),new Date(this.fechaInicio.getFullYear(), this.fechaInicio.getMonth() +1, 0).getDate(),23,59,59);
       }else{
-        this.fechaInicio = new Date(Date.now());
         this.fechaInicio = new Date( this.fechaInicio.getFullYear(),0,1,0,0,0);
         this.fechaFin = new Date( this.fechaInicio.getFullYear(),11,31,23,59,59);
       }

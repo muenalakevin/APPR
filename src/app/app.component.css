@@ -11,26 +11,26 @@ html, body, #fullheight {
 ::ng-deep ::-webkit-scrollbar {
     width: 8px;
    border-radius: 30px;
-  
+
     border: 2px solid #666
   }
-  
+
   /* Track */
   ::ng-deep ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
      border-radius: 30px;
     border: 0.1px solid #ccc
   }
-   
+
   /* Handle */
   ::ng-deep ::-webkit-scrollbar-thumb {
-    background: rgb(182, 182, 182); 
+    background: rgb(182, 182, 182);
 
   }
-  
+
   /* Handle on hover */
   ::ng-deep ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
      border-radius: 30px;
     border: 2px solid #666
   }
@@ -80,12 +80,13 @@ a:after {
     height: 100vh;
   color: #fff;
   margin: 0;
-  padding: 0 0 25px 0;
+
   position: absolute;
   right: 100%;
   top: 0;
   width: 250px;
   z-index: 3;
+  overflow: auto;
 }
 .menu__toggle-label {
   height: 44px;
@@ -104,7 +105,7 @@ a:after {
 }
 .menu__toggle-label svg:nth-of-type(2) {
   left: 255px;
- 
+
 
 }
 .menu__toggle:checked~.menu__toggle-label {
@@ -130,7 +131,7 @@ a:after {
 
 .menu__toggle:checked ~ .menu__content {
 
-   
+
   transform: translate(100%, 0);
 }
 .menu__toggle:checked ~ .menu__content .menu-item {
@@ -143,10 +144,12 @@ a:after {
 }
 
 .logout{
-  position: absolute;
+
+  background-color: white;
+  position: sticky;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-50%)!important;
+    /* left: 50%; */
+    /* transform: translateX(-50%)!important; */
     font-size: larger;
     width: 100%;
     /* height: 25px; */
@@ -154,13 +157,21 @@ a:after {
     border: 2px solid;
 }
 .edit{
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%)!important;
+
+  background-color: white;
+  position: sticky;
+  bottom: 30px;
+  /* left: 50%; */
+  /* transform: translateX(-50%)!important; */
   font-size: larger;
   width: 100%;
   /* height: 25px; */
   padding: 3px;
   border: 2px solid;
+}
+.edit a{
+  color: #555;
+}
+.logout a{
+  color: #555;
 }

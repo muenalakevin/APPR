@@ -35,8 +35,8 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
             />
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <a class="dropdown-item" href="#">{{usuario.usuario_usuario}}</a>
-            <a class="dropdown-item" href="#">Editar perfil</a>
+            <a class="dropdown-item" href="/perfil/perfil">{{usuario.usuario_usuario}}</a>
+            <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
             <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
           </div>
         </li>
@@ -61,8 +61,8 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
             />
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <a class="dropdown-item" href="#">{{usuario.usuario_usuario}}</a>
-            <a class="dropdown-item" href="#">Editar perfil</a>
+            <a class="dropdown-item" href="//mesero/mesas">{{usuario.usuario_usuario}}</a>
+            <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
             <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
           </div>
         </li>
@@ -86,8 +86,8 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
             />
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <a class="dropdown-item" href="#">{{usuario.usuario_usuario}}</a>
-            <a class="dropdown-item" href="#">Editar perfil</a>
+            <a class="dropdown-item" href="/cocina/cocina">{{usuario.usuario_usuario}}</a>
+            <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
             <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
           </div>
         </li>
@@ -111,8 +111,8 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
             />
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <a class="dropdown-item" href="#">{{usuario.usuario_usuario}}</a>
-            <a class="dropdown-item" href="#">Editar perfil</a>
+            <a class="dropdown-item" href="/cajero/caja">{{usuario.usuario_usuario}}</a>
+            <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
             <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
           </div>
         </li>
@@ -135,7 +135,7 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <a class="dropdown-item" href="#">{{usuario.usuario_usuario}}</a>
-          <a class="dropdown-item" href="#">Editar perfil</a>
+          <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
           <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
         </div>
       </li>

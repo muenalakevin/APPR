@@ -6,6 +6,7 @@ import { configuracionMesero } from 'src/app/shared/models/configuracion.mesero'
 import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -76,6 +77,7 @@ configuracionCaja = this.formBuilder.group({
     private AlertService:AlertService,
     private formBuilder: FormBuilder,
     private ConfiguracionService: ConfiguracionService,
+    public StorageService: StorageService,
     ) { }
 
 
@@ -112,8 +114,26 @@ configuracionCaja = this.formBuilder.group({
     })
       this.descuentosIntereses.push(descuentoInteres);
   }
-  ngOnInit() {
 
+  getLogo(){
+
+    return 'data:image/jpeg;base64,'+this.img
+
+  }
+  getBanner(){
+
+    return 'data:image/jpeg;base64,'+this.banner
+
+  }
+  banner:string
+  img:string
+ngOnInit(){
+  this.ConfiguracionService.getLogo().subscribe(res=>{
+    this.img=res as string;
+  })
+  this.ConfiguracionService.getBanner().subscribe(res=>{
+    this.banner=res as string;
+  })
     this.ConfiguracionService.getConfiguracionCaja().subscribe(res=>{
       let configuracionCaja = res as configuracionCaja
       this.configuracionCaja = this.formBuilder.group({
@@ -256,6 +276,9 @@ console.log(this.estiloConfig);
     this.ConfiguracionService.updateConfiguracionEstilo(configuracionEstilo).subscribe(res=>{
       this.AlertService.showSuccess('Configuración de estilo guardado con éxito.')
     })
+    this.ConfiguracionService.uploadImageEstilo(this.imageUpload).subscribe(res=>{
+
+    })
   }else{
     this.AlertService.showWarning('Ingrese todos los datos.')
   }
@@ -306,4 +329,16 @@ console.log('delete '+position)
     console.log("ss");
     console.log(event);
  }
+ imageUpload:any
+ image:any
+ uploadFiles(files:any) {
+
+  this.imageUpload = files.target.files
+  this.image = files.target.files
+    const file = this.image[0];
+    const reader = new FileReader();
+    reader.onload = e => this.image = reader.result;
+    reader.readAsDataURL(file);
+
+}
 }

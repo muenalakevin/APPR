@@ -55,7 +55,7 @@
 </div>
 <div *ngIf="tipoFiltrado==2">
   <mat-form-field dateFormat2 appearance="fill"  *ngIf="tipoSeleccion==1;else tipoSeleccion2" >
-    <mat-label>Enter a date range</mat-label>
+    <mat-label>Rango por meses</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input [(ngModel)]="fechaInicio" matStartDate placeholder="Start date">
       <input  [(ngModel)]="fechaFin" matEndDate placeholder="End date">
@@ -71,7 +71,7 @@
 
 <ng-template #tipoSeleccion2>
   <mat-form-field dateFormat2 appearance="fill">
-    <mat-label>Month and Year</mat-label>
+    <mat-label>Mes y año</mat-label>
     <input [(ngModel)]="fechaInicio"  matInput [matDatepicker]="dp">
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp
@@ -85,7 +85,7 @@
 </div>
 <div *ngIf="tipoFiltrado==3">
   <mat-form-field dateFormat1 appearance="fill"  *ngIf="tipoSeleccion==1;else tipoSeleccion2" >
-    <mat-label>Enter a date range</mat-label>
+    <mat-label>Rango por años </mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input  [(ngModel)]="fechaInicio" matStartDate placeholder="Start date">
       <input  [(ngModel)]="fechaFin" matEndDate placeholder="End date">
@@ -101,7 +101,7 @@
 
 <ng-template #tipoSeleccion2>
   <mat-form-field dateFormat1 appearance="fill">
-    <mat-label>Month and Year</mat-label>
+    <mat-label>Año</mat-label>
     <input [(ngModel)]="fechaInicio"  matInput [matDatepicker]="dp" >
     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
     <mat-datepicker #dp

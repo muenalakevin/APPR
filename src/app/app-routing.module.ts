@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'cajero', loadChildren: () => import('./modules/cajero/cajero.module').then(m => m.CajeroModule),canLoad:[CajeroGuard]  },
   { path: 'mesero', loadChildren: () => import('./modules/mesero/mesero.module').then(m => m.MeseroModule) ,canLoad:[MeseroGuard] },
   { path: 'cocinero', loadChildren: () => import('./modules/cocinero/cocinero.module').then(m => m.CocineroModule),canLoad:[CocineroGuard]  },
+  { path: 'perfil', loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule) },
   { path: '**', component: PageNotFoundComponent },
 
 ];
