@@ -16,6 +16,9 @@
 
     display: block;
   }
+  .inputDescuento{
+    width: 42px;
+  }
 .example-list2 {
     border: solid 1px #ccc;
     min-height: 60px;

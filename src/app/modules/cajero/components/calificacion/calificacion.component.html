@@ -1,0 +1,43 @@
+<div class="vh-100 100-vw"
+[ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                : '#ffb13c'+80
+              }"
+>
+<button *ngIf="valor" (click)="openFullscreen()" class="btn btn-dark">
+  <mat-icon>fullscreen</mat-icon>
+
+</button>
+<button
+[ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+10
+                : '#ffb13c'+10
+              }"
+*ngIf="!valor" (click)="closeFullscreen()" class="btn btn-dark">
+  <mat-icon>fullscreen_exit</mat-icon>
+</button>
+<div class="contenedor" *ngIf="enableCalificacion">
+  <div class=" d-flex justify-content-center">
+    <img  class="img img-fluid" [src]="getLogo()" alt="">
+</div>
+  <h1 class="text-center texto">
+  <b>  Calificación del establecimiento.</b>
+  </h1>
+
+<div class="d-flex justify-content-center ">
+  <button (click)="calificar(1)" class="calificar">1</button>
+  <button (click)="calificar(2)" class="calificar">2</button>
+  <button (click)="calificar(3)" class="calificar">3</button>
+  <button (click)="calificar(4)" class="calificar">4</button>
+  <button (click)="calificar(5)"class="calificar">5</button>
+</div>
+</div>
+<div class="contenedor" *ngIf="!enableCalificacion">
+  <h1 class="text-center texto">
+  <b> Gracias por tu visita.</b>
+  </h1>
+  <div class=" d-flex justify-content-center">
+    <img  class="img img-fluid" [src]="getLogo()" alt="">
+</div>
+</div>
+</div>

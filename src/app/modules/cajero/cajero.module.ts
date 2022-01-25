@@ -1,3 +1,4 @@
+
 import { EgresoComponent } from './pages/egreso/egreso.component';
 import { CrearClienteComponent } from './components/crearCliente/crearCliente.component';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +25,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { EditarClienteComponent } from './components/editarCliente/editarCliente.component';
 import { CerrarCajaComponent } from './components/cerrarCaja/cerrarCaja.component';
 import { ComparativaCajaComponent } from './components/comparativaCaja/comparativaCaja.component';
+import { CalificacionComponent } from './components/calificacion/calificacion.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ComparativaCajaComponent } from './components/comparativaCaja/comparati
     EgresoComponent,
     CerrarCajaComponent,
     ComparativaCajaComponent,
-    DialogPagar
+    DialogPagar,
+    CalificacionComponent
   ],
   imports: [
     CommonModule,

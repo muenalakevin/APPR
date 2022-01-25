@@ -28,7 +28,7 @@
 
       </div>
 
-      <div class="droparea w-100" appDnd   (fileDropped)="uploadFiles($event)">
+      <div class="droparea w-100" appDnd   (fileDropped)="uploadFilesBanner($event)">
         <label class="file-input__label" for="file-input2"
         [ngStyle]="{
           background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
@@ -39,12 +39,12 @@
             : '#ffb13c'
         }"
         >Subir banner</label>
-        <input   id="file-file-input2" class="input file-input__input" (change)="uploadFiles($event)" type="file"/>
+        <input   id="file-input2" class="input file-input__input" (change)="uploadFilesBanner($event)" type="file"/>
       </div>
 
       <div class="d-flex justify-content-center w-100">
 
-          <img id="blah" class="image" [src]="image || getBanner()"   alt="your image" />
+          <img id="blah" class="image" [src]="imageBanner || getBanner()"   alt="your image" />
 
       </div>
       <br />
@@ -488,11 +488,11 @@
       </form>
     </div>
   </mat-tab>
-  <mat-tab label="Cocina">
+<!--   <mat-tab label="Cocina">
     <div class="container">
 
     </div>
-  </mat-tab>
+  </mat-tab> -->
   <mat-tab label="Cajero">
     <div class="container">
       <form action="" [formGroup]="configuracionCaja">

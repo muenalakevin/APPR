@@ -11,7 +11,7 @@
         <div class="bg-white">
           <div class="selectBox" (click)="showCheckboxes()">
             <select class="form-select">
-              <option>Seleccione categorias propias</option>
+              <option>Seleccione categorías propias</option>
             </select>
             <div class="overSelect"></div>
           </div>
@@ -68,6 +68,14 @@
             <button
               (click)="mostrarPlatos(pedido)"
               class="btn btn-primary px-5"
+              [ngStyle]="{
+                background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                  ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                  : '#ffb13c'+'cc',
+                  'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                  ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                  : '#ffb13c'
+              }"
             >
               Ver
             </button>
@@ -80,14 +88,18 @@
 
   </div>
   <div class="col-12 col-sm-8 container mt-3 contenedor-platos">
-    <div class="row p-sm-5">
+    <div>
+      <p>Observación:</p>
+      <p>{{observacion}}</p>
+    </div>
+    <div class="row p-sm-1">
       <mat-card
         class="col m-3 text-center"
         *ngFor="let pedido of platosPedidos"
       >
-        <p>Nombre: {{ pedido.plato.nombre_plato }}</p>
-        <p>Cant. Pedida:{{ pedido.cantidad_pedido }}</p>
-        <p>Listos:{{ pedido.cantidad_lista }}</p>
+        <p><b> {{ pedido.plato.nombre_plato }}</b></p>
+        <p><b>Pedidos:</b>{{ pedido.cantidad_pedido }}</p>
+        <p><b>Listos:</b>{{ pedido.cantidad_lista }}</p>
         <mat-chip-list
           class="example-chip"
           cdkDropList
@@ -107,7 +119,31 @@
             *ngIf="pedido.cantidad_lista != pedido.cantidad_pedido"
             [disabled]="botonListo"
             (click)="modificarPedido(pedido)"
-            class="btn btn-success px-5"
+            class="btn btn-success px-5  invisible"
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                : '#ffb13c'+'cc',
+                'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"
+          >
+            Listo
+          </button>
+          <button
+            *ngIf="pedido.cantidad_lista != pedido.cantidad_pedido"
+            [disabled]="botonListo"
+            (click)="modificarPedido(pedido)"
+            class="btn btn-success px-5 my-1  position-absolute bottom-0"
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                : '#ffb13c'+'cc',
+                'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"
           >
             Listo
           </button>

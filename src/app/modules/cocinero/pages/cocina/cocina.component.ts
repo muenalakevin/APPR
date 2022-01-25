@@ -177,6 +177,9 @@ actualizarFiltroCategorias(){
   mostrarPlatos(pedido:Pedido){
     this.pedidoSeleccionado = pedido
     this.platosPedidos = pedido.pedidos;
+    if(this.pedidoSeleccionado.observacion!= undefined){
+      this.observacion = this.pedidoSeleccionado.observacion
+    }
   }
   modificarPedido(pedido:PlatoPedido){
     this.botonListo = true;
@@ -221,6 +224,7 @@ actualizarFiltroCategorias(){
       })
 
     }else{
+      
       this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
         this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
         this.botonListo = false;
@@ -232,7 +236,7 @@ actualizarFiltroCategorias(){
 
   }
   expanded = false;
-
+  observacion:string
   showCheckboxes() {
     if (!this.expanded) {
       this.expanded = true;

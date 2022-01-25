@@ -623,6 +623,9 @@ ngAfterViewInit(): void {
     this.pedidoTotal.pedidos.map((pedido) => {
       this.subTotal += pedido.plato.precio_plato * pedido.cantidad_pedido;
     });
+    if(this.configuracionCaja.checkIVA){
+      this.subTotal =  this.subTotal/1.12;
+    }
     return this.subTotal;
   }
 
@@ -655,6 +658,19 @@ ngAfterViewInit(): void {
       /* this.pedidoTotal=res as Pedido */
     });
   }
+  
+  actualizar:any
+actualizarObservacion(){
+  clearTimeout(this.actualizar)
+
+ this.actualizar = setTimeout(() => {
+    this.pedidoTotal.observacion = this.pedidoForm.get('observacion').value
+  this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {
+    /* this.pedidoTotal=res as Pedido */
+  });
+  }, 1000);
+  
+}
 
   allCategory(){
     (document.getElementById('inputGroupSelect01') as HTMLInputElement).value = "all";

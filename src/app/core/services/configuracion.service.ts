@@ -63,7 +63,7 @@ export class ConfiguracionService {
     uploadImageEstiloBanner(image:any){
       let formData = new FormData();
       for (var i = 0; i < image.length; i++) {
-        formData.append("image", image[i], "logo");
+        formData.append("image", image[i], "banner");
       }
 
       this.httpOptions ={

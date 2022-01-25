@@ -123,7 +123,6 @@ export class PedidosRealizadosComponent {
 
         chart: {
           type: "bar",
-          height: 350
         },
         plotOptions: {
           bar: {

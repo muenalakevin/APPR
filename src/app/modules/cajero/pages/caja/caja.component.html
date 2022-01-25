@@ -44,10 +44,14 @@
                       <button
                         (click)="movePedidoPago(pedido)"
                         class="h-100 btn btn-dark text-center"
-                        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                        : '#ffb13c'+80
-                      }"
+                        [ngStyle]="{
+                          background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                            : '#ffb13c'+'cc',
+                            'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                            : '#ffb13c'
+                        }"
                       >
                         >
                       </button>
@@ -62,10 +66,14 @@
         <div class="col-8 container my-3 contenedor-pago">
           <div class="d-flex justify-content-end">
             <button
-            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                      : '#ffb13c'+80
-                    }"
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                : '#ffb13c'+'cc',
+                'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"
               type="button"
               mat-raised-button
               color="primary"
@@ -79,10 +87,14 @@
           <div class="d-flex justify-content-between  my-3">
             <div class="dropdown">
               <button
-              [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                      : '#ffb13c'+80
-                    }"
+              [ngStyle]="{
+                background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                  ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                  : '#ffb13c'+'cc',
+                  'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                  ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                  : '#ffb13c'
+              }"
                 class="btn btn-dark dropdown-toggle"
                 type="button"
                 id="dropdownMenuButton1"
@@ -117,20 +129,28 @@
                   >
                 </li>
                 <button
-                [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                : '#ffb13c'+80
-              }"
+                [ngStyle]="{
+                  background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                    : '#ffb13c'+'cc',
+                    'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                    : '#ffb13c'
+                }"
                 class="btn color-white w-100" (click)="openDialogCrear()">
                   Crear cliente
                 </button>
               </ul>
             </div>
             <button
-            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-            : '#ffb13c'+80
-          }"
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                : '#ffb13c'+'cc',
+                'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"
               class="btn text-white"
               *ngIf="clienteSelected.nombre_cliente != ''"
               (click)="openDialogEditar()"
@@ -139,30 +159,28 @@
             </button>
           </div>
           <div class="row">
-            <div class="col-6">
+            <div class="col-4">
               <p><b>Nombre:</b> {{ clienteSelected.nombre_cliente }}</p>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <p><b>Apellido:</b> {{ clienteSelected.apellido_cliente }}</p>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
+
+            <div class="col-4">
               <p><b>Cedula/RUC:</b> {{ clienteSelected.cedRuc_cliente }}</p>
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <p><b>Dirección:</b> {{ clienteSelected.direccion_cliente }}</p>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
+
+            <div class="col-4">
               <p><b>Correo:</b> {{ clienteSelected.correo_cliente }}</p>
             </div>
-            <div class="col-6">
-              <p><b>Fecha:</b> {{ dateNow() }}</p>
-            </div>
-            <div class="col-6">
+            <div class="col-4">
               <p><b>Teléfono:</b> {{ clienteSelected.telefono_cliente }}</p>
+            </div>
+            <div class="col-4">
+              <p><b>Fecha:</b> {{ dateNow() }}</p>
             </div>
           </div>
           <div>
@@ -209,10 +227,14 @@
                     <button
                       (click)="movePedidoTotal(pedido)"
                       class="h-100 btn text-white text-center"
-                      [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                      : '#ffb13c'+80
-                    }"
+                      [ngStyle]="{
+                        background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                          : '#ffb13c'+'cc',
+                          'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                          : '#ffb13c'
+                      }"
                     >
                       <
                     </button>
@@ -243,7 +265,14 @@
               <td  class="col">&nbsp;</td>
               <td  class="col">&nbsp;</td>
               <td  class="col">&nbsp;</td>
-              <td  class="col">Descuento:</td>
+              <td  class="col">Descuento agregado:</td>
+              <td  class="col"><input class="inputDescuento" type="number" [(ngModel)]="descuentoAgregado" (keyup)="refreshPecios()"></td>
+            </tr>
+            <tr class="row">
+              <td  class="col">&nbsp;</td>
+              <td  class="col">&nbsp;</td>
+              <td  class="col">&nbsp;</td>
+              <td  class="col">Descuento total:</td>
               <td  class="col">{{  descuento | currency }}</td>
             </tr>
             <tr class="row">
@@ -271,10 +300,14 @@
 
           <div class="d-flex justify-content-end ">
             <button
-            [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-            : '#ffb13c'+80
-          }"
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+                : '#ffb13c'+'cc',
+                'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"
               class="btn text-white  px-5"
                [disabled]="canPay()"
               (click)=" pagar()"
@@ -319,16 +352,24 @@
       </div>
       <div class="position-absolute bottom-0  d-flex justify-content-between w-100">
         <button class="btn btn-dark" (click)="modalCierre()"
-        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                    : '#ffb13c'+80
-                  }"
+        [ngStyle]="{
+          background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+            : '#ffb13c'+'cc',
+            'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+            : '#ffb13c'
+        }"
         >Realizar cierre de caja 	<mat-icon> monetization_on</mat-icon></button>
         <button class="btn btn-primary" (click)="modalGasto()"
-        [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                    : '#ffb13c'+80
-                  }"
+        [ngStyle]="{
+          background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+            : '#ffb13c'+'cc',
+            'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+            ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+            : '#ffb13c'
+        }"
         >Agregar egreso <mat-icon>money_off</mat-icon></button>
       </div>
     </div>
@@ -355,10 +396,14 @@
   <div class="d-flex justify-content-center w-100">
     <button
 
-    [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-                    ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
-                    : '#ffb13c'+80
-                  }"
+    [ngStyle]="{
+      background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+        : '#ffb13c'+'cc',
+        'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+        ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+        : '#ffb13c'
+    }"
     (click)="guardarCaja()" class="btn btn-primary">Abrir caja	<mat-icon> monetization_on</mat-icon></button>
   </div>
 

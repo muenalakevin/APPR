@@ -276,9 +276,13 @@ console.log(this.estiloConfig);
     this.ConfiguracionService.updateConfiguracionEstilo(configuracionEstilo).subscribe(res=>{
       this.AlertService.showSuccess('Configuración de estilo guardado con éxito.')
     })
+    this.ConfiguracionService.uploadImageEstiloBanner(this.imageUploadBanner).subscribe(res=>{
+
+    })
     this.ConfiguracionService.uploadImageEstilo(this.imageUpload).subscribe(res=>{
 
     })
+    
   }else{
     this.AlertService.showWarning('Ingrese todos los datos.')
   }
@@ -287,7 +291,7 @@ console.log(this.estiloConfig);
     if(this.meseroConfig.valid){
 
     let configuracionMesero:configuracionMesero ={
-      satisfaccionAdecuada: this.meseroConfig.get('satisfaccionAdecuada').value,
+      satisfaccionAdecuada: Number(this.meseroConfig.get('satisfaccionAdecuada').value),
       satisfaccionMedia: this.meseroConfig.get('satisfaccionMedia').value,
       disatisfaccion: this.meseroConfig.get('disatisfaccion').value,
       meseroEdit: this.meseroConfig.get('meseroEdit').value,
@@ -338,6 +342,18 @@ console.log('delete '+position)
     const file = this.image[0];
     const reader = new FileReader();
     reader.onload = e => this.image = reader.result;
+    reader.readAsDataURL(file);
+
+}
+imageUploadBanner:any
+imageBanner:any
+ uploadFilesBanner(files:any) {
+
+  this.imageUploadBanner = files.target.files
+  this.imageBanner = files.target.files
+    const file = this.imageBanner[0];
+    const reader = new FileReader();
+    reader.onload = e => this.imageBanner = reader.result;
     reader.readAsDataURL(file);
 
 }

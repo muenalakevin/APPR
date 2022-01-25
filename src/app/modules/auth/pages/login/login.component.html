@@ -11,9 +11,11 @@
     ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
     : '#ffb13c'+40
 }">
-  <div class="d-none d-sm-block col-sm-6">
-
-    <img  class="img-fluid" [src]="getBanner()" alt="">
+  <div class="d-none d-sm-block col-sm-6 ">
+<div class=" d-flex flex-column justify-content-center h-100">
+  <img  class="img-fluid" [src]="getBanner()" alt="">
+</div>
+    
   </div>
   <div class="col-12 col-sm-6">
 
@@ -59,13 +61,13 @@
 
   [ngStyle]="{
     background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
-      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+40
-      : '#ffb13c'+40,
+      ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+      : '#ffb13c'+'cc',
       'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
       ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
       : '#ffb13c'
   }"
-  type="submit" class="btn ">Iniciar sesión</button>
+  type="submit" class="btn text-white">Iniciar sesión</button>
 </div>
   <div class="button">
 

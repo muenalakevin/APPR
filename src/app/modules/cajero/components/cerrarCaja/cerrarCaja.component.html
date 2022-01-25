@@ -70,7 +70,7 @@
     </div>
   <h2 class="text-center">Cuenta el dinero de caja, luego, ingresa el valor.</h2>
   <div *ngIf="this.permiso == 3">
-    <h3>El cierre de caja debe ser de {{(caja.caja_chica +caja.cantidad_ingreso  - caja.cantidad_egreso) | currency}}</h3>
+    <h3>El cierre de caja debe ser de {{(caja.caja_chica +caja.cantidad_efectivo ) | currency}}</h3>
   </div>
   <form action="" class="d-flex justify-content-center w-100" [formGroup]="cajaForm">
   <mat-form-field  appearance="outline" class="w-50">

@@ -1,3 +1,4 @@
+
 import { EgresosEIngresosComponent } from './charts/egresosEIngresos/egresosEIngresos.component';
 import { AgregarClienteComponent } from './components/agregarCliente/agregarCliente.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
@@ -61,6 +62,7 @@ import { AgregarOpcionRapidaComponent } from './components/AgregarOpcionRapida/A
 import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/editarOpcionRapida.component';
 import { AddEgresoComponent } from './components/egreso/addEgreso.component';
 import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRealizados.component';
+import { CalificacionTotalComponent } from './charts/calificacionTotal/calificacionTotal.component';
 
 
 @NgModule({
@@ -93,7 +95,8 @@ import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRe
     AgregarOpcionRapidaComponent,
     EditarOpcionRapidaComponent,
     AddEgresoComponent,
-    PedidosRealizadosComponent
+    PedidosRealizadosComponent,
+    CalificacionTotalComponent
   ],
   imports: [
     CommonModule,
@@ -126,7 +129,7 @@ import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRe
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,
     MatSidenavModule,MatSelectModule,MatCheckboxModule,
     ClientesDiaComponent,
-    MinutosEntregasClientesComponent,PedidosRealizadosComponent,
+    MinutosEntregasClientesComponent,PedidosRealizadosComponent,CalificacionTotalComponent
 
   ],
   providers: [ MatDatepickerModule,  AdministradorGuard,{provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions}]
