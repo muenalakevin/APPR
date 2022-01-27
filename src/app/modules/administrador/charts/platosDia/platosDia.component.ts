@@ -97,7 +97,7 @@ sacarDatosHoras(pedidos:Pedido[],dia:number){
 
           if(horaInicialPedido==i){
             p.pedidos.map(pe=>{
-              console.log(horaInicialPedido, p);
+
               valor += pe.cantidad_pedido;
             })
 

@@ -111,7 +111,7 @@ submitForm(){
          rol_usuario: this.usuarioForm.value.rol_usuario,
          estado_usuario: this.usuarioForm.value.estado,
     }
-    console.log(usuario)
+    //console.log(usuario)
 
     this.UsuarioService.editarUsuario(usuario).subscribe(
       (data) =>  this.AlertService.showSuccess('Usuario editado con exito'),

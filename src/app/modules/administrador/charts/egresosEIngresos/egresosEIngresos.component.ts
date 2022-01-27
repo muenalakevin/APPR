@@ -321,7 +321,7 @@ sacarDatosHoras(fechaInicio:Date,cajas:Array<any>,sacar:string){
                 if(horaInicialPedido==i ){
 
                   if(sacar == "ingreso"){
-                    console.log( c)
+
                     valor += c.cantidad_ingreso
                   }else{
                     valor += c.cantidad_egreso

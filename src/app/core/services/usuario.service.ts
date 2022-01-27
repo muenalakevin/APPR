@@ -26,7 +26,7 @@ export class UsuarioService {
   getUsers(){
     return this.http.get(environment.API_URL + '/usuario',this.httpOptions);
   }
-  
+
   getUsersMeseros(){
     return this.http.get(environment.API_URL + '/usuario/mesero',this.httpOptions);
   }
@@ -36,7 +36,7 @@ export class UsuarioService {
   }
 
   eliminarUsuario(_id:string){
-    console.log(_id);
+
     return this.http.delete(environment.API_URL + '/usuario/'+_id,this.httpOptions);
   }
 
@@ -49,10 +49,10 @@ export class UsuarioService {
   editarUsuario(usuario:Usuario){
     return this.http.patch(environment.API_URL + '/usuario',{usuario},this.httpOptions);
   }
-  
-  
-  
-/* 
+
+
+
+/*
   getUserById(id: number): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(this.baseUrl + id);
   }

@@ -134,7 +134,7 @@ export class AgregarPlatoComponent implements OnInit {
         this.platoForm.value.categorias_plato.splice(index, 1);
       }
     }
-    console.log(this.platoForm.value.categorias_plato);
+
   }
 
   validatoMinLength(){

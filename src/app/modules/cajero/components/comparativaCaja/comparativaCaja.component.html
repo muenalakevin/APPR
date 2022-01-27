@@ -31,7 +31,7 @@
       <td>{{caja.caja_chica +  caja.cantidad_efectivo|currency}}</td>
     </tr>
     <tr>
-      <th scope="row">Total de transferencias</th>
+      <th scope="row">Total de otras formas de pago</th>
       <td>{{caja.cantidad_transferencia|currency}}</td>
     </tr>
     <tr>
@@ -46,4 +46,5 @@
 </table>
 <div class="d-flex justify-content-center w-100">
   <button (click)="aceptar()" class="btn btn-primary">Aceptar</button>
+  <a [href]="'http://localhost:3000/api/caja/reporte/'+caja._id"  class="mx-5" download="newfilename" target="_blank">Descargar</a>
 </div>

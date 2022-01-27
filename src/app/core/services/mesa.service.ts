@@ -37,7 +37,7 @@ export class MesaService {
   }
 
   eliminarMesa(_id:string){
-    console.log(_id);
+
     return this.http.delete(environment.API_URL + '/mesa/'+_id,this.httpOptions);
   }
 

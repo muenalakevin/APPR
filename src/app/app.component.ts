@@ -14,7 +14,7 @@ import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faUsers,faS
 })
 export class AppComponent implements OnInit {
   usuario
-  estiloSuscribe:Subscription 
+  estiloSuscribe:Subscription
   state:boolean=false;
   constructor(
     private StorageService:StorageService,
@@ -26,16 +26,15 @@ export class AppComponent implements OnInit {
     })
     this.estiloSuscribe = this.configuracionService.configuracionEstilo.subscribe(
       (configuracionEstilo) => {
-        console.log(configuracionEstilo);
         let conf =  configuracionEstilo as configuracionEstilo;
         this.StorageService.setConfiguracionEstilo(conf);
 
       }
     );
-    
-    this. estiloSuscribe 
+
+    this. estiloSuscribe
     const token:string = this.StorageService.getCurrentSession();
-      
+
     if(token != ''){
       const tokenDecode:Token = jwt_decode(token);
       this.usuario= <Token>tokenDecode;
@@ -54,13 +53,12 @@ export class AppComponent implements OnInit {
   title = 'APPR';
   desktop = true;
   ngOnInit(): void {
-    console.log(window.screen.width);
     if (window.screen.width <= 900) { // 768px portrait
       this.desktop = false;
   }
   this.state = this.StorageService.isAuthenticated()
 }
- 
+
 public logout(): void{
   this.StorageService.logout();
   this.state = this.StorageService.isAuthenticated()
@@ -69,7 +67,7 @@ public logout(): void{
   ); */
 }
 checked(){
-  console.log("sss");
+
   let child_1 = document.getElementById('child1')
   let child_2 = document.getElementById('child2')
   if(child_1.classList.contains('d-none')){
@@ -85,8 +83,8 @@ checked(){
     child_1.classList.add('d-none')
     child_2.classList.add('d-block')
   }
-  
+
 }
- 
+
 
 }

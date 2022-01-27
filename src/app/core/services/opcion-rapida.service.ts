@@ -31,7 +31,7 @@ export class OpcionRapidaService {
   }
 
   eliminarOpcionRapida(_id:string){
-    console.log(_id);
+
     return this.http.delete(environment.API_URL + '/opcionRapida/'+_id,this.httpOptions);
   }
 

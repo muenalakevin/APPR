@@ -30,6 +30,9 @@ export class CajaService {
   getCaja(){
     return this.http.get(environment.API_URL + '/caja',this.httpOptions);
   }
+  getReporteCaja(){
+    return this.http.get(environment.API_URL + '/caja/reporte',this.httpOptions);
+  }
 
   getCajas(){
     return this.http.get(environment.API_URL + '/caja/all',this.httpOptions);

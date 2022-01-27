@@ -78,7 +78,7 @@ export class MesasComponent implements OnInit {
   openDialogAgregar() {
     const dialogRef = this.dialog.open(AgregarMesaComponent);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -88,7 +88,7 @@ export class MesasComponent implements OnInit {
       data: { cantidadMesas:this.mesas.length },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -99,7 +99,7 @@ export class MesasComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -121,7 +121,7 @@ export class MesasComponent implements OnInit {
       (mesas) => {
         const Data: Mesa[] = <Mesa[]>mesas;
         this.mesas = <Mesa[]>Data;
-        console.log(Data);
+        //console.log(Data);
         this.dataSource.data = Data as Mesa[];
       }
     );
@@ -143,7 +143,7 @@ export class MesasComponent implements OnInit {
           }
         );
       } else {
-        console.log('Cancelación');
+        //console.log('Cancelación');
       }
     });
   }

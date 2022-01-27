@@ -34,7 +34,7 @@
           </div>
 
           <app-egresosEIngresos></app-egresosEIngresos>
-          
+
 
         </ng-template>
     </mat-tab>
@@ -87,11 +87,13 @@
               <td><button class="btn "   [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
                 ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
                 : '#ffb13c'+80
-              }">Ver más detallado</button></td>
+              }"
+              (click)="modalVerCierre(cuadreCaja)"
+              >Ver más detallado</button></td>
             </tr>
           </tbody>
         </table>
-        
+
       </div>
       </ng-template>
     </mat-tab>

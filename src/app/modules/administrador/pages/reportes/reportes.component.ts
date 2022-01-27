@@ -5,6 +5,7 @@ import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, V
 import { StorageService } from 'src/app/core/services/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEgresoComponent } from '../../components/egreso/addEgreso.component';
+import { verCajaComponent } from '../../components/verCaja/verCaja.component';
 
 @Component({
   templateUrl: './reportes.component.html',
@@ -23,7 +24,7 @@ export class ReportesComponent implements OnInit {
 this.CajaService.getCajas().subscribe(cajas=>{
   this.cuadresCaja = cajas as Caja[]
 })
- 
+
   }
   click(){
 
@@ -53,4 +54,9 @@ this.CajaService.getCajas().subscribe(cajas=>{
     })
   }
 
+  modalVerCierre(caja:Caja){
+    const dialogRef = this.dialog.open(verCajaComponent, {
+      data: { caja },
+    });
+  }
 }

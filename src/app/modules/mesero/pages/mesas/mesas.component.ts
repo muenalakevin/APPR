@@ -47,7 +47,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
 
   add(event: MatChipInputEvent, pedido:PlatoPedido): void {
     const value = (event.value || '').trim();
-    console.log(value)
+    //console.log(value)
     // Add our fruit
     if (value) {
       this.pedidoTotal.pedidos.map(pedTot=>{
@@ -164,7 +164,7 @@ TouchDownHandler(e:any){
 touchMoveHandler(e:any){
 
   let vh = (window.screen.height - e.touches[0].clientY)/window.screen.height *100
-console.log(vh);
+//console.log(vh);
   document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
   document.getElementById('nextElementSibling').style.height = `${vh}vh`;
 }
@@ -185,14 +185,14 @@ mouseMoveHandler(e:any){
   const dx = e.clientX - this.x;
   const dy = e.clientY - this.y;
   let vh = (window.screen.height - e.clientY)/window.screen.height *100
-console.log(vh);
+//console.log(vh);
   const newLeftWidth = ((this.leftWidth + dy ) * 100) /  document.getElementById('dragMe').getBoundingClientRect().height;
   document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
   document.getElementById('nextElementSibling').style.height = `${vh}vh`;
-  console.log("funciona");
+  //console.log("funciona");
 }
 mouseUpHandler(){
-  console.log("funciona2");
+  //console.log("funciona2");
 
   this.dragMe.nativeElement.style.removeProperty('cursor');
   document.body.style.removeProperty('cursor');
@@ -272,7 +272,7 @@ ngAfterViewInit(): void {
     this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
       let allOpcions = <OpcionRapida[]>opcionesRapidas
       this.allFruits =  allOpcions.map(a => a.frase_opcionRapida);
-      console.log(this.fruits)
+      //console.log(this.fruits)
     });
 
 
@@ -404,7 +404,7 @@ ngAfterViewInit(): void {
              let plato=cambioEstatico.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id && cE._id==cambioEstatico._id)
              let plato2=ped.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id&& cE._id==cambioEstatico._id)
             if(plato!=undefined && plato2!=undefined){
-              console.log(plato.cantidad_lista,plato2.cantidad_lista);
+              //console.log(plato.cantidad_lista,plato2.cantidad_lista);
               if(plato.cantidad_lista!=plato2.cantidad_lista){
                 cE.cambio=true;
             }
@@ -423,7 +423,7 @@ ngAfterViewInit(): void {
   }
   sendPedido() {
     this.pedidoTotal.observacion = this.pedidoForm.value.observacion
-    console.log(this.pedidoTotal);
+    //console.log(this.pedidoTotal);
     this.PedidoService.enviarPedido(this.pedidoTotal).subscribe((res) => {
       this.drawer.toggle()
     });
@@ -440,7 +440,7 @@ ngAfterViewInit(): void {
       const minutes = Math.round(timeDiff % 60);
       const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
       if(mesa.estado!=4){
-        console.log(this.configuracionMesero.satisfaccionAdecuada)
+        //console.log(this.configuracionMesero.satisfaccionAdecuada)
         if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
           this.color = this.configuracionMesero.colorSatisfaccion.check
           return this.configuracionMesero.colorSatisfaccion.color
@@ -575,7 +575,7 @@ ngAfterViewInit(): void {
     } else if (this.mesaActual.estado >= 2) {
 
       let pedidos = this.pedidoTotal.pedidos;
-      console.log(this.pedidoTotal)
+      //console.log(this.pedidoTotal)
       const existPedido = pedidos.find(
         (pedido) => pedido.plato._id == plato._id
       );
@@ -600,7 +600,7 @@ ngAfterViewInit(): void {
     this.allCategory();
     this.mesaActual = mesa;
     if (this.mesaActual != undefined) {
-      console.log(this.mesaActual)
+      //console.log(this.mesaActual)
       if (this.mesaActual.estado >= 2) {
         this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
           if(res!=undefined){
@@ -613,7 +613,7 @@ ngAfterViewInit(): void {
       }else{
         this.pedidoTotal = new Pedido()
         this.pedidoForm.reset();
-        console.log("e",this.pedidoTotal);
+        //console.log("e",this.pedidoTotal);
       }
     }
   }
@@ -658,7 +658,7 @@ ngAfterViewInit(): void {
       /* this.pedidoTotal=res as Pedido */
     });
   }
-  
+
   actualizar:any
 actualizarObservacion(){
   clearTimeout(this.actualizar)
@@ -669,7 +669,7 @@ actualizarObservacion(){
     /* this.pedidoTotal=res as Pedido */
   });
   }, 1000);
-  
+
 }
 
   allCategory(){
@@ -678,7 +678,7 @@ actualizarObservacion(){
   }
   filtrarCategoria(event:Event){
     let id = (event.target as HTMLInputElement).value
-    console.log(id)
+    //console.log(id)
     if(id!="all"){
       this.platos = this.allPlatos.filter(pla=>{
         let paso = false
@@ -743,7 +743,7 @@ actualizarObservacion(){
   }
   cambiarValorCambio
   (pedido:Pedido){
-    console.log(pedido);
+    //console.log(pedido);
     let newCambiosEstaticos = this.cambiosEstaticos.map(cE=>{
       if(cE._id==pedido.id_mesa){
         cE.cambio = false;

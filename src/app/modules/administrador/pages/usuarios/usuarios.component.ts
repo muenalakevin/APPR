@@ -20,7 +20,7 @@ import { EditarUsuarioComponent } from '../../components/editarUsuario/editarUsu
   styleUrls: ['./usuarios.component.css']
 })
 export class UsuariosComponent implements OnInit,AfterViewInit {
-  
+
   public displayedColumns = ['usuario_usuario', 'nombre_usuario', 'correo_usuario', 'rol_usuario', 'Editar','Eliminar'];
   public displayedColumnsRoles = ['nombre_rol', 'descripcion_rol'];
 public dataSource = new MatTableDataSource<Usuario>();
@@ -33,10 +33,10 @@ private usuariosSubscription: Subscription;
   constructor(
     private UsuarioService: UsuarioService,
     private RolService:RolService,
-    public dialog: MatDialog, 
+    public dialog: MatDialog,
     public AlertService:AlertService,
     private socket: Socket) { }
-    
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -55,7 +55,7 @@ private usuariosSubscription: Subscription;
     const dialogRef = this.dialog.open(AgregarUsuarioComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     })
   }
   openDialogEditar(usuario:Usuario) {
@@ -64,7 +64,7 @@ private usuariosSubscription: Subscription;
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     })
   }
 
@@ -73,9 +73,9 @@ private usuariosSubscription: Subscription;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  
+
   async ngOnInit() {
-    
+
     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(
       usuarios => {const Data:Usuario[]=<Usuario[]>usuarios
         const newData = Data.map((usuario)=>{
@@ -85,9 +85,9 @@ private usuariosSubscription: Subscription;
         this.usuarios = <Usuario[]>newData;
         this.dataSource.data = newData as Usuario[];
       });
-/*     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(usuarios => console.log(usuarios)); */
-    
-    
+/*     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(usuarios => //console.log(usuarios)); */
+
+
     this.RolService.getRols()
     .subscribe( data => {
       this.roles = <Rol[]>data;
@@ -101,12 +101,12 @@ private usuariosSubscription: Subscription;
           })
         this.usuarios = <Usuario[]>newData;
         this.dataSource.data = newData as Usuario[];
-        
+
       },(error) => this.AlertService.showErrorServidor());
     },(error) => this.AlertService.showErrorServidor())
 
 
-    
+
   }
   ngOnDestroy() {
     this.usuariosSubscription.unsubscribe();
@@ -121,13 +121,13 @@ private usuariosSubscription: Subscription;
            this.AlertService.showErrorServidor()
          });
       } else {
-        console.log("Cancelacion")
+        //console.log("Cancelacion")
 
       }
     });
 
-    
-   
+
+
   }
 
 }

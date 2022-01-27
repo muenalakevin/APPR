@@ -37,13 +37,13 @@ export class EditarUsuarioComponent implements OnInit {
     public dialogRef: MatDialogRef<EditarUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA ) public data: {usuario: Usuario}) {
 
-      console.log(data.usuario)
+
       this.RolService.getRols()
     .subscribe( data => {
-      console.log(data)
+
       this.roles = <Rol[]>data;
       this.rolSelect = <string>this.roles.find((rol:Rol)=> rol.nombre_rol==this.data.usuario.rol_usuario)._id
-      console.log(this.rolSelect)
+      //console.log(this.rolSelect)
       this.usuarioForm = new FormGroup({
 
         _id: new FormControl(this.data.usuario._id, [
@@ -112,7 +112,7 @@ export class EditarUsuarioComponent implements OnInit {
            rol_usuario: this.usuarioForm.value.rol_usuario,
            estado_usuario: this.data.usuario.estado_usuario
       }
-      console.log(usuario)
+      //console.log(usuario)
       this.dialogRef.close()
       this.UsuarioService.editarUsuario(usuario).subscribe(
         (data) =>  this.AlertService.showSuccess('Usuario editado con exito'),

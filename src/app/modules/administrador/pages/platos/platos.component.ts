@@ -133,7 +133,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -141,7 +141,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   openDialogAgregarCategoria() {
     const dialogRef = this.dialog.open(AgregarCategoriaComponent);
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -151,7 +151,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -162,7 +162,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -172,7 +172,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -183,7 +183,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -216,7 +216,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
 
       }
     );
-    
+
     this.opcionRapidaService.getOpcionesRapidas().subscribe((opcionesRapidas) => {
       this.opcionesRapidas = <OpcionRapida[]>opcionesRapidas;
 
@@ -275,13 +275,13 @@ export class PlatosComponent implements OnInit, AfterViewInit {
           }
         );
       } else {
-        console.log('Cancelacion');
+        //console.log('Cancelacion');
       }
     });
   }
   eliminarCategoria(_id: string) {
     const existeCategoria = this.platos.find(plato=>plato.categorias_plato.find(cat=>cat == _id))
-    console.log(existeCategoria);
+    //console.log(existeCategoria);
     if(existeCategoria == null){
       this.AlertService.showConfirm(
         '¿Está seguro que desea eliminar el categoria?'
@@ -295,7 +295,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
             }
           );
         } else {
-          console.log('Cancelacion');
+          //console.log('Cancelacion');
         }
       });
     }else{
@@ -316,7 +316,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
           }
         );
       } else {
-        console.log('Cancelación');
+        //console.log('Cancelación');
       }
     });
   }
@@ -343,10 +343,10 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   }
   slidesEx = ['first', 'second'];
   onSwiper(swiper: any) {
-    console.log(swiper);
+    //console.log(swiper);
   }
   onSlideChange() {
-    console.log('slide change');
+    //console.log('slide change');
   }
   config: SwiperOptions = {
     slidesPerView: 3,

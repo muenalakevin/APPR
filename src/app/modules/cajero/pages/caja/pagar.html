@@ -18,11 +18,11 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field  appearance="outline" class="example-full-width">
-    <mat-label>Transferencia</mat-label>
-    <input type="number" matInput placeholder="Ingrese cantidad transferida." formControlName="transferencia">
+    <mat-label>Cantidad en otras formas de pago</mat-label>
+    <input type="number" matInput placeholder="Ingrese cantidad de otras formas de pago." formControlName="transferencia">
     <mat-error >
       <mat-error *ngIf="PagarForm.controls['transferencia'].errors?.['required']">
-        La cantidad de transferencia mínima es 0.
+        La cantidad de otras formas de pago mínima es 0.
       </mat-error>
     </mat-error>
   </mat-form-field>

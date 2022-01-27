@@ -36,18 +36,18 @@ export class PlatoService {
   }
 
   eliminarPlato(_id:string){
-    console.log(_id);
+
     return this.http.delete(environment.API_URL + '/plato/'+_id,this.httpOptions);
   }
 
-  
+
   editarPlato(plato:Plato){
     return this.http.patch(environment.API_URL + '/plato',{plato},this.httpOptions);
   }
   subirFoto(foto:File){
     const fd=new FormData();
     fd.append('image',foto)
-    console.log(foto);
+
     return this.http.post(environment.API_URL + '/plato/subirFoto',{fd},this.httpOptions);
   }
 }

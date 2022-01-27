@@ -63,6 +63,7 @@ import { EditarOpcionRapidaComponent } from './components/editarOpcionRapida/edi
 import { AddEgresoComponent } from './components/egreso/addEgreso.component';
 import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRealizados.component';
 import { CalificacionTotalComponent } from './charts/calificacionTotal/calificacionTotal.component';
+import { verCajaComponent } from './components/verCaja/verCaja.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { CalificacionTotalComponent } from './charts/calificacionTotal/calificac
     EditarOpcionRapidaComponent,
     AddEgresoComponent,
     PedidosRealizadosComponent,
-    CalificacionTotalComponent
+    CalificacionTotalComponent,
+    verCajaComponent
   ],
   imports: [
     CommonModule,

@@ -24,7 +24,7 @@ export class CategoriaService {
 
   constructor(private http: HttpClient,private StorageService:StorageService,
     private socket:Socket) {}
-    
+
   getCategorias(){
     return this.http.get(environment.API_URL + '/categoria',this.httpOptions);
   }
@@ -34,7 +34,7 @@ export class CategoriaService {
   }
 
   eliminarCategoria(_id:string){
-    console.log(_id);
+
     return this.http.delete(environment.API_URL + '/categoria/'+_id,this.httpOptions);
   }
 

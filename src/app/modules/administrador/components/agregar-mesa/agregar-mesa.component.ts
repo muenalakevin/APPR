@@ -60,7 +60,7 @@ export class AgregarMesaComponent implements OnInit {
         nombre_mesa: this.mesaForm.value.nombre_mesa,
             descripcion_mesa:  this.mesaForm.value.descripcion_mesa,
       }
-      console.log(mesa);
+
       this.dialogRef.close()
       this.MesaService.guardarMesa(mesa).subscribe(
         (data) =>  this.AlertService.showSuccess('Mesa Guardada con exito'),
@@ -68,11 +68,11 @@ export class AgregarMesaComponent implements OnInit {
           this.AlertService.showErrorServidor()
         }
       );
-     
+
     }else{
       this.AlertService.showWarning(mensajeWarnign)
     }
-    
-    
+
+
   }
 }

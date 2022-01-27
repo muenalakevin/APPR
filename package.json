@@ -39,6 +39,7 @@
     "ngx-bootstrap-confirm": "^4.0.3",
     "ngx-socket-io": "^4.1.0",
     "ngx-toastr": "^14.2.1",
+    "pdfkit-table": "^0.1.85",
     "rxjs": "~7.4.0",
     "swiper": "^7.3.1",
     "tslib": "^2.3.0",

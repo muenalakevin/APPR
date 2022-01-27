@@ -51,8 +51,7 @@ configuracionEstilo:configuracionEstilo = new configuracionEstilo();
     }
   state:boolean=false;
   ngOnInit(): void {
-    console.log();
-    
+
     this.state = this.StorageService.isAuthenticated()
     if(window.location.href.split("/")[4]=="calificacion"){
       this.state = false;

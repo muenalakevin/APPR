@@ -22,7 +22,26 @@ export type ChartOptions = {
 })
 export class CalificacionTotalComponent {
   @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  public chartOptions: Partial<ChartOptions>={
+    series: [],
+    chart: {
+      type: "pie"
+    },
+    labels: ["Calificación de 1", "Calificación de 2", "Calificación de 3", "Calificación de 4", "Calificación de 5"],
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: "bottom"
+          }
+        }
+      }
+    ]
+  };;
 
   constructor(
     private CalificacionService:CalificacionService
@@ -34,14 +53,14 @@ export class CalificacionTotalComponent {
     let calificaciones3 = calificacionesTotal.filter(cal => cal.calificacion==3);
     let calificaciones4 = calificacionesTotal.filter(cal => cal.calificacion==4);
     let calificaciones5 = calificacionesTotal.filter(cal => cal.calificacion==5);
-  
-    
+
+
     this.chartOptions = {
       series: [
-        calificaciones1.length, 
-        calificaciones2.length, 
-        calificaciones3.length, 
-        calificaciones4.length, 
+        calificaciones1.length,
+        calificaciones2.length,
+        calificaciones3.length,
+        calificaciones4.length,
         calificaciones5.length],
       chart: {
         type: "pie"

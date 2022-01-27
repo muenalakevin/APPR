@@ -23,7 +23,7 @@ import { EditarUsuarioComponent } from '../../components/editarUsuario/editarUsu
   styleUrls: ['./clientes.component.css']
 })
 export class ClientesComponent implements OnInit,AfterViewInit {
-  
+
   public displayedColumns = ['nombre_cliente', 'apellido_cliente', 'cedRuc_cliente', 'correo_cliente', 'direccion_cliente','telefono_cliente',  'Editar'];
 public dataSource = new MatTableDataSource<Cliente>();
 
@@ -34,10 +34,10 @@ private usuariosSubscription: Subscription;
 
   constructor(
     private ClienteService: ClienteService,
-    public dialog: MatDialog, 
+    public dialog: MatDialog,
     public AlertService:AlertService,
     private socket: Socket) { }
-    
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -55,7 +55,7 @@ private usuariosSubscription: Subscription;
     const dialogRef = this.dialog.open(AgregarClienteComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     })
   }
   openDialogEditar(cliente:Cliente) {
@@ -64,7 +64,7 @@ private usuariosSubscription: Subscription;
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     })
   }
 
@@ -73,16 +73,16 @@ private usuariosSubscription: Subscription;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  
+
   async ngOnInit() {
-    
+
     this.usuariosSubscription = this.ClienteService.getClientes().subscribe(
       clientes => {
         this.clientes =<Cliente[]>clientes
         this.dataSource.data = clientes as Cliente[];
       });
-/*     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(usuarios => console.log(usuarios)); */
-    
+/*     this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(usuarios => //console.log(usuarios)); */
+
   }
   ngOnDestroy() {
     this.usuariosSubscription.unsubscribe();
@@ -97,13 +97,13 @@ private usuariosSubscription: Subscription;
            this.AlertService.showErrorServidor()
          });
       } else {
-        console.log("Cancelacion")
+        //console.log("Cancelacion")
 
       }
     });
 
-    
-   
+
+
   } */
 
 }

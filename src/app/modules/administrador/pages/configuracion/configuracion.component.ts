@@ -217,7 +217,7 @@ ngOnInit(){
           colorDisponible: new FormControl(configuracionEstilo.colorDisponible.color),
       })
       })
-console.log(this.estiloConfig);
+//console.log(this.estiloConfig);
   }
  mayoresMenores(meseroConfig: AbstractControl):ValidationErrors | null {3
 
@@ -282,7 +282,7 @@ console.log(this.estiloConfig);
     this.ConfiguracionService.uploadImageEstilo(this.imageUpload).subscribe(res=>{
 
     })
-    
+
   }else{
     this.AlertService.showWarning('Ingrese todos los datos.')
   }
@@ -296,7 +296,7 @@ console.log(this.estiloConfig);
       disatisfaccion: this.meseroConfig.get('disatisfaccion').value,
       meseroEdit: this.meseroConfig.get('meseroEdit').value,
     }
-    console.log(configuracionMesero)
+    //console.log(configuracionMesero)
     this.ConfiguracionService.updateConfiguracionMesero(configuracionMesero).subscribe(res=>{
       this.AlertService.showSuccess('Configuración de mesero guardado con éxito.')
     })
@@ -305,13 +305,13 @@ console.log(this.estiloConfig);
   }
   }
   EliminarDescuentoIncremento(position:number){
-console.log('delete '+position)
+//console.log('delete '+position)
   }
   EliminarMetodoPago(position:number){
-console.log('delete '+position)
+//console.log('delete '+position)
   }
   guardarConfiguracioCaja(){
-    console.log(this.configuracionCaja.value)
+    //console.log(this.configuracionCaja.value)
     if(this.configuracionCaja.valid){
 
     let configuracionCaja:configuracionCaja ={
@@ -330,8 +330,8 @@ console.log('delete '+position)
   }
   }
   checkValue(event: any){
-    console.log("ss");
-    console.log(event);
+    //console.log("ss");
+    //console.log(event);
  }
  imageUpload:any
  image:any

@@ -38,7 +38,7 @@ export class AgregarUsuarioComponent implements OnInit {
   existEmail=false;
   timeOutEmaul:any
   async ifExistEmail() {
-    console.log("si");
+    //console.log("si");
     clearTimeout(this.timeOutEmaul);
     this.timeOutEmaul = setTimeout(()=>{this.UsuarioService.searchEmail( this.usuarioForm.value.correo_usuario).subscribe(resp=>{
       this.existEmail= true

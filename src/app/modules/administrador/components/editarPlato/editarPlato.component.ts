@@ -64,7 +64,7 @@ export class EditarPlatoComponent implements OnInit {
       const newCategoriSelected = this.data.categorias.filter(
         categoria=> this.data.plato.categorias_plato.find(categoriaId=>categoriaId==categoria._id)
       )
-      console.log(newCategoriSelected);
+
     this.platoForm = new FormGroup({
       _id: new FormControl(this.data.plato._id, [Validators.required]),
       nombre_plato: new FormControl(this.data.plato.nombre_plato, [
@@ -137,7 +137,7 @@ export class EditarPlatoComponent implements OnInit {
   }
 
   toggleSelection(chip: MatChip) {
-    console.log(chip);
+
     chip.toggleSelected();
     if (chip.selected) {
       this.platoForm.value.categorias_plato.push(chip.value);
@@ -169,10 +169,10 @@ export class EditarPlatoComponent implements OnInit {
     }
   }
   onSwiper(swiper: any) {
-    console.log(swiper);
+
   }
   onSlideChange() {
-    console.log('slide change');
+
   }
   config: SwiperOptions = {
     slidesPerView: 3,
@@ -183,7 +183,7 @@ export class EditarPlatoComponent implements OnInit {
   };
   captureFile(event:Event):any{
     const archivoCapturado = <File>(event.target as HTMLInputElement).files[0]
-    this.PlatoService.subirFoto(archivoCapturado).subscribe(res=>console.log(res))
+    this.PlatoService.subirFoto(archivoCapturado).subscribe()
 
   }
 }

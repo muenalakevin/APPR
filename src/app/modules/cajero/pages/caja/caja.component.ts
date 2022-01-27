@@ -224,7 +224,7 @@ export class CajaComponent implements OnInit {
 
         if(pedidoFind!=null){
           this.pedidoTotal = pedidoFind;
-          console.log(this.pedidoTotal.pedidos)
+          //console.log(this.pedidoTotal.pedidos)
           this.pedidoReal = JSON.parse(JSON.stringify(this.pedidoTotal))
           this.pedidoTotal.pedidos =  this.pedidoTotal.pedidos.filter(ped=>ped.cantidad_servida!=0)
         }
@@ -238,7 +238,7 @@ export class CajaComponent implements OnInit {
   seleccionarMesa(mesa: MesaSeleccionada) {
     this.mesaActual = mesa;
     if (this.mesaActual != undefined) {
-      console.log(this.mesaActual.estado);
+      //console.log(this.mesaActual.estado);
       if (this.mesaActual.estado >= 2) {
         this.PedidoService.getPedido2(this.mesaActual._id).subscribe((res) => {
           if(res!=undefined){
@@ -270,7 +270,7 @@ export class CajaComponent implements OnInit {
     this.drawer.toggle()
   }
   exited(event: CdkDragExit<string[]>) {
-    console.log('Exited', event.item.data);
+    //console.log('Exited', event.item.data);
   }
   drop(event: CdkDragDrop<PlatoPedido[]>) {
 
@@ -324,9 +324,9 @@ export class CajaComponent implements OnInit {
   dropAux(event: CdkDragDrop<PlatoPedido[]>) {
 
     let pedido = JSON.parse(JSON.stringify(event.previousContainer.data[event.previousIndex]));
-    console.log(event.previousContainer.data[event.previousIndex].cantidad_lista)
+    //console.log(event.previousContainer.data[event.previousIndex].cantidad_lista)
     if (event.previousContainer === event.container) {
-      console.log("entra");
+      //console.log("entra");
      // moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       if(this.pedidoTotalAux.pedidos.find(pTA=>pTA.plato._id==pedido.plato._id)!= undefined){
@@ -336,7 +336,7 @@ export class CajaComponent implements OnInit {
               ped.cantidad_servida += 1
           }
         })
-        console.log(1,this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida);
+        //console.log(1,this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida);
         if( this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida>1){
         this.pedidoTotal.pedidos.map(ped=>{
           if(ped.plato._id==pedido.plato._id){
@@ -509,7 +509,7 @@ if(month < 10){
               ped.cantidad_servida += 1
           }
         })
-        console.log(1,this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida);
+        //console.log(1,this.pedidoTotal.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida);
         if( this.pedidoTotalAux.pedidos.find(ped=>ped.plato._id==pedido.plato._id).cantidad_servida>1){
         this.pedidoTotalAux.pedidos.map(ped=>{
           if(ped.plato._id==pedido.plato._id){
@@ -552,7 +552,7 @@ if(month < 10){
     this.descuento = 0
 
     this.subTotalIva = 0
-    
+
     this.interes = 0
     this.total = 0
     await this.pedidoTotalAux.pedidos.map(ped=>{
@@ -560,12 +560,12 @@ if(month < 10){
 
     })
     this.descuento = this.descuentoAgregado
-    
+
     this.valor = this.metodoSelected.valor
     if(this.descuentoInteresSelected.descuentoIncremento){
       this.interes += Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
     }else{
-     
+
       this.descuento += Math.abs(this.subTotal * (this.descuentoInteresSelected.porcentaje/100)) + this.descuentoInteresSelected.valor
     }
 
