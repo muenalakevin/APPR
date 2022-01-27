@@ -1,3 +1,5 @@
+import { CajaService } from './../../../../core/services/caja.service';
+import { Caja } from 'src/app/shared/models/caja';
 import { MinutosEntregasClientesComponent } from './../../charts/minutosEntregasClientes/minutosEntregasClientes.component';
 import { Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -11,13 +13,17 @@ import { AddEgresoComponent } from '../../components/egreso/addEgreso.component'
 export class ReportesComponent implements OnInit {
   @ViewChild("viewContainerRef", { read: ViewContainerRef })
   VCR: ViewContainerRef;
+  cuadresCaja:Caja[] = []
   componentsReferences = Array<ComponentRef<MinutosEntregasClientesComponent>>()
   constructor(private CFR: ComponentFactoryResolver,
     public StorageService:StorageService,
     public dialog:MatDialog,
+    public CajaService:CajaService,
     ) {
-
-
+this.CajaService.getCajas().subscribe(cajas=>{
+  this.cuadresCaja = cajas as Caja[]
+})
+ 
   }
   click(){
 

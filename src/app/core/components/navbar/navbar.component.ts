@@ -6,7 +6,7 @@ import { Token } from './../../../shared/models/token';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule, Route } from "@angular/router";
+import { RouterModule, Route, Router } from "@angular/router";
   import { faChartArea,faUser, faHamburger,faUtensils, faCashRegister, faDesktop,faUsers,faSquare,faFish,faCogs,faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import {   } from '@fortawesome/fontawesome-svg-core';
 import { } from '@fortawesome/free-brands-svg-icons';
@@ -36,6 +36,7 @@ configuracionEstilo:configuracionEstilo = new configuracionEstilo();
 
   constructor(private AuthenticationService:AuthenticationService,
     private StorageService:StorageService,
+    private route:Router,
     private configuracionService:ConfiguracionService) {
 
       this.configuracionService.getConfiguracionEstilo().subscribe((configuracionEstilo:any)=>{
@@ -50,8 +51,12 @@ configuracionEstilo:configuracionEstilo = new configuracionEstilo();
     }
   state:boolean=false;
   ngOnInit(): void {
+    console.log();
+    
     this.state = this.StorageService.isAuthenticated()
-
+    if(window.location.href.split("/")[4]=="calificacion"){
+      this.state = false;
+    }
   }
 
   public logout(): void{

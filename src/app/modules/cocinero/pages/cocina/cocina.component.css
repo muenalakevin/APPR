@@ -88,6 +88,9 @@ tr.strikeout td:before {
     height: 100vh;
     overflow: auto;
   }
+  .contenedor-platos{
+    padding-top: 20px;
+  }
 }
 @media (max-width: 575px) {
   .contenido-maximo {
@@ -103,6 +106,11 @@ tr.strikeout td:before {
 .contenedor-platos{
   overflow: auto;
   height: 50vh;
+  padding-top: 20px;
 }
 
+}
+
+.pedidos {
+  padding: 0 5px;
 }

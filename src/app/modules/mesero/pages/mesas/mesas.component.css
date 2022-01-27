@@ -218,12 +218,17 @@ input[type="number"][disabled] {
     height: calc(100vh - 80px);
     overflow-y: scroll;
     position: relative;
+    
+}
+.contenedor-mesas{
+  padding-top: 15px;
 }
 }
 @media (min-width: 500px) {
   .resizer{
     display: none;
   }
+
 }
 @media (max-width: 500px) {
   .resizer{
@@ -252,7 +257,7 @@ input[type="number"][disabled] {
   min-height: 50vh;
 }
 .contenedor-mesas{
-
+  padding-top: 5px;
   height: auto;
 }
 }

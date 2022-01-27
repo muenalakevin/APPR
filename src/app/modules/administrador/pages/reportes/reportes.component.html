@@ -57,7 +57,44 @@
         <app-calificacionTotal></app-calificacionTotal>
     </ng-template>
     </mat-tab>
-
+    <mat-tab label="Cuadres de caja">
+      <ng-template matTabContent>
+        <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Caja chica</th>
+              <th scope="col">Cantidad ingreso</th>
+              <th scope="col">Cantidad egreso</th>
+              <th scope="col">Cierre de caja correcto</th>
+              <th scope="col">Cierre de caja</th>
+              <th scope="col">Sobrante o faltante</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cuadreCaja of cuadresCaja; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{cuadreCaja.createdAt | date }}</td>
+              <td>{{cuadreCaja.caja_chica | currency}}</td>
+              <td>{{cuadreCaja.cantidad_ingreso | currency}}</td>
+              <td>{{cuadreCaja.cantidad_egreso | currency}}</td>
+              <td>{{cuadreCaja.cantidad_efectivo | currency}}</td>
+              <td>{{cuadreCaja.cierre_caja | currency}}</td>
+              <td>{{cuadreCaja.cierre_caja-cuadreCaja.cantidad_efectivo | currency}}</td>
+              <td><button class="btn "   [ngStyle]="{'background-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+80
+                : '#ffb13c'+80
+              }">Ver más detallado</button></td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      </ng-template>
+    </mat-tab>
 </mat-tab-group>
 
 

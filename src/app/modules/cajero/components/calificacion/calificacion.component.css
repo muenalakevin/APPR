@@ -1,9 +1,18 @@
 .calificar{
+    padding: 0;
     height: 200px;
     width: 200px;
     border-radius: 25px;
     font-size: 50px;
     margin: 15px;
+    border: 0;
+}
+.imagenBoton{
+    height: 200px;
+    width: 200px;
+    border-radius: 25px;
+    font-size: 50px;
+    border: 1px solid black;
 }
 .texto{
     font-size: 50px;

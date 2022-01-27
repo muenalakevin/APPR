@@ -52,12 +52,24 @@
                 <li class="menu-item edit">  <a class="dropdown-item" href="#">Editar perfil</a></li>
                 <li class="menu-item logout"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
               </ol>
-            <ol class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cocinero'">
+            <ol
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"  
+            class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cocinero'">
                 <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='Cocina' [icon]="fish" href='/cocina/cocina'></app-iconNavbar></li>
                 <li class="menu-item edit">  <a class="dropdown-item" href="#">Editar perfil</a></li>
                 <li class="menu-item logout"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
               </ol>
-            <ol class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cajerp'">
+            <ol 
+            [ngStyle]="{
+              background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+                ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+                : '#ffb13c'
+            }"  
+            class='menu__content'  *ngIf="usuario.rol.nombre_rol == 'cajero'">
                 <li class="menu-item">  <app-iconNavbar class="px-sm-5 px-1" text='Caja' [icon]="cashRegisterIcon" href='/cajero/caja'></app-iconNavbar></li>
                 <li class="menu-item edit">  <a class="dropdown-item" href="#">Editar perfil</a></li>
                 <li class="menu-item logout"> <a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>

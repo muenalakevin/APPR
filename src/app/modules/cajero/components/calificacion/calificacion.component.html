@@ -20,16 +20,29 @@
   <div class=" d-flex justify-content-center">
     <img  class="img img-fluid" [src]="getLogo()" alt="">
 </div>
-  <h1 class="text-center texto">
-  <b>  Calificación del establecimiento.</b>
-  </h1>
+  <h3 class="text-center texto">
+  <b> ¡Tus valiosos comentarios!</b>
+  </h3>
+  <h3 class="text-center texto">
+  ¿Cómo califica su experiencia en general?
+  </h3>
 
 <div class="d-flex justify-content-center ">
-  <button (click)="calificar(1)" class="calificar">1</button>
-  <button (click)="calificar(2)" class="calificar">2</button>
-  <button (click)="calificar(3)" class="calificar">3</button>
-  <button (click)="calificar(4)" class="calificar">4</button>
-  <button (click)="calificar(5)"class="calificar">5</button>
+  <button (click)="calificar(1)" class="calificar">
+    <img class="imagenBoton" src="../../../../../assets/images/1.png" alt="">
+  </button>
+  <button (click)="calificar(2)" class="calificar">
+    <img class="imagenBoton" src="../../../../../assets/images/2.png" alt="">
+  </button>
+  <button (click)="calificar(3)" class="calificar">
+    <img class="imagenBoton" src="../../../../../assets/images/3.png" alt="">
+  </button>
+  <button (click)="calificar(4)" class="calificar">
+    <img class="imagenBoton" src="../../../../../assets/images/4.png" alt="">
+  </button>
+  <button (click)="calificar(5)"class="calificar">
+    <img class="imagenBoton" src="../../../../../assets/images/5.png" alt="">
+  </button>
 </div>
 </div>
 <div class="contenedor" *ngIf="!enableCalificacion">
