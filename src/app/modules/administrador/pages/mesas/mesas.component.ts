@@ -40,7 +40,7 @@ export class MesasComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<Mesa>();
 
-  private mesasSubscription: Subscription;
+  private mesasSubscription: Subscription =  {} as Subscription;
 
 
   mesas: Mesa[] = [];
@@ -55,8 +55,8 @@ export class MesasComponent implements OnInit {
     private PlatoService: PlatoService
   ) {}
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort = {} as MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

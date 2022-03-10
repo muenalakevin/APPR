@@ -1,3 +1,4 @@
+import { Cliente } from 'src/app/shared/models/cliente';
 import { AlertService } from './../../../../core/services/alert.service';
 import { AgregarUsuarioComponent } from './../../components/agregarUsuario/agregarUsuario.component';
 import { RolService } from './../../../../core/services/rol.service';
@@ -21,12 +22,12 @@ import { EditarUsuarioComponent } from '../../components/editarUsuario/editarUsu
 })
 export class UsuariosComponent implements OnInit,AfterViewInit {
 
-  public displayedColumns = ['usuario_usuario', 'nombre_usuario', 'correo_usuario', 'rol_usuario', 'Editar','Eliminar'];
+  public displayedColumns = ['usuario_usuario', 'nombre_usuario', 'correo_usuario', 'rol_usuario', 'Habilitar', 'Editar','Eliminar'];
   public displayedColumnsRoles = ['nombre_rol', 'descripcion_rol'];
 public dataSource = new MatTableDataSource<Usuario>();
 public dataRoles = new MatTableDataSource<Rol>();
 
-private usuariosSubscription: Subscription;
+private usuariosSubscription: Subscription | undefined;
 
   usuarios: Usuario[]=[];
   roles: Rol[] = []
@@ -37,12 +38,12 @@ private usuariosSubscription: Subscription;
     public AlertService:AlertService,
     private socket: Socket) { }
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort = {} as MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
 
   @ViewChild('paginatorRol', {
     read: MatPaginator
- }) paginatorRol: MatPaginator;
+ }) paginatorRol: MatPaginator = {} as MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -50,6 +51,20 @@ private usuariosSubscription: Subscription;
   }
   public doFilter = (value: Event) => {
     this.dataSource.filter = (value.target as HTMLInputElement).value.trim().toLocaleLowerCase();
+  }
+  changeEnableUser(Usuario:Usuario){
+    (Usuario.estado_usuario==1)?Usuario.estado_usuario=2:Usuario.estado_usuario=1; 
+/*     let rol = this.roles.find(rol=>rol.nombre_rol==Usuario.rol_usuario)?._id;
+    if(rol!=undefined){
+      Usuario.rol_usuario=rol as string
+    } */
+    Usuario.contrasenia_usuario = '';
+
+    this.UsuarioService.editarUsuario(Usuario).subscribe()
+  }
+  getRol(_id:String){
+
+    return this.roles.find(rol=>rol._id==_id)?.nombre_rol;
   }
   openDialogAgregar() {
     const dialogRef = this.dialog.open(AgregarUsuarioComponent);
@@ -76,10 +91,13 @@ private usuariosSubscription: Subscription;
 
   async ngOnInit() {
 
-    this.usuariosSubscription = this.UsuarioService.usuarios.subscribe(
+    this.usuariosSubscription = this.UsuarioService.usuariosAdmin.subscribe(
       usuarios => {const Data:Usuario[]=<Usuario[]>usuarios
         const newData = Data.map((usuario)=>{
-          usuario.rol_usuario = <string> this.roles.find((rol)=>{return rol._id==usuario.rol_usuario}).nombre_rol
+/*           if(this.roles!=undefined){
+            usuario.rol_usuario = <string> this.roles.find((rol)=>{return rol._id==usuario.rol_usuario})?.nombre_rol
+          } */
+          
           return usuario;
         })
         this.usuarios = <Usuario[]>newData;
@@ -91,12 +109,12 @@ private usuariosSubscription: Subscription;
     this.RolService.getRols()
     .subscribe( data => {
       this.roles = <Rol[]>data;
-      this.UsuarioService.getUsers()
+      this.UsuarioService.getUsersAdmin()
       .subscribe( data => {
         const Data:Usuario[]=<Usuario[]>data
 
         const newData = Data.map((usuario)=>{
-            usuario.rol_usuario = <string> this.roles.find((rol)=>{return rol._id==usuario.rol_usuario}).nombre_rol
+         /*    usuario.rol_usuario = <string> this.roles.find((rol)=>{return rol._id==usuario.rol_usuario})?.nombre_rol */
             return usuario;
           })
         this.usuarios = <Usuario[]>newData;
@@ -109,7 +127,7 @@ private usuariosSubscription: Subscription;
 
   }
   ngOnDestroy() {
-    this.usuariosSubscription.unsubscribe();
+    this.usuariosSubscription?.unsubscribe();
   }
 
   eliminarUsuario(_id:string){

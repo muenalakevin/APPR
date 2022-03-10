@@ -13,6 +13,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
 })
 export class CategoriaService {
   categorias = this.socket.fromEvent<CategoriaPlato[]>('categorias');
+  categoriasAdmin = this.socket.fromEvent<CategoriaPlato[]>('categoriasAdmin');
   headers_object = new HttpHeaders({
     'Content-Type': 'application/json',
      'Authorization': "Bearer "+this.StorageService.getCurrentSession()
@@ -28,6 +29,10 @@ export class CategoriaService {
   getCategorias(){
     return this.http.get(environment.API_URL + '/categoria',this.httpOptions);
   }
+  getCategoriasAdmin(){
+    return this.http.get(environment.API_URL + '/categoria/admin',this.httpOptions);
+  }
+
 
   guardarCategoria(categoria:CategoriaPlato){
     return this.http.post(environment.API_URL + '/categoria',{categoria},this.httpOptions);

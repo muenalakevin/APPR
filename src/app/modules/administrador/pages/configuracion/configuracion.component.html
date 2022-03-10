@@ -59,7 +59,7 @@
               formControlName="checkColorAplicacion"
               class="my-auto mx-3"
               (click)="
-                estiloConfig.get('checkColorAplicacion').setValue(!estiloConfig.get('checkColorAplicacion').value)
+                estiloConfig.get('checkColorAplicacion')?.setValue(!estiloConfig.get('checkColorAplicacion')?.value)
               "
             >
             </mat-checkbox>
@@ -70,7 +70,7 @@
               class="form-control form-control-color"
               title="Choose your color"
                 (colorPickerChange)="
-                estiloConfig.get('colorAplicacion').setValue($event)"
+                estiloConfig.get('colorAplicacion')?.setValue($event)"
             />
           </div>
           <hr>
@@ -83,8 +83,7 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorSatisfaccion')
-                  .setValue(!estiloConfig.get('checkColorSatisfaccion').value)
+                  .get('checkColorSatisfaccion')?.setValue(!estiloConfig.get('checkColorSatisfaccion')?.value)
               "
             >
             </mat-checkbox>
@@ -106,9 +105,8 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorSatisfaccionMedia')
-                  .setValue(
-                    !estiloConfig.get('checkColorSatisfaccionMedia').value
+                  .get('checkColorSatisfaccionMedia')?.setValue(
+                    !estiloConfig.get('checkColorSatisfaccionMedia')?.value
                   )
               "
             >
@@ -116,7 +114,7 @@
             <input
               type="color"
               (colorPickerChange)="
-              estiloConfig.get('colorSatisfaccionMedia').setValue($event)
+              estiloConfig.get('colorSatisfaccionMedia')?.setValue($event)
               "
               formControlName="colorSatisfaccionMedia"
               class="form-control form-control-color"
@@ -133,9 +131,8 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorDisatisfaccion')
-                  .setValue(
-                    !estiloConfig.get('checkColorDisatisfaccion').value
+                  .get('checkColorDisatisfaccion')?.setValue(
+                    !estiloConfig.get('checkColorDisatisfaccion')?.value
                   )
               "
             >
@@ -144,7 +141,7 @@
               type="color"
               formControlName="colorDisatisfaccion"
               (colorPickerChange)="
-              estiloConfig.get('colorDisatisfaccion').setValue($event)
+              estiloConfig.get('colorDisatisfaccion')?.setValue($event)
               "
               class="form-control form-control-color"
               title="Choose your color"
@@ -160,8 +157,7 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorFueraTiempo')
-                  .setValue(!estiloConfig.get('checkColorFueraTiempo').value)
+                  .get('checkColorFueraTiempo')?.setValue(!estiloConfig.get('checkColorFueraTiempo')?.value)
               "
             >
             </mat-checkbox>
@@ -169,7 +165,7 @@
               type="color"
               formControlName="colorFueraTiempo"
               (colorPickerChange)="
-              estiloConfig.get('colorFueraTiempo').setValue($event)
+              estiloConfig.get('colorFueraTiempo')?.setValue($event)
               "
               class="form-control form-control-color"
               title="Choose your color"
@@ -183,8 +179,7 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorOcupada')
-                  .setValue(!estiloConfig.get('checkColorOcupada').value)
+                  .get('checkColorOcupada')?.setValue(!estiloConfig.get('checkColorOcupada')?.value)
               "
             >
             </mat-checkbox>
@@ -192,7 +187,7 @@
               type="color"
               formControlName="colorOcupada"
               (colorPickerChange)="
-              estiloConfig.get('colorOcupada').setValue($event)
+              estiloConfig.get('colorOcupada')?.setValue($event)
               "
               class="form-control form-control-color"
               title="Choose your color"
@@ -206,8 +201,7 @@
               class="my-auto mx-3"
               (click)="
               estiloConfig
-                  .get('checkColorDisponible')
-                  .setValue(!estiloConfig.get('checkColorDisponible').value)
+                  .get('checkColorDisponible')?.setValue(!estiloConfig.get('checkColorDisponible')?.value)
               "
             >
             </mat-checkbox>
@@ -215,7 +209,7 @@
               type="color"
               formControlName="colorDisponible"
               (colorPickerChange)="
-              estiloConfig.get('colorDisponible').setValue($event)
+              estiloConfig.get('colorDisponible')?.setValue($event)
               "
               class="form-control form-control-color"
               title="Choose your color"
@@ -226,10 +220,8 @@
           <div class="p-5 w-100">
             <div class="header-preview-mesero w-100"
             [ngStyle]="{
-              background: this.estiloConfig.get(
-                'checkColorAplicacion'
-              ).value
-                ? this.estiloConfig.get('colorAplicacion').value
+              background: this.estiloConfig.get('checkColorAplicacion')?.value
+                ? this.estiloConfig.get('colorAplicacion')?.value
                 : '#ffb13c'
             }"
             ></div>
@@ -243,9 +235,8 @@
                       <fa-icon
                         [ngStyle]="{
                           color: this.estiloConfig.get(
-                            'checkColorSatisfaccion'
-                          ).value
-                            ? this.estiloConfig.get('colorSatisfaccion').value
+                            'checkColorSatisfaccion')?.value
+                            ? this.estiloConfig.get('colorSatisfaccion')?.value
                             : '#28a745'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -256,10 +247,8 @@
                       <fa-icon
                         [ngStyle]="{
                           color: this.estiloConfig.get(
-                            'checkColorSatisfaccionMedia'
-                          ).value
-                            ? this.estiloConfig.get('colorSatisfaccionMedia')
-                                .value
+                            'checkColorSatisfaccionMedia')?.value
+                            ? this.estiloConfig.get('colorSatisfaccionMedia')?.value
                             : '#ffc107'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -270,10 +259,8 @@
                       <fa-icon
                         [ngStyle]="{
                           color: this.estiloConfig.get(
-                            'checkColorDisatisfaccion'
-                          ).value
-                            ? this.estiloConfig.get('colorDisatisfaccion')
-                                .value
+                            'checkColorDisatisfaccion')?.value
+                            ? this.estiloConfig.get('colorDisatisfaccion')?.value
                             : '#dc3545'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -284,9 +271,8 @@
                       <fa-icon
                         [ngStyle]="{
                           color: this.estiloConfig.get(
-                            'checkColorFueraTiempo'
-                          ).value
-                            ? this.estiloConfig.get('colorFueraTiempo').value
+                            'checkColorFueraTiempo')?.value
+                            ? this.estiloConfig.get('colorFueraTiempo')?.value
                             : '#343a40'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -296,9 +282,8 @@
                     <div class="col-3">
                       <fa-icon
                         [ngStyle]="{
-                          color: this.estiloConfig.get('checkColorOcupada')
-                            .value
-                            ? this.estiloConfig.get('colorOcupada').value
+                          color: this.estiloConfig.get('checkColorOcupada')?.value
+                            ? this.estiloConfig.get('colorOcupada')?.value
                             : '#6c757d'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -308,9 +293,8 @@
                     <div class="col-3">
                       <fa-icon
                         [ngStyle]="{
-                          color: this.estiloConfig.get('checkColorDisponible')
-                            .value
-                            ? this.estiloConfig.get('colorDisponible').value
+                          color: this.estiloConfig.get('checkColorDisponible')?.value
+                            ? this.estiloConfig.get('colorDisponible')?.value
                             : '#0d6efd'
                         }"
                         class="display-6 mesa mesa-preview-mesero"
@@ -320,10 +304,8 @@
                   </div>
                 </div>
                 <div class="col-3 pedidos-preview-mesero p-0" [ngStyle]="{
-                  background: this.estiloConfig.get(
-                    'checkColorAplicacion'
-                  ).value
-                    ? this.estiloConfig.get('colorAplicacion').value+24
+                  background: this.estiloConfig.get('checkColorAplicacion')?.value
+                    ? this.estiloConfig.get('colorAplicacion')?.value+24
                     : '#ffb13c'+24
                 }">
                 <div>
@@ -334,9 +316,8 @@
                   <div
                   [ngStyle]="{
                     background: this.estiloConfig.get(
-                      'checkColorAplicacion'
-                    ).value
-                      ? this.estiloConfig.get('colorAplicacion').value+40
+                      'checkColorAplicacion')?.value
+                      ? this.estiloConfig.get('colorAplicacion')?.value+40
                       : '#ffb13c'+40
                   }"
                   class="preview-pedido-mesero"></div>
@@ -386,12 +367,12 @@
           <mat-hint>Ejemplo: 5</mat-hint>
           <mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['required']"
+              *ngIf="this.meseroConfig.get('satisfaccionAdecuada')?.errors?.['required']"
             >
               Satisfacción adecuada requiere un numero.
             </mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('satisfaccionAdecuada').errors?.['mayoresMenores']"
+              *ngIf="this.meseroConfig.get('satisfaccionAdecuada')?.errors?.['mayoresMenores']"
             >
               Satisfacción adecuada no puede ser mayor que satisfacción media e
               insatisfacción.
@@ -411,12 +392,12 @@
           <mat-hint>Ejemplo: 10</mat-hint>
           <mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['required']"
+              *ngIf="this.meseroConfig.get('satisfaccionMedia')?.errors?.['required']"
             >
               Satisfacción media requiere un numero.
             </mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('satisfaccionMedia').errors?.['mayoresMenores']"
+              *ngIf="this.meseroConfig.get('satisfaccionMedia')?.errors?.['mayoresMenores']"
             >
               Satisfacción media no puede ser menor que satisfaccion adecuada y
               mayor que insatisfacción.
@@ -435,12 +416,12 @@
           <mat-hint>Ejemplo: 15</mat-hint>
           <mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['required']"
+              *ngIf="this.meseroConfig.get('disatisfaccion')?.errors?.['required']"
             >
               Insatisfacción requiere un numero.
             </mat-error>
             <mat-error
-              *ngIf="this.meseroConfig.get('disatisfaccion').errors?.['mayoresMenores']"
+              *ngIf="this.meseroConfig.get('disatisfaccion')?.errors?.['mayoresMenores']"
             >
               Insatisfacción no puede ser menor que satisfaccion adecuada y
               satisfaccion media.
@@ -462,8 +443,7 @@
           class="example-margin"
           (click)="
             meseroConfig
-              .get('meseroEdit')
-              .setValue(!meseroConfig.get('meseroEdit').value)
+              .get('meseroEdit')?.setValue(!meseroConfig.get('meseroEdit')?.value)
           "
         >
           Un mesero podrá editar mesas ocupadas por otros meseros.
@@ -513,8 +493,7 @@
             formControlName="checkIVA"
             (click)="
               configuracionCaja
-                .get('checkIVA')
-                .setValue(!configuracionCaja.get('checkIVA').value)
+                .get('checkIVA')?.setValue(!configuracionCaja.get('checkIVA')?.value)
             "
             class="my-auto mx-3"
           >
@@ -788,6 +767,84 @@
           Guardar
         </button>
       </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Correo">
+    <div class="container">
+      <form action="" [formGroup]="smtpConfig">
+        <h2>Configuración de correo</h2>
+        <h3>El protocolo simple de transferencia de correo <b>(SMTP)</b> es un conjunto de comandos que dirige la transferencia de correos electrónicos. Cuando envía un correo, éste se reenvía desde su cliente de correo electrónico <b>(como Microsoft Outlook, Gmail o Mozilla Thunderbird)</b> al servidor SMTP. Luego, el servidor retransmite el correo al servidor de correo electrónico del destinatario.</h3>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Servidor SMTP</mat-label>
+        <input
+          formControlName="servidor"
+          matInput
+          type="text"
+          placeholder="Servidor SMTP"
+        />
+        <mat-hint>Ejemplo: smtp.gmail.com </mat-hint>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Usuario SMTP</mat-label>
+        <input
+          formControlName="usuario"
+          matInput
+          type="text"
+          placeholder="Usuario SMTP"
+        />
+        <mat-hint>Ejemplo: tuemail@gmail.com </mat-hint>
+      </mat-form-field><br>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Contraseña SMTP</mat-label>
+        <input
+          formControlName="contrasenia"
+          matInput
+          type="text"
+          placeholder="Contraseña SMTP"
+        />
+      </mat-form-field><br>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Puerto SMTP</mat-label>
+        <input
+          formControlName="puerto"
+          matInput
+          type="text"
+          placeholder="Puerto SMTP"
+        />
+        <mat-hint>Ejemplo:  465 (SSL)/587 (TLS) </mat-hint>
+      </mat-form-field><br>   
+      <button
+      mat-raised-button
+      color="primary"
+      [ngStyle]="{
+        background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+          : '#ffb13c'+'cc',
+          'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+          : '#ffb13c'
+      }"
+      (click)="guardarSmtp()"
+    >
+      Guardar
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [ngStyle]="{
+        background: this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+'cc'
+          : '#ffb13c'+'cc',
+          'border-color': this.StorageService.getConfiguracionEstilo().colorAplicacion.check
+          ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color
+          : '#ffb13c'
+      }"
+      (click)="testSmtp()"
+    >
+      Test
+    </button>
+    </form>
     </div>
   </mat-tab>
 </mat-tab-group>

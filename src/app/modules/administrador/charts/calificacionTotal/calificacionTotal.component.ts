@@ -21,7 +21,7 @@ export type ChartOptions = {
   styleUrls: ['./calificacionTotal.component.css']
 })
 export class CalificacionTotalComponent {
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent = {} as ChartComponent;
   public chartOptions: Partial<ChartOptions>={
     series: [],
     chart: {

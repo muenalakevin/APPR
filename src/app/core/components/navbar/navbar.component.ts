@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit {
   usersIcon =faUsers;
   fish= faFish
   squareIcon=faSquare
-  usuario:Token
+  usuario:Token = new Token()
 configuracionEstilo:configuracionEstilo = new configuracionEstilo();
 
   constructor(private AuthenticationService:AuthenticationService,

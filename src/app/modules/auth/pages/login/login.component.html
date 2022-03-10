@@ -46,7 +46,7 @@
             La contraseña es requerido.
           </mat-error>
           <mat-error *ngIf="loginForm.controls['contrasenia_usuario'].errors?.['pattern']">
-            Contraseña debe contener 8 caracteres, por lo menos una minuscula, una mayuscula, un numero y un caracter especial.
+            Contraseña debe contener 8 caracteres, por lo menos una minúscula, una mayúscula, un numero y un carácter especial.
           </mat-error>
         </mat-error>
       </mat-form-field>
@@ -55,8 +55,8 @@
   <p *ngIf="error" class="error">
     {{ error }}
   </p>
-  <div class="d-flex flex-column-reverse flex-sm-row justify-content-end">
-  <!-- <button mat-button color="primary">Olvide mi contraseña</button> -->
+  <div class="d-flex flex-column-reverse flex-sm-row justify-content-between">
+  <button mat-button color="primary"  (click)="reset()">Olvide mi contraseña</button>
   <button
 
   [ngStyle]="{

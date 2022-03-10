@@ -1,3 +1,5 @@
+import { Usuario } from 'src/app/shared/models/usuario';
+import { SmtpService } from './../../../../core/services/smtp.service';
 import { configuracionEstilo } from './../../../../shared/models/configuracion.estilo';
 import { FormGroup, Validators, FormControl, FormArray, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +9,7 @@ import { faSquare } from '@fortawesome/free-solid-svg-icons';
 import { configuracionCaja } from 'src/app/shared/models/configuracion.caja';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { SMTP } from 'src/app/shared/models/smtp';
 
 @Component({
   selector: 'app-configuracion',
@@ -27,6 +30,12 @@ export class ConfiguracionComponent implements OnInit {
     ]),
     meseroEdit: new FormControl(""),
 
+})
+smtpConfig:FormGroup = this.formBuilder.group({
+  servidor: new FormControl(""),
+    usuario: new FormControl(""),
+    contrasenia: new FormControl(""),
+    puerto: new FormControl(""),
 })
   estiloConfig:FormGroup = this.formBuilder.group({
     checkColorAplicacion: new FormControl(false, [
@@ -76,6 +85,7 @@ configuracionCaja = this.formBuilder.group({
   constructor(
     private AlertService:AlertService,
     private formBuilder: FormBuilder,
+    private SmtpService: SmtpService,
     private ConfiguracionService: ConfiguracionService,
     public StorageService: StorageService,
     ) { }
@@ -125,8 +135,8 @@ configuracionCaja = this.formBuilder.group({
     return 'data:image/jpeg;base64,'+this.banner
 
   }
-  banner:string
-  img:string
+  banner:string =''
+  img:string = ''
 ngOnInit(){
   this.ConfiguracionService.getLogo().subscribe(res=>{
     this.img=res as string;
@@ -134,6 +144,14 @@ ngOnInit(){
   this.ConfiguracionService.getBanner().subscribe(res=>{
     this.banner=res as string;
   })
+  this.SmtpService.getSMTP().subscribe((res:any)=>{
+    this.smtpConfig = this.formBuilder.group({
+      servidor: new FormControl(res.servidor),
+        usuario: new FormControl(res.usuario),
+        contrasenia: new FormControl(res.contrasenia),
+        puerto: new FormControl(res.puerto),
+    })
+  });
     this.ConfiguracionService.getConfiguracionCaja().subscribe(res=>{
       let configuracionCaja = res as configuracionCaja
       this.configuracionCaja = this.formBuilder.group({
@@ -219,57 +237,94 @@ ngOnInit(){
       })
 //console.log(this.estiloConfig);
   }
- mayoresMenores(meseroConfig: AbstractControl):ValidationErrors | null {3
+ mayoresMenores(meseroConfig: AbstractControl):ValidationErrors|null {
 
-  let satisfaccionAdecuada = meseroConfig.get('satisfaccionAdecuada').value;
-  let satisfaccionMedia = meseroConfig.get('satisfaccionMedia').value;
-  let disatisfaccion = meseroConfig.get('disatisfaccion').value;
-  meseroConfig.get('satisfaccionAdecuada').setErrors( null)
-  meseroConfig.get('satisfaccionMedia').setErrors( null)
-  meseroConfig.get('disatisfaccion').setErrors( null)
+  let satisfaccionAdecuada = meseroConfig.get('satisfaccionAdecuada')?.value;
+  let satisfaccionMedia = meseroConfig.get('satisfaccionMedia')?.value;
+  let disatisfaccion = meseroConfig.get('disatisfaccion')?.value;
+  meseroConfig.get('satisfaccionAdecuada')?.setErrors( null)
+  meseroConfig.get('satisfaccionMedia')?.setErrors( null)
+  meseroConfig.get('disatisfaccion')?.setErrors( null)
    if(!(satisfaccionAdecuada<satisfaccionMedia && satisfaccionAdecuada<disatisfaccion)){
-    meseroConfig.get('satisfaccionAdecuada').setErrors( {mayoresMenores: true} )
+    meseroConfig.get('satisfaccionAdecuada')?.setErrors( {mayoresMenores: true} )
    }
    if(!(satisfaccionMedia>satisfaccionAdecuada && satisfaccionMedia<disatisfaccion)){
-    meseroConfig.get('satisfaccionMedia').setErrors( {mayoresMenores: true} )
+    meseroConfig.get('satisfaccionMedia')?.setErrors( {mayoresMenores: true} )
    }
 
    if(!(disatisfaccion>satisfaccionAdecuada && disatisfaccion>satisfaccionMedia)){
-    meseroConfig.get('disatisfaccion').setErrors( {mayoresMenores: true} )
+    meseroConfig.get('disatisfaccion')?.setErrors( {mayoresMenores: true} )
    }
-  return null
+    return null
+  }
+  guardarSmtp(){
+
+
+      let smtp:SMTP ={
+        _id : '',
+        servidor: this.smtpConfig.get('servidor')?.value,
+        usuario: this.smtpConfig.get('usuario')?.value,
+        contrasenia: this.smtpConfig.get('contrasenia')?.value,
+        puerto: this.smtpConfig.get('puerto')?.value,
+      }
+      //console.log(configuracionMesero)
+
+      this.SmtpService.editaSMTP(smtp).subscribe(res=>{
+
+        this.AlertService.showSuccess('Configuración de correo guardado con éxito.')
+      })
+
+  }
+  testSmtp(){
+    let smtp:SMTP ={
+      _id : '',
+      servidor: this.smtpConfig.get('servidor')?.value,
+      usuario: this.smtpConfig.get('usuario')?.value,
+      contrasenia: this.smtpConfig.get('contrasenia')?.value,
+      puerto: this.smtpConfig.get('puerto')?.value,
+    }
+    this.SmtpService.testSMTP(smtp).subscribe(res=>{
+      this.AlertService.showSuccess('Test de correo exitoso.')
+    },err=>{
+      if(err.status==200){
+        this.AlertService.showSuccess('Test de correo exitoso.')
+      }else{
+
+        this.AlertService.showError('Error al realizar el test')
+      }
+    })
   }
   guardarConfiguracionEstilo(){
     if(this.estiloConfig.valid){
 
     let configuracionEstilo:configuracionEstilo ={
       colorAplicacion: {
-        check:this.estiloConfig.get('checkColorAplicacion').value,
-        color:this.estiloConfig.get('colorAplicacion').value,
+        check:this.estiloConfig.get('checkColorAplicacion')?.value,
+        color:this.estiloConfig.get('colorAplicacion')?.value,
       },
       colorSatisfaccion: {
-        check:this.estiloConfig.get('checkColorSatisfaccion').value,
-        color:this.estiloConfig.get('colorSatisfaccion').value,
+        check:this.estiloConfig.get('checkColorSatisfaccion')?.value,
+        color:this.estiloConfig.get('colorSatisfaccion')?.value,
       },
       colorSatisfaccionMedia: {
-        check:this.estiloConfig.get('checkColorSatisfaccionMedia').value,
-        color:this.estiloConfig.get('colorSatisfaccionMedia').value,
+        check:this.estiloConfig.get('checkColorSatisfaccionMedia')?.value,
+        color:this.estiloConfig.get('colorSatisfaccionMedia')?.value,
       },
       colorDisatisfaccion: {
-        check:this.estiloConfig.get('checkColorDisatisfaccion').value,
-        color:this.estiloConfig.get('colorDisatisfaccion').value,
+        check:this.estiloConfig.get('checkColorDisatisfaccion')?.value,
+        color:this.estiloConfig.get('colorDisatisfaccion')?.value,
       },
       colorFueraTiempo: {
-        check:this.estiloConfig.get('checkColorFueraTiempo').value,
-        color:this.estiloConfig.get('colorFueraTiempo').value,
+        check:this.estiloConfig.get('checkColorFueraTiempo')?.value,
+        color:this.estiloConfig.get('colorFueraTiempo')?.value,
       },
       colorOcupada: {
-        check:this.estiloConfig.get('checkColorOcupada').value,
-        color:this.estiloConfig.get('colorOcupada').value,
+        check:this.estiloConfig.get('checkColorOcupada')?.value,
+        color:this.estiloConfig.get('colorOcupada')?.value,
       },
       colorDisponible: {
-        check:this.estiloConfig.get('checkColorDisponible').value,
-        color:this.estiloConfig.get('colorDisponible').value,
+        check:this.estiloConfig.get('checkColorDisponible')?.value,
+        color:this.estiloConfig.get('colorDisponible')?.value,
       },
       }
 
@@ -291,10 +346,10 @@ ngOnInit(){
     if(this.meseroConfig.valid){
 
     let configuracionMesero:configuracionMesero ={
-      satisfaccionAdecuada: Number(this.meseroConfig.get('satisfaccionAdecuada').value),
-      satisfaccionMedia: this.meseroConfig.get('satisfaccionMedia').value,
-      disatisfaccion: this.meseroConfig.get('disatisfaccion').value,
-      meseroEdit: this.meseroConfig.get('meseroEdit').value,
+      satisfaccionAdecuada: Number(this.meseroConfig.get('satisfaccionAdecuada')?.value),
+      satisfaccionMedia: this.meseroConfig.get('satisfaccionMedia')?.value,
+      disatisfaccion: this.meseroConfig.get('disatisfaccion')?.value,
+      meseroEdit: this.meseroConfig.get('meseroEdit')?.value,
     }
     //console.log(configuracionMesero)
     this.ConfiguracionService.updateConfiguracionMesero(configuracionMesero).subscribe(res=>{
@@ -315,11 +370,11 @@ ngOnInit(){
     if(this.configuracionCaja.valid){
 
     let configuracionCaja:configuracionCaja ={
-      iva: this.configuracionCaja.get('iva').value,
-      checkIVA: this.configuracionCaja.get('checkIVA').value,
-      metodosPago: this.configuracionCaja.get('metodosPago').value,
-      descuentosIntereses: this.configuracionCaja.get('descuentosIntereses').value,
-      cierreCaja: this.configuracionCaja.get('cierreCaja').value,
+      iva: this.configuracionCaja.get('iva')?.value,
+      checkIVA: this.configuracionCaja.get('checkIVA')?.value,
+      metodosPago: this.configuracionCaja.get('metodosPago')?.value,
+      descuentosIntereses: this.configuracionCaja.get('descuentosIntereses')?.value,
+      cierreCaja: this.configuracionCaja.get('cierreCaja')?.value,
 
     }
     this.ConfiguracionService.updateConfiguracionCaja(configuracionCaja).subscribe(res=>{

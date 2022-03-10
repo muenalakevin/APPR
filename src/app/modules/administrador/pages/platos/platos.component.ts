@@ -1,9 +1,9 @@
+import { CategoriaPlato } from 'src/app/shared/models/categoriaPlato';
 import { EditarPlatoComponent } from './../../components/editarPlato/editarPlato.component';
 import { Plato } from './../../../../shared/models/plato';
 import { PlatoService } from './../../../../core/services/plato.service';
 import { AgregarPlatoComponent } from './../../components/agregar-plato/agregar-plato.component';
 
-import { CategoriaPlato } from './../../../../shared/models/categoriaPlato';
 import { EditarCategoriaComponent } from './../../components/editarCategoria/editarCategoria.component';
 import { AgregarCategoriaComponent } from './../../components/agregarCategoria/agregarCategoria.component';
 import { CategoriaService } from './../../../../core/services/categoria.service';
@@ -48,12 +48,14 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     'receta_plato',
     'precio_plato',
     'categorias_plato',
+    'Habilitar',
     'Editar',
     'Eliminar',
   ];
   public displayedColumnsCategorias = [
     'nombre_categoria',
     'descripcion_categiria',
+    'Habilitar',
     'Editar',
     'Eliminar',
   ];
@@ -66,9 +68,9 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   public dataCategorias = new MatTableDataSource<CategoriaPlato>();
   public dataOpcionesRapidas = new MatTableDataSource<OpcionRapida>();
 
-  private platosSubscription: Subscription;
-  private categoriasubscription: Subscription;
-  private opcionesRapidasSubscription: Subscription;
+  private platosSubscription: Subscription = {} as Subscription;
+  private categoriasubscription: Subscription= {} as Subscription;
+  private opcionesRapidasSubscription: Subscription = {} as Subscription;
 
   platos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
@@ -86,21 +88,21 @@ export class PlatosComponent implements OnInit, AfterViewInit {
     private ngZone: NgZone,
   ) {}
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort = {} as MatSort;
   @ViewChild('sortCategoria', {
     read: MatSort
- }) sortCategoria: MatSort;
+ }) sortCategoria: MatSort = {} as MatSort;
   @ViewChild('sortOpcionRapida', {
     read: MatSort
- }) sortOpcionRapida: MatSort;
+ }) sortOpcionRapida: MatSort = {} as MatSort;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
   @ViewChild('paginatorCategoria', {
     read: MatPaginator
- }) paginatorCategoria: MatPaginator;
+ }) paginatorCategoria: MatPaginator = {} as MatPaginator;
   @ViewChild('paginatorOpcionRapida', {
     read: MatPaginator
- }) paginatorOpcionRapida: MatPaginator;
+ }) paginatorOpcionRapida: MatPaginator = {} as MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -144,7 +146,24 @@ export class PlatosComponent implements OnInit, AfterViewInit {
       //console.log(`Dialog result: ${result}`);
     });
   }
-
+  changeEnablePlato(Plato:Plato){
+    (Plato.estado_plato==1)?Plato.estado_plato=2:Plato.estado_plato=1; 
+    /*     let rol = this.roles.find(rol=>rol.nombre_rol==Usuario.rol_usuario)?._id;
+        if(rol!=undefined){
+          Usuario.rol_usuario=rol as string
+        } */
+    
+        this.PlatoService.editarPlato(Plato).subscribe()
+  }
+  changeEnableCategoria(CategoriaPlato:CategoriaPlato){
+    (CategoriaPlato.estado_categoria==1)?CategoriaPlato.estado_categoria=2:CategoriaPlato.estado_categoria=1; 
+    /*     let rol = this.roles.find(rol=>rol.nombre_rol==Usuario.rol_usuario)?._id;
+        if(rol!=undefined){
+          Usuario.rol_usuario=rol as string
+        } */
+    
+        this.CategoriaService.editarCategoria(CategoriaPlato).subscribe()
+  }
   openDialogAgregarOpcionRapida() {
     const dialogRef = this.dialog.open(AgregarOpcionRapidaComponent, {
       data: { opcionesRapidas: this.opcionesRapidas },
@@ -202,12 +221,12 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
-    this.CategoriaService.getCategorias().subscribe((categorias) => {
+    this.CategoriaService.getCategoriasAdmin().subscribe((categorias) => {
       this.categorias = <CategoriaPlato[]>categorias;
 
       this.dataCategorias.data = categorias as CategoriaPlato[];
     });
-    this.categoriasubscription = this.CategoriaService.categorias.subscribe(
+    this.categoriasubscription = this.CategoriaService.categoriasAdmin.subscribe(
       (categorias) => {
         const Data: CategoriaPlato[] = <CategoriaPlato[]>categorias;
         this.categorias = <CategoriaPlato[]>Data;
@@ -233,12 +252,12 @@ export class PlatosComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.PlatoService.getPlatos().subscribe(platos => {
+    this.PlatoService.getPlatosAdmin().subscribe(platos => {
       this.platos= platos as Plato[];
       this.dataSource.data =  platos as Plato[] ;
 
     });
-    this.platosSubscription = this.PlatoService.platos.subscribe(
+    this.platosSubscription = this.PlatoService.platosAdmin.subscribe(
       (platos) => {
         this.platos= platos as Plato[];
         this.dataSource.data = platos as Plato[];
@@ -322,7 +341,7 @@ export class PlatosComponent implements OnInit, AfterViewInit {
   }
   cambioIdForName(id:string){
 
-    return this.categorias.find(categoria=> categoria._id ==id ).nombre_categoria
+    return this.categorias.find(categoria=> categoria._id ==id )?.nombre_categoria
   }
 
   existAllCategory(){

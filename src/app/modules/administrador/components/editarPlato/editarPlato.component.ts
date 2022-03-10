@@ -89,13 +89,13 @@ export class EditarPlatoComponent implements OnInit {
   ngOnInit() {}
   submitForm() {
     let mensajeWarnign: string = '';
-    if (this.platoForm.get('nombre_plato').errors?.['required']) {
+    if (this.platoForm.get('nombre_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta nombre de plato. <br>';
     }
-    if (this.platoForm.get('descripcion_plato').errors?.['required']) {
+    if (this.platoForm.get('descripcion_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta descripción de plato. <br/>';
     }
-    if (this.platoForm.get('receta_plato').errors?.['required']) {
+    if (this.platoForm.get('receta_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta receta de plato. <br/>';
     }
 
@@ -150,7 +150,7 @@ export class EditarPlatoComponent implements OnInit {
   }
 
   validatoMinLength() {
-    return this.platoForm.get('categorias_plato').value.length == 0;
+    return this.platoForm.get('categorias_plato')?.value.length == 0;
   }
   isSelected(categoria: CategoriaPlato) {
     const categoriaFind = this.platoForm.value.categorias_plato.find((categoriaId:CategoriaPlato)=>categoriaId._id==categoria._id)
@@ -182,8 +182,12 @@ export class EditarPlatoComponent implements OnInit {
     scrollbar: { draggable: true },
   };
   captureFile(event:Event):any{
-    const archivoCapturado = <File>(event.target as HTMLInputElement).files[0]
-    this.PlatoService.subirFoto(archivoCapturado).subscribe()
+    let file = (event.target as HTMLInputElement)
+    if(file!=null){
+      const archivoCapturado = file.files![0]
+      this.PlatoService.subirFoto(archivoCapturado).subscribe()
+    }
+   
 
   }
 }

@@ -28,7 +28,7 @@ export class ClientesComponent implements OnInit,AfterViewInit {
 public dataSource = new MatTableDataSource<Cliente>();
 
 
-private usuariosSubscription: Subscription;
+private usuariosSubscription: Subscription  = {} as Subscription;
 
   clientes: Cliente[]=[];
 
@@ -38,12 +38,12 @@ private usuariosSubscription: Subscription;
     public AlertService:AlertService,
     private socket: Socket) { }
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort  = {} as MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
 
   @ViewChild('paginatorRol', {
     read: MatPaginator
- }) paginatorRol: MatPaginator;
+ }) paginatorRol: MatPaginator = {} as MatPaginator;
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

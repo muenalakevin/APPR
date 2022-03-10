@@ -26,7 +26,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 }}; */
 
 
-const config: SocketIoConfig = { url: "http://3.129.61.154:3000" , options: {
+const config: SocketIoConfig = { url: "http://3.23.157.27:3000" , options: {
   transportOptions: {
     polling: {
       extraHeaders: {

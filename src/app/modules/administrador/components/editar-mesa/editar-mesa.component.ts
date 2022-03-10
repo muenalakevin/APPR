@@ -60,10 +60,10 @@ export class EditarMesaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.mesaForm.get('nombre_mesa').errors?.['required']){
+    if(this.mesaForm.get('nombre_mesa')?.errors?.['required']){
       mensajeWarnign += "Falta nombre de categoría. <br>"
     }
-    if(this.mesaForm.get('descripcion_mesa').errors?.['required']){
+    if(this.mesaForm.get('descripcion_mesa')?.errors?.['required']){
       mensajeWarnign += "Falta descripcion de categoría. <br/>"
     }
     

@@ -55,10 +55,10 @@ export class EditarCategoriaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.categoriaForm.get('nombre_categoria').errors?.['required']){
+    if(this.categoriaForm.get('nombre_categoria')?.errors?.['required']){
       mensajeWarnign += "Falta nombre de categoría. <br>"
     }
-    if(this.categoriaForm.get('descripcion_categoria').errors?.['required']){
+    if(this.categoriaForm.get('descripcion_categoria')?.errors?.['required']){
       mensajeWarnign += "Falta descripcion de categoría. <br/>"
     }
 

@@ -23,7 +23,7 @@ export type ChartOptions = {
   styleUrls: ['./platosDia.component.css']
 })
 export class PlatosDiaComponent {
-  @ViewChild("chart") chart: PlatosDiaComponent;
+  @ViewChild("chart") chart: PlatosDiaComponent | undefined;
   public chartOptions: Partial<ChartOptions> = {
     series: [
       {
@@ -91,18 +91,22 @@ sacarDatosHoras(pedidos:Pedido[],dia:number){
       let valor = 0
 
       pedidos.map(p=>{
-        let numeroDia = new Date(p.createdAt).getDay();
-        if(numeroDia==dia ){
-          let horaInicialPedido = new Date(p.createdAt).getHours();
-
-          if(horaInicialPedido==i){
-            p.pedidos.map(pe=>{
-
-              valor += pe.cantidad_pedido;
-            })
-
+        if(p.createdAt!=undefined){
+          let numeroDia = new Date(p.createdAt).getDay();
+          if(numeroDia==dia ){
+            let horaInicialPedido = new Date(p.createdAt).getHours();
+  
+            if(horaInicialPedido==i){
+              p.pedidos?.map(pe=>{
+  
+                valor += pe.cantidad_pedido;
+              })
+  
+            }
           }
         }
+       
+        
 
       })
       series.push({

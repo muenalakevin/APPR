@@ -13,7 +13,7 @@ import { verCajaComponent } from '../../components/verCaja/verCaja.component';
 })
 export class ReportesComponent implements OnInit {
   @ViewChild("viewContainerRef", { read: ViewContainerRef })
-  VCR: ViewContainerRef;
+  VCR: ViewContainerRef = {} as ViewContainerRef;
   cuadresCaja:Caja[] = []
   componentsReferences = Array<ComponentRef<MinutosEntregasClientesComponent>>()
   constructor(private CFR: ComponentFactoryResolver,

@@ -47,7 +47,7 @@ export class AgregarMesaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.mesaForm.get('nombre_mesa').errors?.['required']){
+    if(this.mesaForm.get('nombre_mesa')?.errors?.['required']){
       mensajeWarnign += "Falta nombre de categoría. <br>"
     }
 

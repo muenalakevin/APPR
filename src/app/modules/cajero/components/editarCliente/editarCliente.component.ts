@@ -50,7 +50,7 @@ export class EditarClienteComponent implements OnInit {
 
   }
   MatchCedula(clienteForm: AbstractControl):ValidationErrors | null {
-    let cedula = clienteForm.get('cedRuc_cliente').value; // to get value in input tag
+    let cedula = clienteForm.get('cedRuc_cliente')?.value; // to get value in input tag
     if(cedula.length==13){
       cedula = cedula.substring(0,10)
     }
@@ -115,18 +115,18 @@ export class EditarClienteComponent implements OnInit {
           return null
         }else{
           /* //console.log('la cedula:' + cedula + ' es incorrecta'); */
-          clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+          clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
         }
 
       }else{
         // imprimimos en consola si la region no pertenece
        /*  //console.log('Esta cedula no pertenece a ninguna region'); */
-       clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+       clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
       }
    }else{
       //imprimimos en consola si la cedula tiene mas o menos de 10 digitos
       /* //console.log('Esta cedula tiene menos de 10 Digitos'); */
-      clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+      clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
    }
 
 

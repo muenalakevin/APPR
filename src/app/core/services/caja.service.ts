@@ -42,7 +42,7 @@ export class CajaService {
     return this.http.post(environment.API_URL + '/caja',{caja},this.httpOptions);
 
   }
-  actualizarCaja(caja:Caja){
+  actualizarCaja(caja:Caja|null){
     return this.http.patch(environment.API_URL + '/caja',{caja},this.httpOptions);
   }
 

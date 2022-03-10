@@ -14,6 +14,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
 export class PlatoService {
 
   platos = this.socket.fromEvent<Plato[]>('platos');
+  platosAdmin = this.socket.fromEvent<Plato[]>('platosAdmin');
 
   headers_object = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -29,6 +30,10 @@ export class PlatoService {
 
   getPlatos(){
     return this.http.get(environment.API_URL + '/plato',this.httpOptions);
+  }
+
+  getPlatosAdmin(){
+    return this.http.get(environment.API_URL + '/plato/admin',this.httpOptions);
   }
 
   guardarPlato(plato:Plato){

@@ -26,7 +26,7 @@
         <input matInput placeholder="Ingrese Cedula/Ruc de cliente" formControlName="cedRuc_cliente">
         <mat-error >
           <mat-error *ngIf="clienteForm.controls['cedRuc_cliente'].errors?.['required']">
-            El Cedula/Ruc es requerido.
+            La cedula/Ruc es requerido.
           </mat-error>
           <mat-error *ngIf="clienteForm.controls['cedRuc_cliente'].errors?.['MatchCedula']">
             La cedula/Ruc no es valida.
@@ -48,6 +48,15 @@
         <mat-error >
           <mat-error *ngIf="clienteForm.controls['direccion_cliente'].errors?.['required']">
             La dirección es requerido.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field  appearance="outline" class="example-full-width">
+        <mat-label>Teléfono</mat-label>
+        <input matInput placeholder="Ingrese teléfono de cliente" formControlName="telefono_cliente">
+        <mat-error >
+          <mat-error *ngIf="clienteForm.controls['telefono_cliente'].errors?.['required']">
+            El teléfono es requerido.
           </mat-error>
         </mat-error>
       </mat-form-field>

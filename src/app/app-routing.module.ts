@@ -10,6 +10,7 @@ import { PageNotFoundComponent } from './core/helper/page-not-found/page-not-fou
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './core/components/home/home.component';
+
 const routes: Routes = [
   {path:'',redirectTo:'/auth/login',pathMatch:'full'},
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),canLoad:[AuthGuard]  },

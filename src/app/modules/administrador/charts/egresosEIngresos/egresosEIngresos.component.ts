@@ -44,13 +44,13 @@ export type ChartOptions = {
   styleUrls: ['./egresosEIngresos.component.css']
 })
 export class EgresosEIngresosComponent  {
-  public unique_key: number;
+  public unique_key: number = 0;
   tipoSeleccion = 1;
   tipoFiltrado = 1;
   paso = 1
   mesero = "";
   meseros:Usuario[]=[]
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent = {} as ChartComponent;
   public chartOptions: Partial<ChartOptions>={
     series: [
       {
@@ -96,14 +96,14 @@ export class EgresosEIngresosComponent  {
 
 
 
-fechaInicio:Date
+fechaInicio:Date = new Date()
 fechaFin:Date = new Date(Date.now())
 pedidos:Pedido[]=[]
 egresos:Egreso[] = []
-configuracionMesero:configuracionMesero
+configuracionMesero:configuracionMesero = new configuracionMesero()
 configuracionEstilo:configuracionEstilo = new configuracionEstilo()
 meses:string[] = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-@ViewChild('picker') picker: MatDateRangePicker<Moment>;
+@ViewChild('picker') picker: MatDateRangePicker<Moment> = {} as MatDateRangePicker<Moment>;
 arrayConstruidoDeFechas:string[]=[]
 
 
@@ -112,7 +112,7 @@ chosenYearHandler(normalizedYear: Moment, datepicker: MatDateRangePicker<Moment>
   if(this.tipoFiltrado == 3){
     if(this.paso==1){
       this.fechaInicio = new Date(normalizedYear.year(),0)
-      this.fechaFin = null
+      this.fechaFin = new Date()
       setTimeout(function(){
         datepicker.open()
       },100);
@@ -126,7 +126,7 @@ chosenYearHandler(normalizedYear: Moment, datepicker: MatDateRangePicker<Moment>
     }else if(this.tipoFiltrado == 2){
       if(this.paso==1){
         this.fechaInicio = new Date(normalizedYear.year(),0)
-        this.fechaFin = null
+        this.fechaFin = new Date()
       }else{
         this.fechaFin = new Date(normalizedYear.year(),0)
       }
@@ -627,8 +627,8 @@ orgValueChange(){
 
     let cajas= res as Caja[]
 
-    let ingresos
-    let egresos
+    let ingresos:any = []
+    let egresos:any = []
 
 
     if(this.tipoFiltrado==1){

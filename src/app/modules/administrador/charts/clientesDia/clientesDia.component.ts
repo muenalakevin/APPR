@@ -30,11 +30,11 @@ export type ChartOptions = {
 })
 export class ClientesDiaComponent {
   fechaInicio:Date = new Date('2021-04-11T10:20:30Z');
-  top:number;
+  top:number = 0;
   fechaFin:Date = new Date(Date.now());
   clientes: Cliente[]=[];
   usuariosSubscription
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent = {} as ChartComponent;
   public chartOptions: Partial<ChartOptions> ={
     series: [
       {

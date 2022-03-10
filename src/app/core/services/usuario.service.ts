@@ -11,6 +11,7 @@ import { Usuario } from 'src/app/shared/models/usuario';
 })
 export class UsuarioService {
   usuarios = this.socket.fromEvent<Usuario[]>('usuarios');
+  usuariosAdmin = this.socket.fromEvent<Usuario[]>('usuariosAdmin');
 
   headers_object = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -25,6 +26,10 @@ export class UsuarioService {
     private socket:Socket) {}
   getUsers(){
     return this.http.get(environment.API_URL + '/usuario',this.httpOptions);
+  }
+
+  getUsersAdmin(){
+    return this.http.get(environment.API_URL + '/usuario/admin',this.httpOptions);
   }
 
   getUsersMeseros(){
@@ -50,7 +55,9 @@ export class UsuarioService {
     return this.http.patch(environment.API_URL + '/usuario',{usuario},this.httpOptions);
   }
 
-
+  restarPassword(code:string,contrasenia_usuario:string,repeatContrasenia_usuario:string){
+    return this.http.post(environment.API_URL + '/usuario/resetUser',{code,contrasenia_usuario,repeatContrasenia_usuario},this.httpOptions);
+  }
 
 /*
   getUserById(id: number): Observable<ApiResponse> {

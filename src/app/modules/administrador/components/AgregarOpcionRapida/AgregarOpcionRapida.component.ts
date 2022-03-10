@@ -36,7 +36,7 @@ export class AgregarOpcionRapidaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.opcionRapidaForm.get('frase_opcionRapida').errors?.['required']){
+    if(this.opcionRapidaForm.get('frase_opcionRapida')?.errors?.['required']){
       mensajeWarnign += "Falta frase de categoría. <br>"
     }
 

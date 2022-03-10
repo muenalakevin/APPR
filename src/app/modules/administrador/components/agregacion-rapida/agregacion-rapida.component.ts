@@ -47,7 +47,7 @@ export class AgregacionRapidaComponent implements OnInit {
   }
   submitForm(){
     let mensajeWarnign:string = ''
-    if(this.mesaForm.get('numero_Mesa').errors?.['required']){
+    if(this.mesaForm.get('numero_Mesa')?.errors?.['required']){
       mensajeWarnign += "Falta nombre de categoría. <br>"
     }
     

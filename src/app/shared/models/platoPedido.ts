@@ -9,7 +9,7 @@ export class PlatoPedido {
         
 
     ){
-        this.plato=null,
+        this.plato=new Plato(),
         this.cantidad_lista=0
         this.cantidad_pedido=0
         this.cantidad_servida=0

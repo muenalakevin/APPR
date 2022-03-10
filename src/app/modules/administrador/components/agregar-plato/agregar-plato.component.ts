@@ -76,13 +76,13 @@ export class AgregarPlatoComponent implements OnInit {
   ngOnInit() {}
   submitForm() {
     let mensajeWarnign: string = '';
-    if (this.platoForm.get('nombre_plato').errors?.['required']) {
+    if (this.platoForm.get('nombre_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta nombre de plato. <br>';
     }
-    if (this.platoForm.get('descripcion_plato').errors?.['required']) {
+    if (this.platoForm.get('descripcion_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta descripción de plato. <br/>';
     }
-    if (this.platoForm.get('receta_plato').errors?.['required']) {
+    if (this.platoForm.get('receta_plato')?.errors?.['required']) {
       mensajeWarnign += 'Falta receta de plato. <br/>';
     }
 
@@ -138,7 +138,7 @@ export class AgregarPlatoComponent implements OnInit {
   }
 
   validatoMinLength(){
-    return this.platoForm.get('categorias_plato').value.length==0
+    return this.platoForm.get('categorias_plato')?.value.length==0
   }
 
   isSelected(categoria:CategoriaPlato){

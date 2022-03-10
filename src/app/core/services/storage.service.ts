@@ -23,7 +23,8 @@ export class StorageService {
     this.localStorageService.setItem('estilo', JSON.stringify(estilo));
   }
   getConfiguracionEstilo(): configuracionEstilo {
-   return <configuracionEstilo> JSON.parse(this.localStorageService.getItem('estilo'));
+    let estilo = this.localStorageService.getItem('estilo');
+   return <configuracionEstilo> JSON.parse((estilo!=null)?estilo:'');
   }
 
   loadSessionData(): string{

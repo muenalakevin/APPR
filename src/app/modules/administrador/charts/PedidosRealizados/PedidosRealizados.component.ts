@@ -28,7 +28,7 @@ export type ChartOptions = {
   styleUrls: ['./PedidosRealizados.component.css']
 })
 export class PedidosRealizadosComponent {
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent = {} as ChartComponent;
   public chartOptions: Partial<ChartOptions>= {
     series: [
       {
@@ -38,7 +38,7 @@ export class PedidosRealizadosComponent {
     ],
     chart: {
       type: "bar",
-      height: 350
+      height: 0
     },
     plotOptions: {
       bar: {
@@ -123,6 +123,7 @@ export class PedidosRealizadosComponent {
 
         chart: {
           type: "bar",
+          height:(cantidadesConstructor.length * 55)
         },
         plotOptions: {
           bar: {

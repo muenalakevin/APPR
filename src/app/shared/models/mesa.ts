@@ -1,8 +1,11 @@
 export class Mesa {
-    constructor(
-        public _id:string,
-        public nombre_mesa:string,
-        public descripcion_mesa:string,
-        
-    ){}
+    public _id:string
+    public nombre_mesa:string
+    public descripcion_mesa:string
+    constructor(  
+    ){
+        this._id = ''
+        this.nombre_mesa = ''
+        this.descripcion_mesa = ''
+    }
 }

@@ -28,7 +28,7 @@ export class MesaService {
     return this.http.get(environment.API_URL + '/mesa',this.httpOptions);
   }
 
-  getMesa(idMesa:string){
+  getMesa(idMesa:string|undefined){
     return this.http.get(environment.API_URL + '/mesa/'+idMesa,this.httpOptions);
   }
 

@@ -25,13 +25,13 @@ import { StorageService } from 'src/app/core/services/storage.service';
 export class CocinaComponent implements OnInit {
   panelOpenState:boolean= true
   pedidos: Pedido[] = [];
-  private pedidosSubscription: Subscription;
-  dateNow:Date
-  pedidoSeleccionado:Pedido
-  pedidoSeleccionadoReal:Pedido
+  private pedidosSubscription: Subscription|undefined;
+  dateNow:Date|undefined
+  pedidoSeleccionado:Pedido|undefined
+  pedidoSeleccionadoReal:Pedido|undefined
   categoriasSeleccionadas:CategoriaCocinero = new CategoriaCocinero()
-  platosPedidos:PlatoPedido[]=[]
-  pedidosFiltrados:Pedido[]
+  platosPedidos:PlatoPedido[]|undefined=[]
+  pedidosFiltrados:Pedido[]|undefined
   botonListo:boolean = false
   mesas: MesaSeleccionada[] = [];
   constructor(
@@ -57,7 +57,7 @@ ifExistCategoriaSeleccioanda(categoriaId:string){
   }
 }
 getNombreMesa(pedido:Pedido){
-  return this.mesas.find(mes=>mes._id==pedido.id_mesa).nombre_mesa
+  return this.mesas.find(mes=>mes._id==pedido.id_mesa)?.nombre_mesa
 }
 checkCategoria(categoriaId:string){
   let ExistCategoria = this.categoriasSeleccionadas.categorias_seleccionadas.find(cat=>{return cat == categoriaId})
@@ -79,15 +79,15 @@ checkCategoria(categoriaId:string){
 
    this.actualizarFiltroCategorias()
 }
-private categoriasubscription: Subscription;
+private categoriasubscription: Subscription|undefined;
 categorias: CategoriaPlato[] = [];
 
 actualizarFiltroCategorias(){
   this.pedidosFiltrados = JSON.parse(JSON.stringify(this.pedidos));
 
-  this.pedidosFiltrados = this.pedidosFiltrados.filter(ped=>{
+  this.pedidosFiltrados = this.pedidosFiltrados?.filter(ped=>{
 
-    ped.pedidos = ped.pedidos.filter(ped2=>{
+    ped.pedidos = ped.pedidos?.filter(ped2=>{
       let retorna2 = false
 
         this.categoriasSeleccionadas.categorias_seleccionadas.map(catSel=>{
@@ -101,14 +101,14 @@ actualizarFiltroCategorias(){
        return retorna2
     })
 
-    return ped.pedidos.length!=0
+    return ped.pedidos?.length!=0
 
   })
 
   if( this.pedidoSeleccionado!=undefined){
-    this.pedidoSeleccionado = this.pedidosFiltrados.find(pedFil=>this.pedidoSeleccionado.id_mesa==pedFil.id_mesa)
+    this.pedidoSeleccionado = this.pedidosFiltrados?.find(pedFil=>this.pedidoSeleccionado?.id_mesa==pedFil.id_mesa)
     if(this.pedidoSeleccionado!=undefined){
-      this.platosPedidos =  this.pedidoSeleccionado.pedidos
+      this.platosPedidos =  this.pedidoSeleccionado?.pedidos
     }else{
       this.platosPedidos = []
     }
@@ -148,10 +148,10 @@ actualizarFiltroCategorias(){
       (pedidos) => {
         this.pedidos = <Pedido[]>pedidos;
         this.actualizarFiltroCategorias()
-        const pedidoFind = this.pedidosFiltrados.find(ped=> ped.id_mesa == this.pedidoSeleccionado.id_mesa)
+        const pedidoFind = this.pedidosFiltrados?.find(ped=> ped.id_mesa == this.pedidoSeleccionado?.id_mesa)
 
         if(pedidoFind!=null){
-          this.platosPedidos = pedidoFind.pedidos;
+          this.platosPedidos = pedidoFind?.pedidos;
         }
       }
     );
@@ -161,7 +161,11 @@ actualizarFiltroCategorias(){
   }
   timer(pedido:Pedido){
     const tiempo = pedido.horaDeEnvio
-    const tiempoActual = new Date(this.dateNow )
+    if(this.dateNow!=undefined){
+      const tiempoActual = new Date(this.dateNow )
+  if(tiempo!=undefined){
+
+ 
 
     let timeDiff =new Date( tiempoActual).getTime()  -  new Date(tiempo).getTime();
     timeDiff /= 1000;
@@ -173,7 +177,9 @@ actualizarFiltroCategorias(){
     }
     return minutes+":"+seconds
   }
-
+  }
+  return "00:00"
+}
   mostrarPlatos(pedido:Pedido){
     this.pedidoSeleccionado = pedido
     this.platosPedidos = pedido.pedidos;
@@ -187,9 +193,11 @@ actualizarFiltroCategorias(){
     let listos = 0
 
 
-    this.pedidoSeleccionadoReal = this.pedidos.find(ped=>ped._id == this.pedidoSeleccionado._id);
+    this.pedidoSeleccionadoReal = this.pedidos.find(ped=>ped._id == this.pedidoSeleccionado?._id);
+    if(this.pedidoSeleccionadoReal!=undefined){
 
-    this.pedidoSeleccionadoReal.pedidos=this.pedidoSeleccionadoReal.pedidos.map(ped=>{
+ 
+    this.pedidoSeleccionadoReal.pedidos=this.pedidoSeleccionadoReal?.pedidos?.map(ped=>{
       if(ped.plato._id==pedido.plato._id){
         ped.cantidad_lista+=1
         ped.cantidad_servida+=1
@@ -198,21 +206,26 @@ actualizarFiltroCategorias(){
       listos +=ped.cantidad_lista
       return ped
     })
+
   if(pedidos >= listos){
 
     if(pedidos == listos){
 
       let mesa:MesaSeleccionada
+      if(this.pedidoSeleccionadoReal!=undefined){
       this.MesaService.getMesa(this.pedidoSeleccionadoReal.id_mesa).subscribe(res=>{
         mesa=(res as MesaSeleccionada)
         if(mesa.estado!=4){
           mesa.estado = 4
           this.MesaService.editarMesa(mesa).subscribe()
-          this.pedidoSeleccionadoReal.horaDeEntrega = new Date(Date.now());
-          this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
-            this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
-            this.botonListo = false;
-          })
+          if( this.pedidoSeleccionadoReal!=undefined){
+            this.pedidoSeleccionadoReal.horaDeEntrega = new Date(Date.now());
+            this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
+              this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
+              this.botonListo = false;
+            })
+          }
+          
         }else{
           this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
             this.AlertService.showSuccess('Solicitud de plato listo enviado a mesero con éxito')
@@ -222,7 +235,7 @@ actualizarFiltroCategorias(){
         }
 
       })
-
+    }
     }else{
       
       this.PedidoService.editarPedido(this.pedidoSeleccionadoReal).subscribe(()=>{
@@ -233,10 +246,10 @@ actualizarFiltroCategorias(){
 
 
   }
-
+  }
   }
   expanded = false;
-  observacion:string
+  observacion:string|undefined
   showCheckboxes() {
     if (!this.expanded) {
       this.expanded = true;
@@ -246,7 +259,7 @@ actualizarFiltroCategorias(){
   }
   setColor(pedido:Pedido){
     let completo = true;
-    pedido.pedidos.map(ped=>{
+    pedido.pedidos?.map(ped=>{
         if(ped.cantidad_pedido!=ped.cantidad_lista){
           completo= false
         }

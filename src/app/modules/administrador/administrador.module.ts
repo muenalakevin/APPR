@@ -1,3 +1,4 @@
+import { ViewResetPasswordComponent } from './components/viewResetPassword/viewResetPassword.component';
 
 import { EgresosEIngresosComponent } from './charts/egresosEIngresos/egresosEIngresos.component';
 import { AgregarClienteComponent } from './components/agregarCliente/agregarCliente.component';
@@ -64,7 +65,7 @@ import { AddEgresoComponent } from './components/egreso/addEgreso.component';
 import { PedidosRealizadosComponent } from './charts/PedidosRealizados/PedidosRealizados.component';
 import { CalificacionTotalComponent } from './charts/calificacionTotal/calificacionTotal.component';
 import { verCajaComponent } from './components/verCaja/verCaja.component';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { verCajaComponent } from './components/verCaja/verCaja.component';
     AddEgresoComponent,
     PedidosRealizadosComponent,
     CalificacionTotalComponent,
-    verCajaComponent
+    verCajaComponent,
+    ViewResetPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -126,6 +128,7 @@ import { verCajaComponent } from './components/verCaja/verCaja.component';
     HttpClientModule,
     NgApexchartsModule,
     MatMomentDateModule,
+    MatSlideToggleModule
   ],
   exports:[MatTableModule,MatSortModule,MatFormFieldModule,
     MatInputModule,MatPaginatorModule,MatIconModule,MatButtonModule,MatTabsModule,MatDatepickerModule,MatRadioModule,

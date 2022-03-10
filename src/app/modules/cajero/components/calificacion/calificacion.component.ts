@@ -24,7 +24,7 @@ export class CalificacionComponent implements OnInit {
   valor:boolean = true
   img:any;
   enableCalificacion:boolean = false
-  private calificacionSub: Subscription;
+  private calificacionSub: Subscription|undefined;
   ngOnInit() {
     this.calificacionSub = this.CalificacionService.calificacion.subscribe(
       () => {

@@ -43,7 +43,15 @@
         </mat-chip-list>
         </td>
       </ng-container>
-
+      <ng-container matColumnDef="Habilitar">
+        <th mat-header-cell *matHeaderCellDef> Habilitar </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-slide-toggle  [checked]="(element.estado_plato<=1)?true:false" (change)="changeEnablePlato(element)">
+            {{(element.estado_plato<=1)?'Habilitado':'Deshabilitado'}}
+            
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
       <ng-container matColumnDef="Editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let element">
@@ -88,7 +96,15 @@
           <td mat-cell *matCellDef="let element"> {{element.descripcion_categoria}} </td>
         </ng-container>
 
-
+        <ng-container matColumnDef="Habilitar">
+          <th mat-header-cell *matHeaderCellDef> Habilitar </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-slide-toggle  [checked]="(element.estado_categoria<=1)?true:false" (change)="changeEnableCategoria(element)">
+              {{(element.estado_categoria<=1)?'Habilitado':'Deshabilitado'}}
+              
+            </mat-slide-toggle>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="Editar">
           <th mat-header-cell *matHeaderCellDef> Editar </th>
           <td mat-cell *matCellDef="let element">

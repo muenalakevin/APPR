@@ -1,3 +1,5 @@
+import { ViewResetPasswordComponent } from './../../../administrador/components/viewResetPassword/viewResetPassword.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from './../../../../core/services/alert.service';
 import { Token } from './../../../../shared/models/token';
 import { Session } from 'src/app/shared/models/session';
@@ -22,7 +24,8 @@ export class LoginComponent implements OnInit{
     private AuthenticationService: AuthenticationService,
     public StorageService: StorageService,
     private AlertService:AlertService,
-    private configuracionService:ConfiguracionService
+    private configuracionService:ConfiguracionService,
+    private dialog:MatDialog,
   ) {}
   mensaje='';
   mensaje2='';
@@ -97,6 +100,8 @@ onValueChanges(): void {
 
         if(error.status == 403){
         this.AlertService.showWarning('Usuario o/y contraseña incorrecto')
+        }else if(error.status == 409){
+          this.AlertService.showWarning('Usuario se encuentra deshabilitado, si cree que esto es un error, comuníquese con el  administrador.')
         }else{
           this.AlertService.showErrorServidor()
         }
@@ -105,6 +110,12 @@ onValueChanges(): void {
     );
   }
 
+  }
+  reset(){
+   let dialogref = this.dialog.open(ViewResetPasswordComponent)
+   dialogref.afterClosed().subscribe(res=>{
+     console.log(res);
+   })
   }
   private correctLogin(token: Session) {
 

@@ -41,7 +41,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   fruits: string[] = ['Lemon'];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('fruitInput') fruitInput:   ElementRef<HTMLInputElement>= {} as ElementRef;
 
 
 
@@ -50,7 +50,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
     //console.log(value)
     // Add our fruit
     if (value) {
-      this.pedidoTotal.pedidos.map(pedTot=>{
+      this.pedidoTotal.pedidos?.map(pedTot=>{
         if(pedTot.plato._id == pedido.plato._id){
           pedTot.opcionesRapidas.push(value);
         }
@@ -65,7 +65,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   }
 
   remove(opcionRapida: string, pedido:PlatoPedido): void {
-    this.pedidoTotal.pedidos.map(pedTot=>{
+    this.pedidoTotal.pedidos?.map(pedTot=>{
       if(pedTot.plato._id == pedido.plato._id){
         const index = pedTot.opcionesRapidas.indexOf(opcionRapida);
         if (index >= 0) {
@@ -78,7 +78,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
 
   selected(event: MatAutocompleteSelectedEvent, pedido:PlatoPedido): void {
 
-    this.pedidoTotal.pedidos.map(pedTot=>{
+    this.pedidoTotal.pedidos?.map(pedTot=>{
       if(pedTot.plato._id == pedido.plato._id){
         pedTot.opcionesRapidas.push(event.option.viewValue.toString());
       }
@@ -96,7 +96,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
   }
 
 
-  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('drawer') drawer: MatDrawer = {} as MatDrawer;
 
   faSquareIcon = faSquare;
   defaultElevation = 2;
@@ -106,20 +106,20 @@ export class MesasComponent implements OnInit, AfterViewInit {
   showFiller = false;
   configuracionMesero:configuracionMesero = new configuracionMesero()
   configuracionEstilo:configuracionEstilo = new configuracionEstilo()
-  panelOpenState:boolean
-  private mesasSubscription: Subscription;
+  panelOpenState:boolean = false
+  private mesasSubscription: Subscription= {} as Subscription;
   mesas: MesaSeleccionada[] = [];
   pedidos: Pedido[] = [];
   cambiosEstaticos:CambioEstatico[] = []
-  private pedidosSubscription: Subscription;
-  private platosSubscription: Subscription;
-  private categoriasubscription: Subscription;
-  mesaActual: MesaSeleccionada;
+  private pedidosSubscription: Subscription=  {} as Subscription;
+  private platosSubscription: Subscription=  {} as Subscription;
+  private categoriasubscription: Subscription=  {} as Subscription;
+  mesaActual: MesaSeleccionada|undefined = undefined;
 
   platos: Plato[] = [];
   allPlatos: Plato[] = [];
   categorias: CategoriaPlato[] = [];
-  dateNow:Date
+  dateNow:Date =new  Date();
   pedidoTotal: Pedido = new Pedido()
   pedidoForm: FormGroup = new FormGroup({
     observacion: new FormControl(null),
@@ -130,9 +130,9 @@ export class MesasComponent implements OnInit, AfterViewInit {
   configuracionCaja:configuracionCaja = new configuracionCaja()
 
 
-  @ViewChild('dragMe') dragMe: ElementRef
-  @ViewChild('nextElementSibling', { read: ElementRef, static:false }) private nextElementSibling: ElementRef
-  @ViewChild('previousElementSibling', { read: ElementRef, static:false }) private previousElementSibling: ElementRef
+  @ViewChild('dragMe') dragMe: ElementRef = {} as ElementRef
+  @ViewChild('nextElementSibling', { read: ElementRef, static:false }) private nextElementSibling: ElementRef= {} as ElementRef
+  @ViewChild('previousElementSibling', { read: ElementRef, static:false }) private previousElementSibling: ElementRef= {} as ElementRef
   resizer:any
   leftSide:any
   rightSide:any
@@ -143,7 +143,7 @@ export class MesasComponent implements OnInit, AfterViewInit {
     this.x = e.clientX;
     this.y = e.clientY;
 
-    this.leftWidth =  document.getElementById('nextElementSibling').getBoundingClientRect().height;
+    this.leftWidth =  document.getElementById('nextElementSibling')?.getBoundingClientRect().height;
     // Attach the listeners to `document`
     document.addEventListener('mouseup',this.mouseUpHandler.bind(this), false)
     document.addEventListener('mousemove',this.mouseMoveHandler, false)
@@ -154,7 +154,7 @@ TouchDownHandler(e:any){
     this.x = e.clientX;
     this.y = e.clientY;
 
-    this.leftWidth =  document.getElementById('nextElementSibling').getBoundingClientRect().height;
+    this.leftWidth =  document.getElementById('nextElementSibling')?.getBoundingClientRect().height;
     // Attach the listeners to `document`
     document.addEventListener('touchend',this.touchUpHandler.bind(this), false)
     document.addEventListener('touchmove',this.touchMoveHandler, false)
@@ -162,11 +162,10 @@ TouchDownHandler(e:any){
 
 };
 touchMoveHandler(e:any){
-
-  let vh = (window.screen.height - e.touches[0].clientY)/window.screen.height *100
+  let vh:number = Number((window.screen.height - e.touches[0].clientY)/window.screen.height) * 100;
 //console.log(vh);
-  document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
-  document.getElementById('nextElementSibling').style.height = `${vh}vh`;
+  (document.getElementById('previousElementSibling') as any).style.height = `${100-vh}vh`;
+  (document.getElementById('nextElementSibling') as any).style.height = `${vh}vh`;
 }
 touchUpHandler(){
   this.dragMe.nativeElement.style.removeProperty('cursor');
@@ -186,9 +185,9 @@ mouseMoveHandler(e:any){
   const dy = e.clientY - this.y;
   let vh = (window.screen.height - e.clientY)/window.screen.height *100
 //console.log(vh);
-  const newLeftWidth = ((this.leftWidth + dy ) * 100) /  document.getElementById('dragMe').getBoundingClientRect().height;
-  document.getElementById('previousElementSibling').style.height = `${100-vh}vh`;
-  document.getElementById('nextElementSibling').style.height = `${vh}vh`;
+  const newLeftWidth = ((this.leftWidth + dy ) * 100) /  (document.getElementById('dragMe') as any).getBoundingClientRect().height;
+ ( document.getElementById('previousElementSibling') as any).style.height = `${100-vh}vh`;
+  (document.getElementById('nextElementSibling') as any).style.height = `${vh}vh`;
   //console.log("funciona");
 }
 mouseUpHandler(){
@@ -213,8 +212,8 @@ ngAfterViewInit(): void {
   this.x = 0;
   this.y = 0;
   this.leftWidth = 0;
-  document.getElementById('dragMe').addEventListener('mousedown', this.mouseDownHandler.bind(this));
-  document.getElementById('dragMe').addEventListener('touchstart', this.TouchDownHandler.bind(this),{passive: true});
+  (document.getElementById('dragMe') as any).addEventListener('mousedown', this.mouseDownHandler.bind(this));
+  (document.getElementById('dragMe') as any).addEventListener('touchstart', this.TouchDownHandler.bind(this),{passive: true});
  /*  this.dragMe.nativeElement.addEventListener('mousedown' ,  (e:any)=>{
     this.x = e.clientX;
     this.y = e.clientY;
@@ -281,15 +280,15 @@ ngAfterViewInit(): void {
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     );
   }
-  @ViewChild('domContenedor1') domContenedor1: ElementRef;
-  @ViewChild('domContenedor2') domContenedor2: ElementRef;
-  @ViewChild('domContenedor3') domContenedor3: ElementRef;
+  @ViewChild('domContenedor1') domContenedor1: ElementRef = {} as ElementRef;
+  @ViewChild('domContenedor2') domContenedor2: ElementRef = {} as ElementRef;
+  @ViewChild('domContenedor3') domContenedor3: ElementRef = {} as ElementRef;
 
   checkOrientation=()=>{
 
   }
 
-  @ViewChild('select') input:ElementRef;
+  @ViewChild('select') input:ElementRef = {} as ElementRef;
   ngAfterViewChecked()
 {
   this.dateNow = new Date(Date.now())
@@ -298,6 +297,7 @@ ngAfterViewInit(): void {
   timer(pedido:Pedido){
     const tiempo = pedido.horaDeEnvio
     const tiempoActual = new Date(this.dateNow )
+    if(tiempo!=undefined){
 
     let timeDiff =new Date( tiempoActual).getTime()  -  new Date(tiempo).getTime();
     timeDiff /= 1000;
@@ -308,6 +308,9 @@ ngAfterViewInit(): void {
       seconds = <string>" 0"+seconds.toString()
     }
     return minutes+":"+seconds
+    
+  }
+  return "00:00"
   }
 
 
@@ -340,15 +343,15 @@ ngAfterViewInit(): void {
       this.mesas = <MesaSeleccionada[]>mesas;
 
       if (this.mesaActual != undefined) {
-
-        this.mesaActual = this.mesas.find(
-          (mesa) => this.mesaActual._id == mesa._id
-        );
-        if (this.mesaActual.estado >=0 && this.mesaActual.estado <= 1) {
+        let mesaActual =  this.mesas.find( (mesa) => this.mesaActual?._id == mesa._id);
+        if(mesaActual!=undefined){
+          this.mesaActual = mesaActual;
+        }
+        if (this.mesaActual?.estado >=0 && this.mesaActual?.estado <= 1) {
           this.clean();
           this.drawer.toggle();
         } else {
-          this.PedidoService.getPedido(this.mesaActual._id).subscribe((res) => {
+          this.PedidoService.getPedido(this.mesaActual?._id).subscribe((res) => {
             if (res != null) {
               this.pedidoTotal = res as Pedido;
 
@@ -391,7 +394,7 @@ ngAfterViewInit(): void {
     });
   }
   getNombreMesa(pedido:Pedido){
-    return this.mesas.find(mes=>mes._id==pedido.id_mesa).nombre_mesa
+    return this.mesas.find(mes=>mes._id==pedido.id_mesa)?.nombre_mesa
   }
   openMesa() {}
   actualizarCambiosEstaticos(){
@@ -400,9 +403,9 @@ ngAfterViewInit(): void {
       let cambioEstatico = this.cambiosEstaticos.find(cE => cE._id==ped.id_mesa)
       if(cambioEstatico!=null){
         this.cambiosEstaticos.map(cE=>{
-          cE.pedidos.map(pedEs=>{
-             let plato=cambioEstatico.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id && cE._id==cambioEstatico._id)
-             let plato2=ped.pedidos.find(cEP=>cEP.plato._id==pedEs.plato._id&& cE._id==cambioEstatico._id)
+          cE.pedidos?.map(pedEs=>{
+             let plato=cambioEstatico?.pedidos?.find(cEP=>cEP.plato._id==pedEs.plato._id && cE._id==cambioEstatico?._id)
+             let plato2=ped.pedidos?.find(cEP=>cEP.plato._id==pedEs.plato._id&& cE._id==cambioEstatico?._id)
             if(plato!=undefined && plato2!=undefined){
               //console.log(plato.cantidad_lista,plato2.cantidad_lista);
               if(plato.cantidad_lista!=plato2.cantidad_lista){
@@ -463,51 +466,54 @@ ngAfterViewInit(): void {
   }
  */
   getColor(mesa:Mesa){
-    const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa._id)
+    const pedido = this.pedidos.find(ped=>ped.id_mesa==mesa?._id)
     if(pedido!=undefined ){
       const tiempo = pedido.horaDeEnvio
       const tiempoActual = new Date(this.dateNow )
-      let timeDiff =new Date( tiempoActual).getTime() - new Date(tiempo).getTime();
-      timeDiff /= 1000;
-      timeDiff = Math.floor(timeDiff / 60);
-      const minutes = Math.round(timeDiff % 60);
-      const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
-      if(mesa.estado!=4){
-        if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
-          if(this.configuracionEstilo.colorSatisfaccion.check){
-            return this.configuracionEstilo.colorSatisfaccion.color
+      if(tiempo!=undefined){
+        let timeDiff =new Date( tiempoActual).getTime() - new Date(tiempo).getTime();
+        timeDiff /= 1000;
+        timeDiff = Math.floor(timeDiff / 60);
+        const minutes = Math.round(timeDiff % 60);
+        const mesa = this.mesas.find(mes=>mes._id==pedido.id_mesa)
+        if(mesa?.estado!=4){
+          if(minutes<=this.configuracionMesero.satisfaccionAdecuada){
+            if(this.configuracionEstilo.colorSatisfaccion.check){
+              return this.configuracionEstilo.colorSatisfaccion.color
+            }else{
+              return "#28a745"
+            }
+  
+         }else if(minutes<=this.configuracionMesero.satisfaccionMedia){
+          if(this.configuracionEstilo.colorSatisfaccionMedia.check){
+            return this.configuracionEstilo.colorSatisfaccionMedia.color
           }else{
-            return "#28a745"
+            return "#ffc107"
           }
-
-       }else if(minutes<=this.configuracionMesero.satisfaccionMedia){
-        if(this.configuracionEstilo.colorSatisfaccionMedia.check){
-          return this.configuracionEstilo.colorSatisfaccionMedia.color
+         }else if(minutes<=this.configuracionMesero.disatisfaccion){
+          if(this.configuracionEstilo.colorDisatisfaccion.check){
+            return this.configuracionEstilo.colorDisatisfaccion.color
+          }else{
+            return "#dc3545"
+          }
+         }else{
+          if(this.configuracionEstilo.colorFueraTiempo.check){
+            return this.configuracionEstilo.colorFueraTiempo.color
+          }else{
+            return "#343a40"
+          }
+  
+         }
         }else{
-          return "#ffc107"
+          if(this.configuracionEstilo.colorOcupada.check){
+            return this.configuracionEstilo.colorOcupada.color
+          }else{
+            return "#6c757d"
+          }
+  
         }
-       }else if(minutes<=this.configuracionMesero.disatisfaccion){
-        if(this.configuracionEstilo.colorDisatisfaccion.check){
-          return this.configuracionEstilo.colorDisatisfaccion.color
-        }else{
-          return "#dc3545"
-        }
-       }else{
-        if(this.configuracionEstilo.colorFueraTiempo.check){
-          return this.configuracionEstilo.colorFueraTiempo.color
-        }else{
-          return "#343a40"
-        }
-
-       }
-      }else{
-        if(this.configuracionEstilo.colorOcupada.check){
-          return this.configuracionEstilo.colorOcupada.color
-        }else{
-          return "#6c757d"
-        }
-
       }
+    
 
     }else{
       if(this.configuracionEstilo.colorDisponible.check){
@@ -515,8 +521,9 @@ ngAfterViewInit(): void {
       }else{
         return "#0d6efd"
       }
-
+  
     }
+    return "#0d6efd"
   }
 
   enviado(){
@@ -533,12 +540,12 @@ ngAfterViewInit(): void {
   }
 
   removePlato(idPlato: string) {
-    let plato = this.pedidoTotal.pedidos.find(ped=> ped.plato._id==idPlato)
-    if(plato.cantidad_lista==0){
-      this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.filter((pedido) => {
+    let plato = this.pedidoTotal.pedidos?.find(ped=> ped.plato._id==idPlato)
+    if(plato?.cantidad_lista==0){
+      this.pedidoTotal.pedidos = this.pedidoTotal.pedidos?.filter((pedido) => {
         return pedido.plato._id !== idPlato;
       });
-      if (this.pedidoTotal.pedidos.length == 0) {
+      if (this.pedidoTotal.pedidos?.length == 0) {
         this.cancelarPedido();
       } else {
         this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {});
@@ -554,15 +561,15 @@ ngAfterViewInit(): void {
       plato.estado_plato = 1
       this.PlatoService.editarPlato(plato).subscribe();
     }
-
-    if (this.mesaActual.estado >= 0 && this.mesaActual.estado <= 1 ) {
+    if(this.mesaActual!=undefined){
+    if (this.mesaActual?.estado >= 0 && this.mesaActual?.estado <= 1 ) {
 
       const pedido: Pedido = {
         _id: "",
-        id_mesa: this.mesaActual._id,
+        id_mesa: this.mesaActual?._id,
         observacion: this.pedidoForm.value.observacion,
-        horaDeEnvio:null,
-        horaDeEntrega:null,
+        horaDeEnvio:new Date(),
+        horaDeEntrega:new Date(),
         estado:1,
         pedidos: [{ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] }],
         createdAt: new Date(Date.now())
@@ -576,13 +583,13 @@ ngAfterViewInit(): void {
 
       let pedidos = this.pedidoTotal.pedidos;
       //console.log(this.pedidoTotal)
-      const existPedido = pedidos.find(
+      const existPedido = pedidos?.find(
         (pedido) => pedido.plato._id == plato._id
       );
       if (existPedido == undefined) {
-        pedidos.push({ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] });
+        pedidos?.push({ plato: plato, cantidad_pedido: 1,cantidad_lista:0,cantidad_servida:0,opcionesRapidas:[] });
       } else {
-        pedidos.map((pedido) => {
+        pedidos?.map((pedido) => {
           if (pedido.plato._id == plato._id) {
             pedido.cantidad_pedido += 1;
           }
@@ -593,7 +600,7 @@ ngAfterViewInit(): void {
       this.pedidoTotal.observacion = this.pedidoForm.value.observacion;
       this.PedidoService.editarPedido(this.pedidoTotal).subscribe();
     }
-
+  }
     //this.platosAdd.push(plato)
   }
   seleccionarMesa(mesa: MesaSeleccionada) {
@@ -620,7 +627,7 @@ ngAfterViewInit(): void {
 
   getSubtotal() {
     this.subTotal = 0;
-    this.pedidoTotal.pedidos.map((pedido) => {
+    this.pedidoTotal?.pedidos?.map((pedido) => {
       this.subTotal += pedido.plato.precio_plato * pedido.cantidad_pedido;
     });
     if(this.configuracionCaja.checkIVA){
@@ -631,7 +638,7 @@ ngAfterViewInit(): void {
 
   cancelarPedido() {
 
-    this.PedidoService.eliminarPedido(this.pedidoTotal.id_mesa,this.pedidoTotal._id).subscribe(
+    this.PedidoService.eliminarPedido(this.pedidoTotal?.id_mesa,this.pedidoTotal._id).subscribe(
       (res) => {
         this.clean();
       }
@@ -647,7 +654,7 @@ ngAfterViewInit(): void {
   }
 
   addPedido(idPlato: string) {
-    this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map((pedido) => {
+    this.pedidoTotal.pedidos = this.pedidoTotal.pedidos?.map((pedido) => {
       if (idPlato == pedido.plato._id) {
         pedido.cantidad_pedido += 1;
       }
@@ -664,7 +671,7 @@ actualizarObservacion(){
   clearTimeout(this.actualizar)
 
  this.actualizar = setTimeout(() => {
-    this.pedidoTotal.observacion = this.pedidoForm.get('observacion').value
+    this.pedidoTotal.observacion = this.pedidoForm.get('observacion')?.value
   this.PedidoService.editarPedido(this.pedidoTotal).subscribe((res) => {
     /* this.pedidoTotal=res as Pedido */
   });
@@ -701,16 +708,16 @@ actualizarObservacion(){
 
   }
   reducePedido(idPlato: string) {
-    const cantidadPedido = this.pedidoTotal.pedidos.find(
+    const cantidadPedido = this.pedidoTotal.pedidos?.find(
       (pedido) => pedido.plato._id == idPlato
     );
-    if (cantidadPedido.cantidad_pedido == 1) {
-      if(cantidadPedido.cantidad_lista ==0){
+    if (cantidadPedido?.cantidad_pedido == 1) {
+      if(cantidadPedido?.cantidad_lista ==0){
         this.removePlato(idPlato);
       }
 
     } else {
-      this.pedidoTotal.pedidos = this.pedidoTotal.pedidos.map((pedido) => {
+      this.pedidoTotal.pedidos = this.pedidoTotal.pedidos?.map((pedido) => {
         if (idPlato == pedido.plato._id) {
           if(pedido.cantidad_pedido>pedido.cantidad_lista){
             pedido.cantidad_pedido -= 1;
@@ -732,7 +739,7 @@ actualizarObservacion(){
   getColorPedido(pedido:Pedido){
     let cambio = this.cambiosEstaticos.find(cE=>cE._id==pedido.id_mesa)
 
-    if(cambio.cambio){
+    if(cambio?.cambio){
       return this.StorageService.getConfiguracionEstilo().colorAplicacion.check
       ?  this.StorageService.getConfiguracionEstilo().colorAplicacion.color+64
       : '#ffb13c'+64
@@ -758,7 +765,7 @@ actualizarObservacion(){
   listo(pedido:Pedido){
     let servidos = 0
     let pedidos = 0
-    pedido.pedidos.map(ped=>{
+    pedido.pedidos?.map(ped=>{
       servidos += ped.cantidad_lista
       pedidos += ped.cantidad_pedido
     })

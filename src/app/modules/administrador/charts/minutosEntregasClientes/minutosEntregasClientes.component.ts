@@ -63,13 +63,13 @@ export type ChartOptions = {
   styleUrls: ['./minutosEntregasClientes.component.css'],
 })
 export class MinutosEntregasClientesComponent implements OnInit{
-  public unique_key: number;
+  public unique_key: number = 0;
     tipoSeleccion = 1;
     tipoFiltrado = 2;
     paso = 1
     mesero = "";
     meseros:Usuario[]=[]
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent = {} as ChartComponent;
   public chartOptions: Partial<ChartOptions>={
     series: [
       {
@@ -150,16 +150,16 @@ export class MinutosEntregasClientesComponent implements OnInit{
     }
   };
   configuracionEstilo:configuracionEstilo = new configuracionEstilo()
-  fechaInicio:Date
+  fechaInicio:Date = new Date()
   fechaFin:Date = new Date(Date.now())
   pedidos:Pedido[]=[]
   pedidosSatisfaccion1:Pedido[]=[]
   pedidosSatisfaccion2:Pedido[]=[]
   pedidosSatisfaccion3:Pedido[]=[]
   pedidosSatisfaccion4:Pedido[]=[]
-  configuracionMesero:configuracionMesero
+  configuracionMesero:configuracionMesero = new configuracionMesero
   meses:string[] = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-  @ViewChild('picker') picker: MatDateRangePicker<Moment>;
+  @ViewChild('picker') picker: MatDateRangePicker<Moment> = {} as  MatDateRangePicker<Moment>;
   arrayConstruidoDeFechas:string[]=[]
 
 
@@ -168,7 +168,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
     if(this.tipoFiltrado == 3){
       if(this.paso==1){
         this.fechaInicio = new Date(normalizedYear.year(),0)
-        this.fechaFin = null
+        this.fechaFin = new Date();
         setTimeout(function(){
           datepicker.open()
         },100);
@@ -182,7 +182,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
       }else if(this.tipoFiltrado == 2){
         if(this.paso==1){
           this.fechaInicio = new Date(normalizedYear.year(),0)
-          this.fechaFin = null
+          this.fechaFin = new Date()
         }else{
           this.fechaFin = new Date(normalizedYear.year(),0)
         }
@@ -198,13 +198,19 @@ export class MinutosEntregasClientesComponent implements OnInit{
 
 
     if(this.paso==1){
-      this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
+      if(this.fechaInicio!=null){
+
+        this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
+      }
       setTimeout(function(){
         datepicker.open()
       },100);
       this.paso = 2
     }else {
-      this.fechaFin = new Date(this.fechaFin.getFullYear(),normalizedMonth.month())
+      if(this.fechaFin!= null){
+
+        this.fechaFin = new Date(this.fechaFin.getFullYear(),normalizedMonth.month())
+      }
       this.paso = 1
       this.orgValueChange()
     }
@@ -227,7 +233,10 @@ export class MinutosEntregasClientesComponent implements OnInit{
 
   chosenMonthHandler2(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
     if(this.tipoFiltrado > 1){
+      if(this.fechaInicio!= null){
         this.fechaInicio = new Date(this.fechaInicio.getFullYear(),normalizedMonth.month())
+      }
+       
         this.orgValueChange()
       datepicker.close();
 
@@ -242,6 +251,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
 
   filtrarPorSatisfaccion(nivelDeSatisfaccion1:number,nivelDeSatisfaccion2:number){
    return  this.pedidos.filter(p=>{
+
       const tiempoInicial = new Date(p.horaDeEnvio)
       const tiempoFinal = new Date(p.horaDeEntrega)
       let timeDiff =new Date( tiempoFinal).getTime()  -  new Date(tiempoInicial).getTime();
@@ -255,6 +265,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
         return false
       }
     })
+
   }
   creardorDeDias(fechaInicio:Date, fechaFin:Date){
 
@@ -374,11 +385,12 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i = 0;i<=24;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
-
+          if(p.horaDeEntrega!=undefined){
           let horaInicialPedido = new Date(p.horaDeEntrega).getHours();
 
                   if(horaInicialPedido>=i &&  horaInicialPedido<=i+1){
                     satisfaccion++
+                  }
                   }
 
         })
@@ -401,7 +413,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i =0;i<cantidadDias;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
-
+          if(p.horaDeEntrega!=undefined){
           let mesInicialPedido = new Date(p.horaDeEntrega).getMonth()+1;
           let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
           let diaInicialPedido = new Date(p.horaDeEntrega).getDate();
@@ -410,6 +422,7 @@ export class MinutosEntregasClientesComponent implements OnInit{
                 if(diaInicial+i==diaInicialPedido){
                 satisfaccion++
 
+              }
               }
             }
           }
@@ -434,12 +447,14 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i =0;i<=cantidadMeses;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
+          if(p.horaDeEntrega!=undefined){
           let mesInicialPedido = new Date(p.horaDeEntrega).getMonth()+1;
           let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
             if(mesInicialPedido==mesInicial){
               if(anioInicialPedido==anioInicial){
                 satisfaccion++
               }
+            }
             }
         })
         satisfaccionConstruido.push(satisfaccion);
@@ -458,10 +473,13 @@ export class MinutosEntregasClientesComponent implements OnInit{
       for(let i =0;i<cantidadMeses;i++){
         let satisfaccion = 0
         pedidosSatisfaccion.map(p=>{
-          let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
-              if(anioInicialPedido==anioInicial){
-                satisfaccion++
-              }
+          if(p.horaDeEntrega!=undefined){
+            let anioInicialPedido = new Date(p.horaDeEntrega).getFullYear();
+            if(anioInicialPedido==anioInicial){
+              satisfaccion++
+            }
+          }
+          
         })
         satisfaccionConstruido.push(satisfaccion);
             anioInicial++;
@@ -596,10 +614,10 @@ export class MinutosEntregasClientesComponent implements OnInit{
       this.pedidosSatisfaccion2 = this.filtrarPorSatisfaccion(this.configuracionMesero.satisfaccionMedia,this.configuracionMesero.satisfaccionAdecuada );
       this.pedidosSatisfaccion3 = this.filtrarPorSatisfaccion(this.configuracionMesero.disatisfaccion,this.configuracionMesero.satisfaccionMedia);
       this.pedidosSatisfaccion4 = this.filtrarPorSatisfaccion(1000,this.configuracionMesero.disatisfaccion);
-      let pedidos1
-      let pedidos2
-      let pedidos3
-      let pedidos4
+      let pedidos1:any = []
+      let pedidos2:any = []
+      let pedidos3:any = []
+      let pedidos4:any = []
 
 
 

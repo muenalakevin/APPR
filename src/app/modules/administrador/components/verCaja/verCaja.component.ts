@@ -57,7 +57,7 @@ export class verCajaComponent implements OnInit {
 
 
   }
-  contetn:string
+  contetn:string = ''
   cerrarModal(){
     this.dialogRef.close({})
 

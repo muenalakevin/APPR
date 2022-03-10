@@ -14,7 +14,7 @@ import { CajaService } from 'src/app/core/services/caja.service';
 })
 export class AddEgresoComponent implements OnInit  {
   egresoForm: FormGroup
-  caja:Caja
+  caja:Caja|undefined
   constructor(
     private EgresoService:EgresoService,
     private formBuilder:FormBuilder,

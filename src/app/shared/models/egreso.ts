@@ -11,6 +11,7 @@ export class Egreso{
     public estado:number
     public createdAt:Date
     constructor(){
+        this.id_cajero = ''
         this._id = ""
         this.caja = ""
         this.nombre_egreso = ""

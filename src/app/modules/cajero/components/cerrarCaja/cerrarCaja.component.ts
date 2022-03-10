@@ -54,7 +54,7 @@ export class CerrarCajaComponent implements OnInit {
   }
   guardarCaja(){
     if(this.cajaForm.valid){
-      this.caja.cierre_caja = this.cajaForm.get('cierre_caja').value
+      this.caja.cierre_caja = this.cajaForm.get('cierre_caja')?.value
       this.caja.estado = 2
       this.CajaService.actualizarCaja(this.caja).subscribe(res=>{
         this.caja = res as Caja;

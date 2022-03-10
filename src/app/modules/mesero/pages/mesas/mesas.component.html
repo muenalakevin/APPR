@@ -44,7 +44,7 @@
 
 
         <div class="row  platos-contenedor overflow-auto ">
-          <div *ngFor="let plato of platos | filter:searchForm.get('search').value" class="col col-sm-4 text-center p-0">
+          <div *ngFor="let plato of platos | filter:searchForm.get('search')?.value" class="col col-sm-4 text-center p-0">
             <mat-card
               class=" btn"
               (mouseenter)="mouseenter($event)"

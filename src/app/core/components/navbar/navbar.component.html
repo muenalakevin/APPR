@@ -12,7 +12,7 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav d-flex w-100 justify-content-between">
       <div class="d-flex  justify-content-sm-between" *ngIf="usuario.rol.nombre_rol == 'administrador'">
-        <app-iconNavbar class="px-sm-5 px-1" text='Reportes' [icon]="chartAreaIcon" href='/administrador/reportes'></app-iconNavbar>
+        <app-iconNavbar class="px-sm-5 px-1" text='Reportes'  [icon]="chartAreaIcon" href='/administrador/reportes'></app-iconNavbar>
         <app-iconNavbar class="px-sm-5 px-1" text='Usuarios' [icon]="usersIcon" href='/administrador/usuarios'></app-iconNavbar>
         <app-iconNavbar class="px-sm-5 px-1" text='Platos' [icon]="hamburgerIcon" href='/administrador/platos'></app-iconNavbar>
         <app-iconNavbar class="px-sm-5 px-1" text='Mesas' [icon]="squareIcon" href='/administrador/mesas'></app-iconNavbar>
@@ -86,7 +86,7 @@ class="navbar navbar-dark navbar-expand-sm" *ngIf="state">
             />
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <a class="dropdown-item" href="/cocina/cocina">{{usuario.usuario_usuario}}</a>
+            <a class="dropdown-item" [routerLink]="['/cocina/cocina']" routerLinkActive="router-link-active" >{{usuario.usuario_usuario}}</a>
             <a class="dropdown-item" href='/perfil/perfil'>Editar perfil</a>
             <a class="dropdown-item" (click)="logout()">Cerrar sesión</a>
           </div>

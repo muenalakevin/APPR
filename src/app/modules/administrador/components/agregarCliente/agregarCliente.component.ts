@@ -1,3 +1,4 @@
+import { AlertService } from 'src/app/core/services/alert.service';
 import { ClienteService } from './../../../../core/services/cliente.service';
 import { Cliente } from './../../../../shared/models/cliente';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -14,6 +15,7 @@ export class AgregarClienteComponent implements OnInit {
   constructor(
     private ClienteService:ClienteService,
     private formBuilder:FormBuilder,
+    private alertService:AlertService,
     public dialogRef: MatDialogRef<AgregarClienteComponent>,
   ) {
     this.clienteForm = this.formBuilder.group({
@@ -59,13 +61,14 @@ export class AgregarClienteComponent implements OnInit {
             createdAt: new Date()
       }
       await this.ClienteService.guardarCliente(cliente).subscribe(res=>{
+        this.alertService.showSuccess('Cliente creado con éxito.');
         this.dialogRef.close({cliente:res})
       })
 
     }
   }
   MatchCedula(clienteForm: AbstractControl):ValidationErrors | null {
-    let cedula = clienteForm.get('cedRuc_cliente').value; // to get value in input tag
+    let cedula = clienteForm.get('cedRuc_cliente')?.value; // to get value in input tag
     if(cedula.length==13){
       cedula = cedula.substring(0,10)
     }
@@ -129,18 +132,18 @@ export class AgregarClienteComponent implements OnInit {
           return null
         }else{
           /* //console.log('la cedula:' + cedula + ' es incorrecta'); */
-          clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+          clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
         }
 
       }else{
         // imprimimos en consola si la region no pertenece
        /*  //console.log('Esta cedula no pertenece a ninguna region'); */
-       clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+       clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
       }
    }else{
       //imprimimos en consola si la cedula tiene mas o menos de 10 digitos
       /* //console.log('Esta cedula tiene menos de 10 Digitos'); */
-      clienteForm.get('cedRuc_cliente').setErrors( {MatchCedula: true} )
+      clienteForm.get('cedRuc_cliente')?.setErrors( {MatchCedula: true} )
    }
 
 

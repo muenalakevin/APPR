@@ -70,18 +70,18 @@ checked(){
 
   let child_1 = document.getElementById('child1')
   let child_2 = document.getElementById('child2')
-  if(child_1.classList.contains('d-none')){
+  if(child_1?.classList.contains('d-none')){
 
     child_1.classList.add('d-block')
     child_1.classList.remove('d-none')
-    child_2.classList.remove('d-block')
-    child_2.classList.add('d-none')
+    child_2?.classList.remove('d-block')
+    child_2?.classList.add('d-none')
   }else{
 
-    child_1.classList.remove('d-block')
-    child_2.classList.remove('d-none')
-    child_1.classList.add('d-none')
-    child_2.classList.add('d-block')
+    child_1?.classList.remove('d-block')
+    child_2?.classList.remove('d-none')
+    child_1?.classList.add('d-none')
+    child_2?.classList.add('d-block')
   }
 
 }

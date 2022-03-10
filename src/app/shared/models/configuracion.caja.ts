@@ -5,6 +5,7 @@ export class configuracionCaja{
   public descuentosIntereses:Array<{nombre:string,porcentaje:number,valor:number,descuentoIncremento:boolean,estado:number}>
   public cierreCaja:number
   constructor(){
+    this.checkIVA = false;
     this.iva = 0
     this.metodosPago = []
     this.descuentosIntereses = []
